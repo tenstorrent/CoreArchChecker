@@ -78,6 +78,31 @@ bool getStatus(threadT threadId);
     cbd.step(tid0);
 ```
 
+## Result of Unit test
+```sh
+Step: 0
+                  PC             DUT:[Data:00000000cafe0000]
+                                 SIM:[Data:00000000cafe0000]
+                  X0             DUT:[Data:00000000beefbeef]
+                                 SIM:[Data:00000000beefbeef]
+Step: 1
+                  PC             DUT:[Data:00000000cafe0008]
+                                 SIM:[Data:00000000cafe0008]
+                  X0             DUT:[Data:0000000000000000]
+                                 SIM:[Data:0000000000000000]
+                  X1             DUT:[Data:00000000beefbeef]
+                                 SIM:[Data:00000000beefbeef]
+Register Mismatch
+Step: 2
+                  PC             DUT:[Data:00000000cafe0018]
+                                 SIM:[Data:00000000cafe0010]
+                  X0             DUT:[Data:00000000beefbeef]
+                                 SIM:[Data:00000000beefbeef]
+                  X1             DUT:[Data:00000000deadbeef]
+                                 SIM:[Data:00000000deadbeef]
+
+```
+
 ## Type definition
 ```sh
 typedef unsigned char size1ByteT;
