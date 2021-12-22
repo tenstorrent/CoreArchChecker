@@ -8,14 +8,7 @@ std::string CBoard::getHello(){
 }
 
 // Register
-Register::Register(threadT tid, stateIdT rid, sizenBitT bitSize, unitDataT * data){
-    threadId = tid;
-    registerId = rid;
-    size = bitSize;
-    for (int i = 0; i<size/64; i = i + 1){
-        valueV.push_back(data[i]);
-    }
-};
+Register::Register(threadT tid, stateIdT rid, sizenBitT bitSize, unitDataT * data):threadId(tid), registerId(rid), size(bitSize),valueV(data, data+size/64){};
 
 stateIdT Register::getRegisterId(){
     return(registerId);
@@ -45,8 +38,7 @@ std::vector<size8BytesT> Register::getValue(){
 };
 
 //RegisterSnapshot
-RegisterSnapshot::RegisterSnapshot(threadT tid){
-    threadId = tid;
+RegisterSnapshot::RegisterSnapshot(threadT tid):threadId(tid){
     for(const stateIdT &suportStateId : supportStates){
         sizenBitT regSize = supportStatesSize.at(suportStateId);
         size8BytesT rstValue[] = {0x0};
@@ -72,12 +64,8 @@ bool RegisterSnapshot::checkValue(stateIdT id, size8BytesT * data){
 };
 
 //Info
-Info::Info(threadT tid, stateIdT stateId, std::string type, unitDataT * item){
-    threadId = tid;
-    stateId = stateId;
+Info::Info(threadT tid, stateIdT stateId, std::string type, unitDataT * item):threadId(tid),stateId(stateId),infoType(type),item(item){
     itemName = supportStatesSymbol.at(stateId);
-    infoType = type;
-    item = item;
     std::stringstream tmpStream;
     //TODO: Need to fix for data is 128 bits
     tmpStream<<type<<":[Data:"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[0]<<"]";
@@ -101,11 +89,7 @@ std::string Info::getFormatInfo(){
 };
 
 //InfoCol
-InfoCol::InfoCol(threadT tid, int stepNum, std::string type){
-    threadId = tid;
-    infoColType = type;
-    stepNum = stepNum;
-};
+InfoCol::InfoCol(threadT tid, int stepNum, std::string type):threadId(tid),infoColType(type),stepNum(stepNum){};
 
 std::unordered_map<std::string, Info> InfoCol::getInfoDict(){
     return(infoDict);
@@ -131,8 +115,7 @@ void InfoCol::gatherInfo(Info infoItem){
 };
 
 //Recorder
-Record::Record(threadT tNum){
-    threadNum = tNum;
+Record::Record(threadT tNum):threadNum(tNum){
     for(threadT tid = 0; tid<tNum; tid++){
         std::vector<InfoCol> infoDutList;
         recorderDutCol.insert_or_assign(tid, infoDutList);
@@ -166,8 +149,7 @@ InfoCol Record::getInfoColByStep(threadT tid, bool ifdut, int stepN){
 };
 
 // CBoard
-CBoard::CBoard(threadT tNum){
-    threadNum = tNum;
+CBoard::CBoard(threadT tNum):threadNum(tNum){
     record = new Record(threadNum);
     for(threadT tid = 0; tid<tNum; tid++){
         RegisterSnapshot regSnpSt(tid);
