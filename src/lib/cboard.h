@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include "cboardTypeDef.h"
 #include "stateIdDef.h"
 #include "external.h"
@@ -34,7 +35,7 @@ class RegisterSnapshot
         bool checkValue(stateIdT id, unitDataT * data);
     private:
         threadT threadId;
-        std::map<stateIdT, Register> snapshotCol;
+        std::unordered_map<stateIdT, Register> snapshotCol;
 };
 
 class Info
@@ -58,13 +59,13 @@ class InfoCol
 {
     public:
         InfoCol(threadT tid, int stepNum, std::string type);
-        std::map<std::string, Info> getInfoDict();
+        std::unordered_map<std::string, Info> getInfoDict();
         void gatherInfo(Info infoItem);
         void outputStates(InfoCol *infoColIns);
     private:
         threadT threadId;
         std::string infoColType;
-        std::map<std::string, Info> infoDict;
+        std::unordered_map<std::string, Info> infoDict;
         int stepNum;
 };
 
@@ -77,8 +78,8 @@ class Record
         InfoCol getInfoColByStep(threadT tid, bool ifdut, int stepN);
     private:
         threadT threadNum;
-        std::map<threadT, std::vector<InfoCol>> recorderDutCol;
-        std::map<threadT, std::vector<InfoCol>> recorderSimCol;
+        std::unordered_map<threadT, std::vector<InfoCol>> recorderDutCol;
+        std::unordered_map<threadT, std::vector<InfoCol>> recorderSimCol;
 };
 
 class CBoard
@@ -98,10 +99,10 @@ class CBoard
     private:
         threadT threadNum;
         Record *record;
-        std::map<threadT, bool> status;
-        std::map<threadT, int> stepCount;
-        std::map<threadT, RegisterSnapshot> registerSnapshot;
-        std::map<threadT, std::vector<Register>> checkingBuffer;
+        std::unordered_map<threadT, bool> status;
+        std::unordered_map<threadT, int> stepCount;
+        std::unordered_map<threadT, RegisterSnapshot> registerSnapshot;
+        std::unordered_map<threadT, std::vector<Register>> checkingBuffer;
 };
 
 #endif

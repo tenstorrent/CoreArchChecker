@@ -28,9 +28,9 @@ TEST(TESTMISC, TESTMISC_BASIC){
     InfoCol simInfoCol(0, 1, "SIM");
     simInfoCol.gatherInfo(infoSim);
     simInfoCol.gatherInfo(infoSimX0);
-    std::map<std::string, Info> testDutinfocol = dutInfoCol.getInfoDict();
+    std::unordered_map<std::string, Info> testDutinfocol = dutInfoCol.getInfoDict();
     EXPECT_EQ(infoDut.getFormatInfo(), testDutinfocol.at("PC").getFormatInfo())<<"InfoCol dict lookup mismatched !"<<std::endl;
-    std::map<std::string, Info> testSiminfocol = simInfoCol.getInfoDict();
+    std::unordered_map<std::string, Info> testSiminfocol = simInfoCol.getInfoDict();
     EXPECT_EQ(infoSimX0.getFormatInfo(), testSiminfocol.at("X0").getFormatInfo())<<"InfoCol dict lookup mismatched !"<<std::endl;
 };
 

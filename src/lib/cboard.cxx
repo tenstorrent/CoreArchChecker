@@ -107,14 +107,14 @@ InfoCol::InfoCol(threadT tid, int stepNum, std::string type){
     stepNum = stepNum;
 };
 
-std::map<std::string, Info> InfoCol::getInfoDict(){
+std::unordered_map<std::string, Info> InfoCol::getInfoDict(){
     return(infoDict);
 };
 
 void InfoCol::outputStates(InfoCol *infoColIns){
     // std::map<std::string, Info> infoDict;
     // tmpStream<<type<<":[Data:"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[0]<<"]";
-    std::map<std::string, Info> infoDictIns = infoColIns->getInfoDict();
+    std::unordered_map<std::string, Info> infoDictIns = infoColIns->getInfoDict();
     for(auto const & infoIt : infoDict){
         std::cout<<std::setw(20)<<infoIt.first<<std::setw(40)<<infoDict.at(infoIt.first).getFormatInfo()<<std::endl;
         std::cout<<std::setw(20)<<""<<std::setw(40)<<infoDictIns.at(infoIt.first).getFormatInfo()<<std::endl;
