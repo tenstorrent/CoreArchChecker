@@ -15,6 +15,7 @@ bazel build --cxxopt='-std=c++17' //src/lib:cboardcore
 ```
 
 ## Supported API
+```sh
 // Constructor
 CBoard(threadT tNum);
 // Dut API to update Register
@@ -25,6 +26,7 @@ void updateRefRegister(threadT threadId, stateIdT id, unitDataT * data);
 void step(threadT threadId);
 // get if mismatch
 bool getStatus(threadT threadId);
+```
 
 ## Example in Unit test
 ```sh
