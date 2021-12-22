@@ -16,9 +16,7 @@ stateIdT Register::getRegisterId(){
 
 void Register::setValue(unitDataT * data){
     valueV.clear();
-    for (int i = 0; i<size/64; i = i + 1){
-        valueV.push_back(data[i]);
-    }
+    valueV.assign(data, data+size/64);
 };
 
 bool Register::checkValue(unitDataT * data){
