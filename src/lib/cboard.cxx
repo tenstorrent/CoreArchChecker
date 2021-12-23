@@ -62,7 +62,7 @@ bool RegisterSnapshot::checkValue(stateIdT id, size8BytesT * data){
 };
 
 //Info
-Info::Info(threadT tid, stateIdT stateId, std::string type, unitDataT * item):threadId(tid),stateId(stateId),infoType(type),item(item){
+Info::Info(threadT tid, stateIdT stateId, const std::string &type, unitDataT * item):threadId(tid),stateId(stateId),infoType(type),item(item){
     itemName = supportStatesSymbol.at(stateId);
     std::stringstream tmpStream;
     //TODO: Need to fix for data is 128 bits
@@ -87,7 +87,7 @@ std::string Info::getFormatInfo(){
 };
 
 //InfoCol
-InfoCol::InfoCol(threadT tid, int stepNum, std::string type):threadId(tid),infoColType(type),stepNum(stepNum){};
+InfoCol::InfoCol(threadT tid, int stepNum, const std::string &type):threadId(tid),infoColType(type),stepNum(stepNum){};
 
 std::unordered_map<std::string, Info> InfoCol::getInfoDict(){
     return(infoDict);
@@ -103,7 +103,7 @@ void InfoCol::outputStates(InfoCol *infoColIns){
     }
 };
 
-void InfoCol::gatherInfo(Info infoItem){
+void InfoCol::gatherInfo(Info & infoItem){
     std::string infoName = infoItem.getItemName();
     if (infoDict.find(infoName) != infoDict.end()){
         infoDict.at(infoName) = infoItem;
@@ -122,7 +122,7 @@ Record::Record(threadT tNum):threadNum(tNum){
     }
 };
 
-void Record::addInfo(threadT tid, bool ifdut, Info info){
+void Record::addInfo(threadT tid, bool ifdut, Info &info){
     if (ifdut == true){
         recorderDutCol.at(tid).back().gatherInfo(info);
     }else{
@@ -130,7 +130,7 @@ void Record::addInfo(threadT tid, bool ifdut, Info info){
     }
 };
 
-void Record::addInfoCol(threadT tid, bool ifdut, InfoCol col){
+void Record::addInfoCol(threadT tid, bool ifdut, InfoCol &col){
     if (ifdut == true){
         recorderDutCol.at(tid).push_back(col);
     }else{

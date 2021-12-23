@@ -41,7 +41,7 @@ class RegisterSnapshot
 class Info
 {
     public:
-        Info(threadT tid, stateIdT stateId, std::string type, unitDataT * item);
+        Info(threadT tid, stateIdT stateId, const std::string &type, unitDataT * item);
         std::string getItemName();
         unitDataT * getData();
         std::string getFormatInfo();
@@ -58,9 +58,9 @@ class Info
 class InfoCol
 {
     public:
-        InfoCol(threadT tid, int stepNum, std::string type);
+        InfoCol(threadT tid, int stepNum, const std::string &type);
         std::unordered_map<std::string, Info> getInfoDict();
-        void gatherInfo(Info infoItem);
+        void gatherInfo(Info &infoItem);
         void outputStates(InfoCol *infoColIns);
     private:
         threadT threadId;
@@ -73,8 +73,8 @@ class Record
 {
     public:
         Record(threadT tNum);
-        void addInfoCol(threadT tid, bool ifdut, InfoCol col);
-        void addInfo(threadT tid, bool ifdut, Info info);
+        void addInfoCol(threadT tid, bool ifdut, InfoCol &col);
+        void addInfo(threadT tid, bool ifdut, Info & info);
         InfoCol getInfoColByStep(threadT tid, bool ifdut, int stepN);
     private:
         threadT threadNum;
