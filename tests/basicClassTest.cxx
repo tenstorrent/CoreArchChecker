@@ -1,4 +1,4 @@
-#include "src/lib/cboard.h"
+#include "src/cboard.h"
 #include "gtest/gtest.h"
 
 // Basic test template

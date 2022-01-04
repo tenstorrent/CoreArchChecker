@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "src/lib/cboard.h"
+#include "src/cboard.h"
 using namespace std;
 
 int main(){
@@ -11,8 +11,8 @@ int main(){
     RegisterSnapshot rs(0);
     std::cout<<h.getHello()<<std::endl;
 
-    size8BytesT pc [] = {0xdeadbeef};
-    Info infoDut(0, "PC", "DUT", pc);
-    cout<<infoDut.getFormatInfo()<<std::endl;
+    //size8BytesT pc [] = {0xdeadbeef};
+    //Info infoDut(0, "PC", "DUT", pc);
+    //cout<<infoDut.getFormatInfo()<<std::endl;
     return(0);
 }

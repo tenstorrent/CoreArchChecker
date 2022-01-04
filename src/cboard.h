@@ -5,9 +5,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include "cboardTypeDef.h"
-#include "stateIdDef.h"
-#include "external.h"
+#include "cboardlib.h"
 #include "register.h"
 #include "info.h"
 

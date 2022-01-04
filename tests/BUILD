@@ -4,7 +4,7 @@ cc_test(
     name = 'basicClassTest',
     srcs = ["basicClassTest.cxx"],
     deps = [
-        "//src/lib:cboardcore",
+        "//src:cboardcore",
         "@googletest//:gtest_main",
     ]
 )
@@ -13,7 +13,7 @@ cc_test(
     name = 'testCBoard',
     srcs = ["testCBoard.cxx"],
     deps = [
-        "//src/lib:cboardcore",
+        "//src:cboardcore",
         "@googletest//:gtest_main",
     ]
 )
