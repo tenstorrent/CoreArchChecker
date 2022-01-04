@@ -8,15 +8,15 @@ CoreArchChecker is a framework to check CPU DUT's registers and memory against a
 Build the CoreArchChecker based on Bazel
 
 ```sh
-cd cboard
-bazel build --cxxopt='-std=c++17' //src:cboardcore
-# bazel-out/darwin-fastbuild/bin/src/libcboardcore.so
+cd CoreArchChecker
+bazel build --cxxopt='-std=c++17' //src:caccore
+# bazel-out/darwin-fastbuild/bin/src/libcaccore.so
 ```
 
 ## Supported API
 ```sh
 // Constructor
-CBoard(threadT tNum);
+CacCore(threadT tNum);
 // Dut API to update Register
 void updateRegister(threadT threadId, stateIdT id, unitDataT * data);
 // Simulator API to update Register
@@ -30,8 +30,8 @@ bool getStatus(threadT threadId);
 ## Example in Unit test
 ```sh
     threadT coreNum = 1;
-    //instantiate CBoard by core num
-    CBoard cbd(coreNum);
+    //instantiate CacCore by core num
+    CacCore cbd(coreNum);
     threadT tid0 = 0;
     // Every step should match
     size8BytesT PCValue0 [] = {0xcafe0000};
