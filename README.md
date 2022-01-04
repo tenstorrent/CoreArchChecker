@@ -9,8 +9,8 @@ Build the CBoard based on Bazel
 
 ```sh
 cd cboard
-bazel build --cxxopt='-std=c++17' //src/lib:cboardcore
-# bazel-out/darwin-fastbuild/bin/src/lib/libcboardcore.so
+bazel build --cxxopt='-std=c++17' //src:cboardcore
+# bazel-out/darwin-fastbuild/bin/src/libcboardcore.so
 ```
 
 ## Supported API
