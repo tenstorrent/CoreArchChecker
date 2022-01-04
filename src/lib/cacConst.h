@@ -1,7 +1,7 @@
-#ifndef CBOARD_CONST_H
-#define CBOARD_CONST_H
+#ifndef CAC_CONST_H
+#define CAC_CONST_H
 
-#include "cboardTypeDef.h"
+#include "cacTypeDef.h"
 
 const sizenBitT UNIT_BIT_NUM = 64;
 const size8BytesT RST_8_BYTE_VALUE[] = {0x0};

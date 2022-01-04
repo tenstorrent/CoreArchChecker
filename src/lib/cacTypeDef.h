@@ -1,5 +1,5 @@
-#ifndef CBOARD_TYPEDEF_H
-#define CBOARD_TYPEDEF_H
+#ifndef CAC_TYPEDEF_H
+#define CAC_TYPEDEF_H
 
 #include <vector>
 

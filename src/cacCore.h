@@ -1,19 +1,19 @@
-#ifndef CBOARD_CORE_H
-#define CBOARD_CORE_H
+#ifndef CAC_CORE_H
+#define CAC_CORE_H
 
 #include <map>
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include "cboardlib.h"
+#include "caclib.h"
 #include "register.h"
 #include "info.h"
 
-class CBoard
+class CacCore
 {
     public:
         // Constructor
-        CBoard(threadT tNum);
+        CacCore(threadT tNum);
         // Hello World function to make unit test work
         std::string getHello();
         // Dut API to update Register

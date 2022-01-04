@@ -1,10 +1,10 @@
-#include "cboard.h"
+#include "cacCore.h"
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 
-// CBoard
-CBoard::CBoard(threadT tNum):threadNum(tNum){
+// CacCore
+CacCore::CacCore(threadT tNum):threadNum(tNum){
     record = new Record(threadNum);
     for(threadT tid = 0; tid<tNum; tid++){
         RegisterSnapshot regSnpSt(tid);
@@ -21,43 +21,42 @@ CBoard::CBoard(threadT tNum):threadNum(tNum){
     }
 };
 
-std::string CBoard::getHello(){
-    return("CBoard has been constructed!");
+std::string CacCore::getHello(){
+    return("CacCore has been constructed!");
 }
 
-int CBoard::getStep(threadT threadId){
+int CacCore::getStep(threadT threadId){
     return(stepCount.at(threadId));
 };
 
 // get if mismatch
-bool CBoard::getStatus(threadT threadId){
+bool CacCore::getStatus(threadT threadId){
     return(status.at(threadId));
 };
 
 // Simulator API to update Register
-void CBoard::updateRefRegister(threadT threadId, stateIdT id, unitDataT * data){
+void CacCore::updateRefRegister(threadT threadId, stateIdT id, unitDataT * data){
     registerSnapshot.at(threadId).updateValue(id, data);
     Info infoIns(threadId, id, "SIM", data); 
     record->addInfo(threadId, false, infoIns);
 };
 
 // Dut API to update Register
-void CBoard::updateRegister(threadT threadId, stateIdT id, unitDataT * data){
+void CacCore::updateRegister(threadT threadId, stateIdT id, unitDataT * data){
     Info infoIns(threadId, id, "DUT", data);
     record->addInfo(threadId, true, infoIns);
     Register reg(threadId, id, supportStatesSize.at(id), data);
     checkingBuffer.at(threadId).push_back(reg);
 };
 
-bool CBoard::checkRegister(threadT threadId, stateIdT id, unitDataT * data){
+bool CacCore::checkRegister(threadT threadId, stateIdT id, unitDataT * data){
     return(registerSnapshot.at(threadId).checkValue(id, data));
 };
 
 // make a lock step
-void CBoard::step(threadT threadId){
+void CacCore::step(threadT threadId){
     //RegisterSnapshot regSnpSt = registerSnapshot.at(threadId);
     std::vector<Register> buffer = checkingBuffer.at(threadId);
-    bool tmpResult = true;
     for (std::vector<Register>::iterator it = buffer.begin(); it != buffer.end(); ++it) {
         std::vector<size8BytesT> reg = it->getValue();
         unitDataT *dat = reg.data();

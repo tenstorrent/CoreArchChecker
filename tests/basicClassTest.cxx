@@ -1,11 +1,11 @@
-#include "src/cboard.h"
+#include "src/cacCore.h"
 #include "gtest/gtest.h"
 
 // Basic test template
 TEST(TestHelloWorld, HeloWorld) {
-    CBoard cbd(4);
+    CacCore cbd(4);
     std::string act = cbd.getHello();
-    std::string ans = "CBoard has been constructed!";
+    std::string ans = "CacCore has been constructed!";
     EXPECT_EQ(act, ans)<<"Type the debug Message here: "<<ans<<std::endl;
 };
 
@@ -14,13 +14,13 @@ TEST(TESTMISC, TESTMISC_BASIC){
     // Test class for Info
     size8BytesT pc [] = {0xdeadbeef};
     size8BytesT x0 [] = {0xcafe0001};
-    Info infoDut(0, CBOARD_STATE_PC_ID, "DUT", pc);
+    Info infoDut(0, CAC_STATE_PC_ID, "DUT", pc);
     EXPECT_EQ(infoDut.getFormatInfo(), "DUT:[Data:00000000deadbeef]")<<"Info format string is mismatched !"<<std::endl;
-    Info infoSim(0, CBOARD_STATE_PC_ID, "SIM", pc);
+    Info infoSim(0, CAC_STATE_PC_ID, "SIM", pc);
     EXPECT_EQ(infoSim.getFormatInfo(), "SIM:[Data:00000000deadbeef]")<<"Info format string is mismatched !"<<std::endl;
     // Test class for InfoCol
-    Info infoDutX0(0, CBOARD_STATE_RegX0_ID, "DUT", pc);
-    Info infoSimX0(0, CBOARD_STATE_RegX0_ID, "SIM", pc);
+    Info infoDutX0(0, CAC_STATE_RegX0_ID, "DUT", pc);
+    Info infoSimX0(0, CAC_STATE_RegX0_ID, "SIM", pc);
 
     InfoCol dutInfoCol(0, 1, "DUT");
     dutInfoCol.gatherInfo(infoDut);
@@ -66,36 +66,36 @@ TEST(TestRegisterSnapshot, BasicSnapshotTest){
     size8BytesT testRegXXValue0 [] = {0xcafe0001};
     size8BytesT testRegXXValue1 [] = {0xcafe0001};
     size8BytesT testRegXXValue2 [] = {0xcafe0002};
-    rs.updateValue(CBOARD_STATE_PC_ID, testPCValue0);
-    rs.updateValue(CBOARD_STATE_RegX0_ID, testRegXXValue0);
-    rs.updateValue(CBOARD_STATE_RegX1_ID, testRegXXValue0);
-    rs.updateValue(CBOARD_STATE_RegX2_ID, testRegXXValue0);
-    rs.updateValue(CBOARD_STATE_RegX3_ID, testRegXXValue0);
-    rs.updateValue(CBOARD_STATE_RegX4_ID, testRegXXValue0);
-    rs.updateValue(CBOARD_STATE_RegX5_ID, testRegXXValue0);
+    rs.updateValue(CAC_STATE_PC_ID, testPCValue0);
+    rs.updateValue(CAC_STATE_RegX0_ID, testRegXXValue0);
+    rs.updateValue(CAC_STATE_RegX1_ID, testRegXXValue0);
+    rs.updateValue(CAC_STATE_RegX2_ID, testRegXXValue0);
+    rs.updateValue(CAC_STATE_RegX3_ID, testRegXXValue0);
+    rs.updateValue(CAC_STATE_RegX4_ID, testRegXXValue0);
+    rs.updateValue(CAC_STATE_RegX5_ID, testRegXXValue0);
 
-    EXPECT_TRUE(rs.checkValue(CBOARD_STATE_PC_ID, testPCValue1))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
-    EXPECT_TRUE(rs.checkValue(CBOARD_STATE_RegX0_ID, testRegXXValue1))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
-    EXPECT_TRUE(rs.checkValue(CBOARD_STATE_RegX1_ID, testRegXXValue1))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
-    EXPECT_TRUE(rs.checkValue(CBOARD_STATE_RegX2_ID, testRegXXValue1))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
-    EXPECT_TRUE(rs.checkValue(CBOARD_STATE_RegX3_ID, testRegXXValue1))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
-    EXPECT_TRUE(rs.checkValue(CBOARD_STATE_RegX4_ID, testRegXXValue1))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
-    EXPECT_TRUE(rs.checkValue(CBOARD_STATE_RegX5_ID, testRegXXValue1))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
+    EXPECT_TRUE(rs.checkValue(CAC_STATE_PC_ID, testPCValue1))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
+    EXPECT_TRUE(rs.checkValue(CAC_STATE_RegX0_ID, testRegXXValue1))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
+    EXPECT_TRUE(rs.checkValue(CAC_STATE_RegX1_ID, testRegXXValue1))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
+    EXPECT_TRUE(rs.checkValue(CAC_STATE_RegX2_ID, testRegXXValue1))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
+    EXPECT_TRUE(rs.checkValue(CAC_STATE_RegX3_ID, testRegXXValue1))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
+    EXPECT_TRUE(rs.checkValue(CAC_STATE_RegX4_ID, testRegXXValue1))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
+    EXPECT_TRUE(rs.checkValue(CAC_STATE_RegX5_ID, testRegXXValue1))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
 
-    EXPECT_FALSE(rs.checkValue(CBOARD_STATE_PC_ID, testPCValue2))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
-    EXPECT_FALSE(rs.checkValue(CBOARD_STATE_RegX0_ID, testRegXXValue2))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
-    EXPECT_FALSE(rs.checkValue(CBOARD_STATE_RegX1_ID, testRegXXValue2))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
-    EXPECT_FALSE(rs.checkValue(CBOARD_STATE_RegX2_ID, testRegXXValue2))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
-    EXPECT_FALSE(rs.checkValue(CBOARD_STATE_RegX3_ID, testRegXXValue2))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
-    EXPECT_FALSE(rs.checkValue(CBOARD_STATE_RegX4_ID, testRegXXValue2))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
-    EXPECT_FALSE(rs.checkValue(CBOARD_STATE_RegX5_ID, testRegXXValue2))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
+    EXPECT_FALSE(rs.checkValue(CAC_STATE_PC_ID, testPCValue2))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
+    EXPECT_FALSE(rs.checkValue(CAC_STATE_RegX0_ID, testRegXXValue2))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
+    EXPECT_FALSE(rs.checkValue(CAC_STATE_RegX1_ID, testRegXXValue2))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
+    EXPECT_FALSE(rs.checkValue(CAC_STATE_RegX2_ID, testRegXXValue2))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
+    EXPECT_FALSE(rs.checkValue(CAC_STATE_RegX3_ID, testRegXXValue2))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
+    EXPECT_FALSE(rs.checkValue(CAC_STATE_RegX4_ID, testRegXXValue2))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
+    EXPECT_FALSE(rs.checkValue(CAC_STATE_RegX5_ID, testRegXXValue2))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
 };
 
-// Test for Cboard
-TEST(TestCBoard, BasicCBoardTest){
+// Test for Core
+TEST(TestCore, BasicCoreTest){
     threadT coreNum = 2;
     //instantiate CBoard by core num
-    CBoard cbd(coreNum);
+    CacCore cbd(coreNum);
     threadT tid0 = 0;
     threadT tid1 = 1;
     bool tmpresult = false;
@@ -111,25 +111,25 @@ TEST(TestCBoard, BasicCBoardTest){
     //single hart
     //Hart 0 Step 1
     //From Simulator:
-    cbd.updateRefRegister(tid0, CBOARD_STATE_PC_ID, refPCValue0);
-    cbd.updateRefRegister(tid0, CBOARD_STATE_RegX0_ID, refRegXXValue0);
+    cbd.updateRefRegister(tid0, CAC_STATE_PC_ID, refPCValue0);
+    cbd.updateRefRegister(tid0, CAC_STATE_RegX0_ID, refRegXXValue0);
     //From Dut:
-    cbd.updateRegister(tid0, CBOARD_STATE_PC_ID, dutPCValue0);
-    cbd.updateRegister(tid0, CBOARD_STATE_RegX0_ID, dutRegXXValue0);
+    cbd.updateRegister(tid0, CAC_STATE_PC_ID, dutPCValue0);
+    cbd.updateRegister(tid0, CAC_STATE_RegX0_ID, dutRegXXValue0);
     cbd.step(tid0);
     stepInspt = cbd.getStep(tid0);
-    EXPECT_EQ(stepInspt, 1)<<"ERROR: (CBoard Test) Wrong Step Counts!";
+    EXPECT_EQ(stepInspt, 1)<<"ERROR: (CAC Test) Wrong Step Counts!";
     tmpresult = cbd.getStatus(tid0);
     //size8BytesT dutPCValue0 [] = {0xcafe0008};
     //size8BytesT dutPCValue1 [] = {0xcafe0010};
     EXPECT_TRUE(tmpresult);
     //Hart 0 Step 2
     //From Simulator:
-    cbd.updateRefRegister(tid0, CBOARD_STATE_PC_ID, refPCValue1);
-    cbd.updateRefRegister(tid0, CBOARD_STATE_RegX0_ID, refRegXXValue1);
+    cbd.updateRefRegister(tid0, CAC_STATE_PC_ID, refPCValue1);
+    cbd.updateRefRegister(tid0, CAC_STATE_RegX0_ID, refRegXXValue1);
     //From Dut:
-    cbd.updateRegister(tid0, CBOARD_STATE_PC_ID, dutPCValue1);
-    cbd.updateRegister(tid0, CBOARD_STATE_RegX0_ID, dutRegXXValue1);
+    cbd.updateRegister(tid0, CAC_STATE_PC_ID, dutPCValue1);
+    cbd.updateRegister(tid0, CAC_STATE_RegX0_ID, dutRegXXValue1);
     cbd.step(tid0);
     tmpresult = cbd.getStatus(tid0);
     EXPECT_TRUE(tmpresult);
@@ -139,18 +139,18 @@ TEST(TestCBoard, BasicCBoardTest){
     //Multi hart
     //From Simulator:
     //Hart0
-    cbd.updateRefRegister(tid0, CBOARD_STATE_PC_ID, refPCValue0);
-    cbd.updateRefRegister(tid0, CBOARD_STATE_RegX0_ID, refRegXXValue0);
+    cbd.updateRefRegister(tid0, CAC_STATE_PC_ID, refPCValue0);
+    cbd.updateRefRegister(tid0, CAC_STATE_RegX0_ID, refRegXXValue0);
     //Hart1
-    cbd.updateRefRegister(tid1, CBOARD_STATE_PC_ID, refPCValue1);
-    cbd.updateRefRegister(tid1, CBOARD_STATE_RegX0_ID, refRegXXValue1);
+    cbd.updateRefRegister(tid1, CAC_STATE_PC_ID, refPCValue1);
+    cbd.updateRefRegister(tid1, CAC_STATE_RegX0_ID, refRegXXValue1);
     //From Dut:
     //Hart0
-    cbd.updateRegister(tid0, CBOARD_STATE_PC_ID, dutPCValue0);
-    cbd.updateRegister(tid0, CBOARD_STATE_RegX0_ID, dutRegXXValue0);
+    cbd.updateRegister(tid0, CAC_STATE_PC_ID, dutPCValue0);
+    cbd.updateRegister(tid0, CAC_STATE_RegX0_ID, dutRegXXValue0);
     //Hart1
-    cbd.updateRegister(tid1, CBOARD_STATE_PC_ID, dutPCValue1);
-    cbd.updateRegister(tid1, CBOARD_STATE_RegX0_ID, dutRegXXValue1);
+    cbd.updateRegister(tid1, CAC_STATE_PC_ID, dutPCValue1);
+    cbd.updateRegister(tid1, CAC_STATE_RegX0_ID, dutRegXXValue1);
     cbd.step(tid0);
     tmpresult = cbd.getStatus(tid0);
     EXPECT_TRUE(tmpresult);

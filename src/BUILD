@@ -1,9 +1,9 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
 cc_library(
-    name = "cboardcore",
-    srcs = ["cboard.cxx"],
+    name = "caccore",
+    srcs = ["cacCore.cxx"],
     hdrs = [
-        "cboard.h", 
+        "cacCore.h", 
         "register.h",
         "info.h",
     ],
@@ -11,7 +11,7 @@ cc_library(
     deps = [
         ":registerBuild",
         ":infoBuild",
-        ":cboardlibBuild"
+        ":caclibBuild"
     ],
 )
 
@@ -20,10 +20,10 @@ cc_library(
     srcs = ["register.cxx"],
     hdrs = [
         "register.h", 
-        "cboardlib.h",
+        "caclib.h",
     ],
     deps = [
-        ":cboardlibBuild"
+        ":caclibBuild"
     ]
 )
 
@@ -32,19 +32,19 @@ cc_library(
     srcs = ["info.cxx"],
     hdrs = [
         "info.h", 
-        "cboardlib.h",
+        "caclib.h",
     ],
     deps = [
-        ":cboardlibBuild"
+        ":caclibBuild"
     ]
 )
 
 cc_library(
-    name = "cboardlibBuild",
+    name = "caclibBuild",
     hdrs = [
-        "cboardlib.h",
+        "caclib.h",
     ],
     deps = [
-        "//src/lib:cbdLibInclude",
+        "//src/lib:cacLibInclude",
     ],    
 )

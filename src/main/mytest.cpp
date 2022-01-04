@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
-#include "src/cboard.h"
+#include "src/cacCore.h"
 using namespace std;
 
 int main(){
-    CBoard h(4);
+    CacCore h(4);
     size8BytesT foo [2] = {16, 32};
     std::vector<size8BytesT> expectedVector(std::begin(foo), std::end(foo));
     Register r(0, 0, 128, foo);    
