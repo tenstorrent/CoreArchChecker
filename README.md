@@ -1,5 +1,5 @@
 # CoreArchChecker
-## Architectural Checker 
+## The Core Architectural Checker 
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://yyz-gitlab.local.tenstorrent.com/chuang/CoreArchChecker)
 
