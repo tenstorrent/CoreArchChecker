@@ -30,8 +30,8 @@ bool getStatus(threadT threadId);
 ## Example in Unit test
 ```sh
     threadT coreNum = 1;
-    //instantiate CacCore by core num
-    CacCore cbd(coreNum);
+    //instantiate CAC by core num
+    CacCore cac(coreNum);
     threadT tid0 = 0;
     // Every step should match
     size8BytesT PCValue0 [] = {0xcafe0000};
@@ -41,40 +41,43 @@ bool getStatus(threadT threadId);
     size8BytesT PCValue2 [] = {0xcafe0010};
     size8BytesT RegXXValue2 [] = {0xdeadbeef};
     size8BytesT PCValue3 [] = {0xcafe0018};
-    size8BytesT RegXXValue3 [] = {0xffffffff};
+    size8BytesT RegXXValue3 [] = {0xabcdefffffffff};
     // step 1
     //From Simulator:
-    cbd.updateRefRegister(tid0, CBOARD_STATE_PC_ID, PCValue0);
-    cbd.updateRefRegister(tid0, CBOARD_STATE_RegX0_ID, RegXXValue0);
+    cac.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue0);
+    cac.updateRefRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue0);
     //From DUT
-    cbd.updateRegister(tid0, CBOARD_STATE_PC_ID, PCValue0);
-    cbd.updateRegister(tid0, CBOARD_STATE_RegX0_ID, RegXXValue0);
+    cac.updateRegister(tid0, CAC_STATE_PC_ID, PCValue0);
+    cac.updateRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue0);
     //Single Step
-    cbd.step(tid0);
-
+    cac.step(tid0);
+    EXPECT_TRUE(cac.getStatus(tid0));
     // step 2
     //From Simulator:
-    cbd.updateRefRegister(tid0, CBOARD_STATE_PC_ID, PCValue1);
-    cbd.updateRefRegister(tid0, CBOARD_STATE_RegX0_ID, RegXXValue1);
-    cbd.updateRefRegister(tid0, CBOARD_STATE_RegX1_ID, RegXXValue0);
+    cac.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue1);
+    cac.updateRefRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue1);
+    cac.updateRefRegister(tid0, CAC_STATE_RegX1_ID, RegXXValue0);
+    cac.updateRefRegister(tid0, CAC_STATE_RegX11_ID, RegXXValue3);
     //From DUT
-    cbd.updateRegister(tid0, CBOARD_STATE_PC_ID, PCValue1);
-    cbd.updateRegister(tid0, CBOARD_STATE_RegX1_ID, RegXXValue0);
-    cbd.updateRegister(tid0, CBOARD_STATE_RegX0_ID, RegXXValue1);
+    cac.updateRegister(tid0, CAC_STATE_PC_ID, PCValue1);
+    cac.updateRegister(tid0, CAC_STATE_RegX1_ID, RegXXValue0);
+    cac.updateRegister(tid0, CAC_STATE_RegX11_ID, RegXXValue3);
+    cac.updateRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue1);
     //Single Step
-    cbd.step(tid0);
-
+    cac.step(tid0);
+    EXPECT_TRUE(cac.getStatus(tid0));
     // step 3 
     //From Simulator:
-    cbd.updateRefRegister(tid0, CBOARD_STATE_PC_ID, PCValue2);
-    cbd.updateRefRegister(tid0, CBOARD_STATE_RegX0_ID, RegXXValue0);
-    cbd.updateRefRegister(tid0, CBOARD_STATE_RegX1_ID, RegXXValue2);
+    cac.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue2);
+    cac.updateRefRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue0);
+    cac.updateRefRegister(tid0, CAC_STATE_RegX1_ID, RegXXValue2);
     //From DUT
-    cbd.updateRegister(tid0, CBOARD_STATE_PC_ID, PCValue3);
-    cbd.updateRegister(tid0, CBOARD_STATE_RegX1_ID, RegXXValue2);
-    cbd.updateRegister(tid0, CBOARD_STATE_RegX0_ID, RegXXValue0);
+    cac.updateRegister(tid0, CAC_STATE_PC_ID, PCValue3);
+    cac.updateRegister(tid0, CAC_STATE_RegX1_ID, RegXXValue2);
+    cac.updateRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue0);
     //Single Step
-    cbd.step(tid0);
+    cac.step(tid0);
+    EXPECT_FALSE(cac.getStatus(tid0));
 ```
 
 ## Result of Unit test
@@ -123,7 +126,7 @@ Unit tests are based on google test
 
 ```sh
 cd cboard
-bazel test --cxxopt='-std=c++17' //tests:testCBoard
+bazel test --cxxopt='-std=c++17' //tests:testCacCore
 bazel test --cxxopt='-std=c++17' //tests:basicClassTest
 ```
 
