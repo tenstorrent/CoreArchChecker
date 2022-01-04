@@ -125,7 +125,7 @@ In external.h, we define state ID, state size, state reset value and state symbo
 Unit tests are based on google test
 
 ```sh
-cd cboard
+cd CoreArchChecker
 bazel test --cxxopt='-std=c++17' //tests:testCacCore
 bazel test --cxxopt='-std=c++17' //tests:basicClassTest
 ```
