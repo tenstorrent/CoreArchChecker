@@ -15,7 +15,7 @@ TEST(TestCBoard, SingleHart) {
     size8BytesT PCValue2 [] = {0xcafe0010};
     size8BytesT RegXXValue2 [] = {0xdeadbeef};
     size8BytesT PCValue3 [] = {0xcafe0018};
-    size8BytesT RegXXValue3 [] = {0xffffffff};
+    size8BytesT RegXXValue3 [] = {0xabcdefffffffff};
     // step 1
     //From Simulator:
     cbd.updateRefRegister(tid0, CBOARD_STATE_PC_ID, PCValue0);
@@ -31,9 +31,11 @@ TEST(TestCBoard, SingleHart) {
     cbd.updateRefRegister(tid0, CBOARD_STATE_PC_ID, PCValue1);
     cbd.updateRefRegister(tid0, CBOARD_STATE_RegX0_ID, RegXXValue1);
     cbd.updateRefRegister(tid0, CBOARD_STATE_RegX1_ID, RegXXValue0);
+    cbd.updateRefRegister(tid0, CBOARD_STATE_RegX11_ID, RegXXValue3);
     //From DUT
     cbd.updateRegister(tid0, CBOARD_STATE_PC_ID, PCValue1);
     cbd.updateRegister(tid0, CBOARD_STATE_RegX1_ID, RegXXValue0);
+    cbd.updateRegister(tid0, CBOARD_STATE_RegX11_ID, RegXXValue3);
     cbd.updateRegister(tid0, CBOARD_STATE_RegX0_ID, RegXXValue1);
     //Single Step
     cbd.step(tid0);
