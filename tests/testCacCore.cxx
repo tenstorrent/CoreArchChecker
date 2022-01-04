@@ -5,7 +5,7 @@
 TEST(TestCAC, SingleHart) {
     threadT coreNum = 1;
     //instantiate CAC by core num
-    CacCore cbd(coreNum);
+    CacCore cac(coreNum);
     threadT tid0 = 0;
     // Every step should match
     size8BytesT PCValue0 [] = {0xcafe0000};
@@ -18,39 +18,39 @@ TEST(TestCAC, SingleHart) {
     size8BytesT RegXXValue3 [] = {0xabcdefffffffff};
     // step 1
     //From Simulator:
-    cbd.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue0);
-    cbd.updateRefRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue0);
+    cac.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue0);
+    cac.updateRefRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue0);
     //From DUT
-    cbd.updateRegister(tid0, CAC_STATE_PC_ID, PCValue0);
-    cbd.updateRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue0);
+    cac.updateRegister(tid0, CAC_STATE_PC_ID, PCValue0);
+    cac.updateRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue0);
     //Single Step
-    cbd.step(tid0);
-    EXPECT_TRUE(cbd.getStatus(tid0));
+    cac.step(tid0);
+    EXPECT_TRUE(cac.getStatus(tid0));
     // step 2
     //From Simulator:
-    cbd.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue1);
-    cbd.updateRefRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue1);
-    cbd.updateRefRegister(tid0, CAC_STATE_RegX1_ID, RegXXValue0);
-    cbd.updateRefRegister(tid0, CAC_STATE_RegX11_ID, RegXXValue3);
+    cac.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue1);
+    cac.updateRefRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue1);
+    cac.updateRefRegister(tid0, CAC_STATE_RegX1_ID, RegXXValue0);
+    cac.updateRefRegister(tid0, CAC_STATE_RegX11_ID, RegXXValue3);
     //From DUT
-    cbd.updateRegister(tid0, CAC_STATE_PC_ID, PCValue1);
-    cbd.updateRegister(tid0, CAC_STATE_RegX1_ID, RegXXValue0);
-    cbd.updateRegister(tid0, CAC_STATE_RegX11_ID, RegXXValue3);
-    cbd.updateRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue1);
+    cac.updateRegister(tid0, CAC_STATE_PC_ID, PCValue1);
+    cac.updateRegister(tid0, CAC_STATE_RegX1_ID, RegXXValue0);
+    cac.updateRegister(tid0, CAC_STATE_RegX11_ID, RegXXValue3);
+    cac.updateRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue1);
     //Single Step
-    cbd.step(tid0);
-    EXPECT_TRUE(cbd.getStatus(tid0));
+    cac.step(tid0);
+    EXPECT_TRUE(cac.getStatus(tid0));
     // step 3 
     //From Simulator:
-    cbd.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue2);
-    cbd.updateRefRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue0);
-    cbd.updateRefRegister(tid0, CAC_STATE_RegX1_ID, RegXXValue2);
+    cac.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue2);
+    cac.updateRefRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue0);
+    cac.updateRefRegister(tid0, CAC_STATE_RegX1_ID, RegXXValue2);
     //From DUT
-    cbd.updateRegister(tid0, CAC_STATE_PC_ID, PCValue3);
-    cbd.updateRegister(tid0, CAC_STATE_RegX1_ID, RegXXValue2);
-    cbd.updateRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue0);
+    cac.updateRegister(tid0, CAC_STATE_PC_ID, PCValue3);
+    cac.updateRegister(tid0, CAC_STATE_RegX1_ID, RegXXValue2);
+    cac.updateRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue0);
     //Single Step
-    cbd.step(tid0);
-    EXPECT_FALSE(cbd.getStatus(tid0));
+    cac.step(tid0);
+    EXPECT_FALSE(cac.getStatus(tid0));
     //EXPECT_EQ(act, ans)<<"Type the debug Message here: "<<ans<<std::endl;
 };
