@@ -1,11 +1,11 @@
-# CBoard
+# CoreArchChecker
 ## Architectural Checker 
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://yyz-gitlab.local.tenstorrent.com/chuang/cboard)
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://yyz-gitlab.local.tenstorrent.com/chuang/CoreArchChecker)
 
-CBoard is a framework to check CPU DUT's registers and memory against an architectural simulator (Whisper) in lock step. After each instruction retires or event gets triggered, the DUT and simulator's state is collected. CBoard maintains a snapshot of the current register states for both DUT and simulator separately, updating the register snapshot values after each step. If there is a mismatch in the state after the step, an error will return to bridge and the test will end. CBoard is also designed to provide memory sycchronization features to enable mutli-threaded run with memory sharing.
-## Build CBoard
-Build the CBoard based on Bazel
+CoreArchChecker is a framework to check CPU DUT's registers and memory against an architectural simulator (Whisper) in lock step. After each instruction retires or event gets triggered, the DUT and simulator's state is collected. CoreArchChecker maintains a snapshot of the current register states for both DUT and simulator separately, updating the register snapshot values after each step. If there is a mismatch in the state after the step, an error will return to bridge and the test will end. CoreArchChecker is also designed to provide memory sycchronization features to enable mutli-threaded run with memory sharing.
+## Build CoreArchChecker
+Build the CoreArchChecker based on Bazel
 
 ```sh
 cd cboard
