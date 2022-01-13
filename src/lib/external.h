@@ -1,7 +1,7 @@
 #ifndef EXTERNAL_H
 #define EXTERNAL_H
 
-#include <map>
+#include <unordered_map>
 #include "cacTypeDef.h"
 #include "stateIdDef.h"
 #include "cacConst.h"
@@ -42,7 +42,7 @@ const stateIdT supportStates [] = {
     CAC_STATE_RegX31_ID,
  }; 
 
-const std::map<stateIdT, std::string> supportStatesSymbol = {
+const std::unordered_map<stateIdT, std::string> supportStatesSymbol = {
     {CAC_STATE_PC_ID, "PC"},
     {CAC_STATE_RegX0_ID, "X0"},
     {CAC_STATE_RegX1_ID, "X1"},
@@ -78,7 +78,7 @@ const std::map<stateIdT, std::string> supportStatesSymbol = {
     {CAC_STATE_RegX31_ID, "X31"},
 };
 
-const std::map<stateIdT, sizenBitT> supportStatesSize = {
+const std::unordered_map<stateIdT, sizenBitT> supportStatesSize = {
     {CAC_STATE_PC_ID, UNIT_BIT_NUM},
     {CAC_STATE_RegX0_ID, UNIT_BIT_NUM},
     {CAC_STATE_RegX1_ID, UNIT_BIT_NUM},
