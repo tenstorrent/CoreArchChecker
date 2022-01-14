@@ -9,7 +9,7 @@ Build the CoreArchChecker based on Bazel
 
 ```sh
 cd CoreArchChecker
-bazel build --cxxopt='-std=c++17' //src:caccore
+bazel build //src:caccore
 # bazel-out/darwin-fastbuild/bin/src/libcaccore.so
 ```
 
@@ -126,7 +126,7 @@ Unit tests are based on google test
 
 ```sh
 cd CoreArchChecker
-bazel test --cxxopt='-std=c++17' //tests:testCacCore
-bazel test --cxxopt='-std=c++17' //tests:basicClassTest
+bazel test //tests:testCacCore
+bazel test //tests:basicClassTest
 ```
 
