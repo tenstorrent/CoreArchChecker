@@ -32,9 +32,7 @@ std::vector<size8BytesT> Register::getValue(){
 RegisterSnapshot::RegisterSnapshot(threadT tid):threadId(tid){
     for(const stateIdT &suportStateId : supportStates){
         //sizenBitT regSize = supportStatesSize.at(suportStateId);
-        std::cout<<suportStateId<<" It is a debug"<<std::endl;
-        sizenBitT regSize = supportStatesSize.at(suportStateId);
-        //sizenBitT regSize = UNIT_BIT_NUM;
+        sizenBitT regSize = supportStatesSize[suportStateId];
         size8BytesT rstValue[] = {0x0};
         Register reg(threadId, suportStateId, regSize, rstValue);
         snapshotCol.insert_or_assign(suportStateId, reg);

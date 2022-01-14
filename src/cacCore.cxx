@@ -45,7 +45,7 @@ void CacCore::updateRefRegister(threadT threadId, stateIdT id, unitDataT * data)
 void CacCore::updateRegister(threadT threadId, stateIdT id, unitDataT * data){
     Info infoIns(threadId, id, "DUT", data);
     record->addInfo(threadId, true, infoIns);
-    Register reg(threadId, id, supportStatesSize.at(id), data);
+    Register reg(threadId, id, supportStatesSize[id], data);
     checkingBuffer.at(threadId).push_back(reg);
 };
 

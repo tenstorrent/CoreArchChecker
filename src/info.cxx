@@ -5,7 +5,7 @@
 
 //Info
 Info::Info(threadT tid, stateIdT stateId, const std::string &type, unitDataT * item):threadId(tid),stateId(stateId),infoType(type),item(item){
-    itemName = supportStatesSymbol.at(stateId);
+    itemName = supportStatesSymbol[stateId];
     std::stringstream tmpStream;
     //TODO: Need to fix for data is 128 bits
     tmpStream<<type<<":[Data:"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[0]<<"]";
