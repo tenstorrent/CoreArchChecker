@@ -30,13 +30,14 @@ std::vector<size8BytesT> Register::getValue(){
 
 //RegisterSnapshot
 RegisterSnapshot::RegisterSnapshot(threadT tid):threadId(tid){
-    //for(const stateIdT &suportStateId : supportStates){ Not sure why DPI complain about it
-    unsigned int numOfSates = sizeof(supportStates)/sizeof(supportStates[0]);
-    for (unsigned int idIndex = 0; idIndex<numOfSates; idIndex = idIndex + 1){
-        sizenBitT regSize = supportStatesSize.at(supportStates[idIndex]);
+    for(const stateIdT &suportStateId : supportStates){
+        //sizenBitT regSize = supportStatesSize.at(suportStateId);
+        std::cout<<suportStateId<<" It is a debug"<<std::endl;
+        sizenBitT regSize = supportStatesSize.at(suportStateId);
+        //sizenBitT regSize = UNIT_BIT_NUM;
         size8BytesT rstValue[] = {0x0};
-        Register reg(threadId, supportStates[idIndex], regSize, rstValue);
-        snapshotCol.insert_or_assign(supportStates[idIndex], reg);
+        Register reg(threadId, suportStateId, regSize, rstValue);
+        snapshotCol.insert_or_assign(suportStateId, reg);
     }
 };
 
