@@ -5,5 +5,3 @@
 /bazel-testlogs
 /bazel-template
 /bazel-*
-.vscode/*
-.bazelrc
