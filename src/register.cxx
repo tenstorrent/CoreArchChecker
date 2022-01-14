@@ -1,5 +1,5 @@
 #include "register.h"
-
+#include <iostream>
 // Register
 Register::Register(threadT tid, stateIdT rid, sizenBitT bitSize, unitDataT * data):threadId(tid), registerId(rid), size(bitSize),valueV(data, data+size/64){};
 
@@ -32,6 +32,7 @@ std::vector<size8BytesT> Register::getValue(){
 RegisterSnapshot::RegisterSnapshot(threadT tid):threadId(tid){
     for(const stateIdT &suportStateId : supportStates){
         //sizenBitT regSize = supportStatesSize.at(suportStateId);
+        std::cout<<suportStateId<<" It is a debug"<<std::endl;
         sizenBitT regSize = UNIT_BIT_NUM;
         size8BytesT rstValue[] = {0x0};
         Register reg(threadId, suportStateId, regSize, rstValue);
