@@ -30,12 +30,14 @@ TEST(TestCAC, SingleHart) {
     //From Simulator:
     cac.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue1);
     cac.updateRefRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue1);
+    cac.updateRefRegister(tid0, CAC_STATE_RegX31_ID, RegXXValue0);
     cac.updateRefRegister(tid0, CAC_STATE_RegX1_ID, RegXXValue0);
-    cac.updateRefRegister(tid0, CAC_STATE_RegX2_ID, RegXXValue3);
+    cac.updateRefRegister(tid0, CAC_STATE_RegX12_ID, RegXXValue3);
     //From DUT
     cac.updateRegister(tid0, CAC_STATE_PC_ID, PCValue1);
     cac.updateRegister(tid0, CAC_STATE_RegX1_ID, RegXXValue0);
-    cac.updateRegister(tid0, CAC_STATE_RegX2_ID, RegXXValue3);
+    cac.updateRegister(tid0, CAC_STATE_RegX31_ID, RegXXValue0);
+    cac.updateRegister(tid0, CAC_STATE_RegX12_ID, RegXXValue3);
     cac.updateRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue1);
     //Single Step
     cac.step(tid0);

@@ -12,7 +12,33 @@ const stateIdT supportStates [] = {
     CAC_STATE_RegX2_ID,
     CAC_STATE_RegX3_ID,
     CAC_STATE_RegX4_ID,
-    CAC_STATE_RegX5_ID
+    CAC_STATE_RegX5_ID,
+    CAC_STATE_RegX6_ID,
+    CAC_STATE_RegX7_ID,
+    CAC_STATE_RegX8_ID,
+    CAC_STATE_RegX9_ID,
+    CAC_STATE_RegX10_ID,
+    CAC_STATE_RegX11_ID,
+    CAC_STATE_RegX12_ID,
+    CAC_STATE_RegX13_ID,
+    CAC_STATE_RegX14_ID,
+    CAC_STATE_RegX15_ID,
+    CAC_STATE_RegX16_ID,
+    CAC_STATE_RegX17_ID,
+    CAC_STATE_RegX18_ID,
+    CAC_STATE_RegX19_ID,
+    CAC_STATE_RegX20_ID,
+    CAC_STATE_RegX21_ID,
+    CAC_STATE_RegX22_ID,
+    CAC_STATE_RegX23_ID,
+    CAC_STATE_RegX24_ID,
+    CAC_STATE_RegX25_ID,
+    CAC_STATE_RegX26_ID,
+    CAC_STATE_RegX27_ID,
+    CAC_STATE_RegX28_ID,
+    CAC_STATE_RegX29_ID,
+    CAC_STATE_RegX30_ID,
+    CAC_STATE_RegX31_ID,
  }; 
 
 const std::string supportStatesSymbol [] = {
@@ -23,16 +49,68 @@ const std::string supportStatesSymbol [] = {
     "X3",
     "X4",
     "X5",
+    "X6",
+    "X7",
+    "X8",
+    "X9",
+    "X10",
+    "X11",
+    "X12",
+    "X13",
+    "X14",
+    "X15",
+    "X16",
+    "X17",
+    "X18",
+    "X19",
+    "X20",
+    "X21",
+    "X22",
+    "X23",
+    "X24",
+    "X25",
+    "X26",
+    "X27",
+    "X28",
+    "X29",
+    "X30",
+    "X31",
 };
 
 const sizenBitT supportStatesSize [] = {
     UNIT_BIT_NUM, //CAC_STATE_PC_ID
     UNIT_BIT_NUM, //CAC_STATE_RegX0_ID
-    UNIT_BIT_NUM, //CAC_STATE_RegX0_ID
-    UNIT_BIT_NUM, //CAC_STATE_RegX0_ID
-    UNIT_BIT_NUM, //CAC_STATE_RegX0_ID
-    UNIT_BIT_NUM, //CAC_STATE_RegX0_ID
-    UNIT_BIT_NUM, //CAC_STATE_RegX0_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX1_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX2_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX3_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX4_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX5_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX6_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX7_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX8_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX9_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX10_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX11_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX12_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX13_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX14_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX15_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX16_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX17_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX18_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX19_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX20_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX21_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX22_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX23_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX24_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX25_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX26_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX27_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX28_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX29_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX30_ID
+    UNIT_BIT_NUM, //CAC_STATE_RegX31_ID
 };
 
 //const std::map<stateIdT, dataVectorT*> supportStatesResetValue = {
