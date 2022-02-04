@@ -34,7 +34,37 @@ const unsigned int CAC_STATE_RegX28_ID = 29;
 const unsigned int CAC_STATE_RegX29_ID = 30;
 const unsigned int CAC_STATE_RegX30_ID = 31;
 const unsigned int CAC_STATE_RegX31_ID = 32;
-
-
+const unsigned int CAC_STATE_RegF0_ID = 33;
+const unsigned int CAC_STATE_RegF1_ID = 34;
+const unsigned int CAC_STATE_RegF2_ID = 35;
+const unsigned int CAC_STATE_RegF3_ID = 36;
+const unsigned int CAC_STATE_RegF4_ID = 37;
+const unsigned int CAC_STATE_RegF5_ID = 38;
+const unsigned int CAC_STATE_RegF6_ID = 39;
+const unsigned int CAC_STATE_RegF7_ID = 40;
+const unsigned int CAC_STATE_RegF8_ID = 41;
+const unsigned int CAC_STATE_RegF9_ID = 42;
+const unsigned int CAC_STATE_RegF10_ID = 43;
+const unsigned int CAC_STATE_RegF11_ID = 44;
+const unsigned int CAC_STATE_RegF12_ID = 45;
+const unsigned int CAC_STATE_RegF13_ID = 46;
+const unsigned int CAC_STATE_RegF14_ID = 47;
+const unsigned int CAC_STATE_RegF15_ID = 48;
+const unsigned int CAC_STATE_RegF16_ID = 49;
+const unsigned int CAC_STATE_RegF17_ID = 50;
+const unsigned int CAC_STATE_RegF18_ID = 51;
+const unsigned int CAC_STATE_RegF19_ID = 52;
+const unsigned int CAC_STATE_RegF20_ID = 53;
+const unsigned int CAC_STATE_RegF21_ID = 54;
+const unsigned int CAC_STATE_RegF22_ID = 55;
+const unsigned int CAC_STATE_RegF23_ID = 56;
+const unsigned int CAC_STATE_RegF24_ID = 57;
+const unsigned int CAC_STATE_RegF25_ID = 58;
+const unsigned int CAC_STATE_RegF26_ID = 59;
+const unsigned int CAC_STATE_RegF27_ID = 60;
+const unsigned int CAC_STATE_RegF28_ID = 61;
+const unsigned int CAC_STATE_RegF29_ID = 62;
+const unsigned int CAC_STATE_RegF30_ID = 63;
+const unsigned int CAC_STATE_RegF31_ID = 64;
 
 #endif
