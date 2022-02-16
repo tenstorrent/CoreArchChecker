@@ -112,10 +112,14 @@ TEST(TestCore, BasicCoreTest){
     //Hart 0 Step 1
     //From Simulator:
     cbd.updateRefRegister(tid0, CAC_STATE_PC_ID, refPCValue0);
+    // Direct using state ID
     cbd.updateRefRegister(tid0, CAC_STATE_RegX0_ID, refRegXXValue0);
+    // Using encoding and offset
+    cbd.updateRefRegister(tid0, REGISTER_RT_FIX_ENCODING, 1, refRegXXValue1);
     //From Dut:
     cbd.updateRegister(tid0, CAC_STATE_PC_ID, dutPCValue0);
     cbd.updateRegister(tid0, CAC_STATE_RegX0_ID, dutRegXXValue0);
+    cbd.updateRegister(tid0,  REGISTER_RT_FIX_ENCODING, 1, dutRegXXValue1);
     cbd.step(tid0);
     stepInspt = cbd.getStep(tid0);
     EXPECT_EQ(stepInspt, 1)<<"ERROR: (CAC Test) Wrong Step Counts!";
@@ -127,9 +131,11 @@ TEST(TestCore, BasicCoreTest){
     //From Simulator:
     cbd.updateRefRegister(tid0, CAC_STATE_PC_ID, refPCValue1);
     cbd.updateRefRegister(tid0, CAC_STATE_RegX0_ID, refRegXXValue1);
+    cbd.updateRefRegister(tid0, REGISTER_RT_FLT_ENCODING, 6, refRegXXValue1);
     //From Dut:
     cbd.updateRegister(tid0, CAC_STATE_PC_ID, dutPCValue1);
     cbd.updateRegister(tid0, CAC_STATE_RegX0_ID, dutRegXXValue1);
+    cbd.updateRegister(tid0, REGISTER_RT_FLT_ENCODING, 6,dutRegXXValue1);
     cbd.step(tid0);
     tmpresult = cbd.getStatus(tid0);
     EXPECT_TRUE(tmpresult);

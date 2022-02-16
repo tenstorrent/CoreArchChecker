@@ -35,19 +35,35 @@ bool CacCore::getStatus(threadT threadId){
 };
 
 // Simulator API to update Register
+void CacCore::updateRefRegister(threadT threadId, unsigned int typeEncoding, unsigned int typeOffset, unitDataT * data){
+    stateIdT id = generateStateId(typeEncoding, typeOffset);
+    registerSnapshot.at(threadId).updateValue(id, data);
+    Info infoIns(threadId, id, "SIM", data); 
+    record->addInfo(threadId, false, infoIns);
+};
 void CacCore::updateRefRegister(threadT threadId, stateIdT id, unitDataT * data){
     registerSnapshot.at(threadId).updateValue(id, data);
     Info infoIns(threadId, id, "SIM", data); 
     record->addInfo(threadId, false, infoIns);
 };
 
+
 // Dut API to update Register
+void CacCore::updateRegister(threadT threadId, unsigned int typeEncoding, unsigned int typeOffset, unitDataT * data){
+    stateIdT id = generateStateId(typeEncoding, typeOffset);
+    Info infoIns(threadId, id, "DUT", data);
+    record->addInfo(threadId, true, infoIns);
+    Register reg(threadId, id, supportStatesSize[id], data);
+    checkingBuffer.at(threadId).push_back(reg);
+};
 void CacCore::updateRegister(threadT threadId, stateIdT id, unitDataT * data){
     Info infoIns(threadId, id, "DUT", data);
     record->addInfo(threadId, true, infoIns);
     Register reg(threadId, id, supportStatesSize[id], data);
     checkingBuffer.at(threadId).push_back(reg);
 };
+
+
 
 bool CacCore::checkRegister(threadT threadId, stateIdT id, unitDataT * data){
     return(registerSnapshot.at(threadId).checkValue(id, data));
@@ -81,3 +97,18 @@ void CacCore::step(threadT threadId){
     InfoCol simInfoColIns(threadId, stepCount.at(threadId), "SIM");
     record->addInfoCol(threadId, false, simInfoColIns);
 };
+
+// Generate State Id by type encoding and offset
+// 0:RT_FIX, 1:RT_FLT, 2:RT_X, 3: RT_PAS
+// GPR, FPR, CSR, Vec, PC
+stateIdT CacCore::generateStateId(unsigned int typeEncoding, unsigned int typeOffset){
+    if (typeEncoding == REGISTER_RT_FIX_ENCODING){
+        return(CAC_STATE_RegX0_ID + typeOffset);
+    } else if (typeEncoding == REGISTER_RT_FLT_ENCODING) {
+        return(CAC_STATE_RegF0_ID + typeOffset);
+    }else{
+        std::cout<<"Unknown register type encoding"<<std::endl;
+        exit(1);
+    }
+
+}

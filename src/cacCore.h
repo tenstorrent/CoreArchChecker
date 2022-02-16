@@ -17,8 +17,10 @@ class CacCore
         // Hello World function to make unit test work
         std::string getHello();
         // Dut API to update Register
+        void updateRegister(threadT threadId, unsigned int typeEncoding, unsigned int typeOffset, unitDataT * data);
         void updateRegister(threadT threadId, stateIdT id, unitDataT * data);
         // Simulator API to update Register
+        void updateRefRegister(threadT threadId, unsigned int typeEncoding, unsigned int typeOffset, unitDataT * data);
         void updateRefRegister(threadT threadId, stateIdT id, unitDataT * data);
         // Make a lock step
         void step(threadT threadId);
@@ -37,6 +39,7 @@ class CacCore
         std::unordered_map<threadT, int> stepCount;
         std::unordered_map<threadT, RegisterSnapshot> registerSnapshot;
         std::unordered_map<threadT, std::vector<Register>> checkingBuffer;
+        stateIdT generateStateId(unsigned int typeEncoding, unsigned int typeOffset);
         bool checkRegister(threadT threadId, stateIdT id, unitDataT * data);
 };
 

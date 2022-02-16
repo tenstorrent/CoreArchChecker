@@ -6,4 +6,8 @@
 const sizenBitT UNIT_BIT_NUM = 64;
 const size8BytesT RST_8_BYTE_VALUE[] = {0x0};
 
+// 0:RT_FIX, 1:RT_FLT, 2:RT_X, 3: RT_PAS
+const unsigned int REGISTER_RT_FIX_ENCODING = 0;
+const unsigned int REGISTER_RT_FLT_ENCODING = 1;
+
 #endif
