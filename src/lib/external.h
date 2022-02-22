@@ -71,7 +71,7 @@ const stateIdT supportStates [] = {
     CAC_STATE_RegF29_ID,
     CAC_STATE_RegF30_ID,
     CAC_STATE_RegF31_ID,
-    CAC_STATE_OPCODE_ID,
+    CAC_STATE_Instruction_ID,
  }; 
 
 const std::string supportStatesSymbol [] = {
@@ -140,7 +140,7 @@ const std::string supportStatesSymbol [] = {
     "F29",
     "F30",
     "F31",
-    "Opcode",
+    "Instruction",
 };
 
 const sizenBitT supportStatesSize [] = {
@@ -209,7 +209,7 @@ const sizenBitT supportStatesSize [] = {
     UNIT_BIT_NUM, //CAC_STATE_RegF29_ID
     UNIT_BIT_NUM, //CAC_STATE_RegF30_ID
     UNIT_BIT_NUM, //CAC_STATE_RegF31_ID
-    UNIT_BIT_NUM, //CAC_STATE_OPCODE_ID
+    UNIT_BIT_NUM, //CAC_STATE_Instruction_ID
 };
 
 //const std::map<stateIdT, dataVectorT*> supportStatesResetValue = {

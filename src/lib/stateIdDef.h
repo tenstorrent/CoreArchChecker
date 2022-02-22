@@ -66,6 +66,6 @@ const unsigned int CAC_STATE_RegF28_ID = 61;
 const unsigned int CAC_STATE_RegF29_ID = 62;
 const unsigned int CAC_STATE_RegF30_ID = 63;
 const unsigned int CAC_STATE_RegF31_ID = 64;
-const unsigned int CAC_STATE_OPCODE_ID = 65;
+const unsigned int CAC_STATE_Instruction_ID = 65;
 
 #endif

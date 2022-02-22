@@ -49,11 +49,13 @@ TEST(TestCAC, SingleHart) {
     cac.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue2);
     cac.updateRefRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue0);
     cac.updateRefRegister(tid0, CAC_STATE_RegX1_ID, RegXXValue2);
+    cac.updateRefRegister(tid0, CAC_STATE_Instruction_ID, RegXXValue2);
     cac.updateRefRegister(tid0, REGISTER_RT_FLT_ENCODING, 1, RegXXValue2);
     //From DUT
     cac.updateRegister(tid0, CAC_STATE_PC_ID, PCValue3);
     cac.updateRegister(tid0, CAC_STATE_RegX1_ID, RegXXValue2);
     cac.updateRegister(tid0, CAC_STATE_RegX0_ID, RegXXValue0);
+    cac.updateRegister(tid0, CAC_STATE_Instruction_ID, RegXXValue0);
     cac.updateRegister(tid0, REGISTER_RT_FLT_ENCODING, 1, RegXXValue1);
     //Single Step
     cac.step(tid0);
