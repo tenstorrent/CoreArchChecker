@@ -7,8 +7,12 @@
 Info::Info(threadT tid, stateIdT stateId, const std::string &type, unitDataT * item):threadId(tid),stateId(stateId),infoType(type),item(item){
     itemName = supportStatesSymbol[stateId];
     std::stringstream tmpStream;
-    //TODO: Need to fix for data is 128 bits
-    tmpStream<<type<<":[Data:"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[0]<<"]";
+    if (supportStatesSize[stateId] == VEC_BIT_NUM) {
+      tmpStream<<type<<":[Data:"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[1]<<
+                             "_"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[0]<<"]";
+    } else {
+      tmpStream<<type<<":[Data:"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[0]<<"]";
+    }
     formatString = tmpStream.str();
 };
 
@@ -40,8 +44,13 @@ void InfoCol::outputStates(InfoCol *infoColIns){
     // tmpStream<<type<<":[Data:"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[0]<<"]";
     std::unordered_map<std::string, Info> infoDictIns = infoColIns->getInfoDict();
     for(auto const & infoIt : infoDict){
-        std::cout<<std::setw(20)<<infoIt.first<<std::setw(40)<<infoDict.at(infoIt.first).getFormatInfo()<<std::endl;
-        std::cout<<std::setw(20)<<""<<std::setw(40)<<infoDictIns.at(infoIt.first).getFormatInfo()<<std::endl;
+        int width;
+        if (infoIt.first.substr(0,1) == "V")
+          width = 57;
+        else
+          width = 40;
+        std::cout<<std::setw(20)<<infoIt.first<<std::setw(width)<<infoDict.at(infoIt.first).getFormatInfo()<<std::endl;
+        std::cout<<std::setw(20)<<""<<std::setw(width)<<infoDictIns.at(infoIt.first).getFormatInfo()<<std::endl;
     }
 };
 

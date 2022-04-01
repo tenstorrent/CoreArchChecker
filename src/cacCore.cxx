@@ -82,9 +82,9 @@ void CacCore::step(threadT threadId){
     }
     //print out
     if (status.at(threadId) == false){
-        std::cout<<"Register Mismatch"<<std::endl;
+        std::cout<<"\nError: Register Mismatch"<<std::endl;
     }
-    std::cout<<"Step: "<<stepCount.at(threadId)<<std::endl;
+    std::cout<<"Step: "<<std::dec<<stepCount.at(threadId)<<std::endl;
     InfoCol dutInfoColDebug = record->getInfoColByStep(threadId, true, stepCount.at(threadId));
     InfoCol simInfoColDebug = record->getInfoColByStep(threadId, false, stepCount.at(threadId));
     dutInfoColDebug.outputStates(&simInfoColDebug);
@@ -106,8 +106,10 @@ stateIdT CacCore::generateStateId(unsigned int typeEncoding, unsigned int typeOf
         return(CAC_STATE_RegX0_ID + typeOffset);
     } else if (typeEncoding == REGISTER_RT_FLT_ENCODING) {
         return(CAC_STATE_RegF0_ID + typeOffset);
+    } else if (typeEncoding == REGISTER_RT_VEC_ENCODING) {
+        return(CAC_STATE_RegV0_ID + typeOffset);
     }else{
-        std::cout<<"Unknown register type encoding"<<std::endl;
+        std::cout<<"\nError: Unknown register type encoding"<<std::endl;
         exit(1);
     }
 
