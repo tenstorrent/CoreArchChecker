@@ -50,7 +50,8 @@ void InfoCol::outputStates(InfoCol *infoColIns){
         else
           width = 40;
         std::cout<<std::setw(20)<<infoIt.first<<std::setw(width)<<infoDict.at(infoIt.first).getFormatInfo()<<std::endl;
-        std::cout<<std::setw(20)<<""<<std::setw(width)<<infoDictIns.at(infoIt.first).getFormatInfo()<<std::endl;
+        if (infoDictIns.find(infoIt.first) != infoDictIns.end())
+          std::cout<<std::setw(20)<<""<<std::setw(width)<<infoDictIns.at(infoIt.first).getFormatInfo()<<std::endl;
     }
 };
 

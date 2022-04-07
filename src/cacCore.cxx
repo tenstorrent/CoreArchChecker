@@ -12,6 +12,8 @@ CacCore::CacCore(threadT tNum):threadNum(tNum){
         std::vector<Register> ckBuff;
         checkingBuffer.insert_or_assign(tid, ckBuff);
         stepCount.insert_or_assign(tid, 0);
+        dutChangeCount.insert_or_assign(tid, 0);
+        simChangeCount.insert_or_assign(tid, 0);
         status.insert_or_assign(tid, true);
 
         InfoCol dutInfoColIns(tid, stepCount.at(tid), "DUT");
@@ -34,17 +36,23 @@ bool CacCore::getStatus(threadT threadId){
     return(status.at(threadId));
 };
 
+void CacCore::resetStatus(threadT threadId){
+    status.at(threadId) = true;
+};
+
 // Simulator API to update Register
 void CacCore::updateRefRegister(threadT threadId, unsigned int typeEncoding, unsigned int typeOffset, unitDataT * data){
     stateIdT id = generateStateId(typeEncoding, typeOffset);
     registerSnapshot.at(threadId).updateValue(id, data);
     Info infoIns(threadId, id, "SIM", data); 
     record->addInfo(threadId, false, infoIns);
+    simChangeCount.at(threadId) = simChangeCount.at(threadId) + 1;
 };
 void CacCore::updateRefRegister(threadT threadId, stateIdT id, unitDataT * data){
     registerSnapshot.at(threadId).updateValue(id, data);
     Info infoIns(threadId, id, "SIM", data); 
     record->addInfo(threadId, false, infoIns);
+    simChangeCount.at(threadId) = simChangeCount.at(threadId) + 1;
 };
 
 
@@ -55,12 +63,14 @@ void CacCore::updateRegister(threadT threadId, unsigned int typeEncoding, unsign
     record->addInfo(threadId, true, infoIns);
     Register reg(threadId, id, supportStatesSize[id], data);
     checkingBuffer.at(threadId).push_back(reg);
+    dutChangeCount.at(threadId) = dutChangeCount.at(threadId) + 1;
 };
 void CacCore::updateRegister(threadT threadId, stateIdT id, unitDataT * data){
     Info infoIns(threadId, id, "DUT", data);
     record->addInfo(threadId, true, infoIns);
     Register reg(threadId, id, supportStatesSize[id], data);
     checkingBuffer.at(threadId).push_back(reg);
+    dutChangeCount.at(threadId) = dutChangeCount.at(threadId) + 1;
 };
 
 
@@ -71,7 +81,13 @@ bool CacCore::checkRegister(threadT threadId, stateIdT id, unitDataT * data){
 
 // make a lock step
 void CacCore::step(threadT threadId){
-    //RegisterSnapshot regSnpSt = registerSnapshot.at(threadId);
+    
+    if (dutChangeCount.at(threadId) != simChangeCount.at(threadId)) {
+      std::cout<<"\nError: ChangeCount Mismatch"
+               <<" DUT: "<<dutChangeCount.at(threadId)
+               <<" SIM: "<<simChangeCount.at(threadId);
+      status.at(threadId) = false;
+    }
     std::vector<Register> buffer = checkingBuffer.at(threadId);
     for (std::vector<Register>::iterator it = buffer.begin(); it != buffer.end(); ++it) {
         std::vector<size8BytesT> reg = it->getValue();
@@ -91,6 +107,8 @@ void CacCore::step(threadT threadId){
 
     stepCount.at(threadId) = stepCount.at(threadId) + 1;
     checkingBuffer.at(threadId).clear();
+    dutChangeCount.insert_or_assign(threadId, 0);
+    simChangeCount.insert_or_assign(threadId, 0);
 
     InfoCol dutInfoColIns(threadId, stepCount.at(threadId), "DUT");
     record->addInfoCol(threadId, true, dutInfoColIns);

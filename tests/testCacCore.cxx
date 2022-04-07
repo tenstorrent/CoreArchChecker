@@ -99,6 +99,26 @@ TEST(TestVectorCAC, SingleHart) {
     EXPECT_TRUE(cac.getStatus(tid0));
     //step 3
     //From Simulator:
+    cac.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue3);
+    cac.updateRefRegister(tid0, REGISTER_RT_VEC_ENCODING, 1, RegXXValue1);
+    //From DUT
+    cac.updateRegister(tid0, CAC_STATE_PC_ID, PCValue3);
+    //Single Step
+    cac.step(tid0);
+    EXPECT_FALSE(cac.getStatus(tid0));
+    cac.resetStatus(tid0);
+    //step 4
+    //From Simulator:
+    cac.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue3);
+    //From DUT
+    cac.updateRegister(tid0, CAC_STATE_PC_ID, PCValue3);
+    cac.updateRegister(tid0, REGISTER_RT_VEC_ENCODING, 1, RegXXValue1);
+    //Single Step
+    cac.step(tid0);
+    EXPECT_FALSE(cac.getStatus(tid0));
+    cac.resetStatus(tid0);
+    //step 5
+    //From Simulator:
     cac.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue2);
     cac.updateRefRegister(tid0, REGISTER_RT_VEC_ENCODING, 20, RegXXValue2);
     //From DUT
@@ -107,4 +127,5 @@ TEST(TestVectorCAC, SingleHart) {
     //Single Step
     cac.step(tid0);
     EXPECT_FALSE(cac.getStatus(tid0));
+    cac.resetStatus(tid0);
 }

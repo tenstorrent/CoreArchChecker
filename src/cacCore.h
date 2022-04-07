@@ -28,6 +28,7 @@ class CacCore
         int getStep(threadT threadId);
         // Api to get the check result
         bool getStatus(threadT threadId);
+        void resetStatus(threadT threadId);
 
         // TODO: fuzz mask
         // void updateRegister(threadT threadId, stateIdT id, unitDataT * data, fuzzMaskT fuzzMask);
@@ -37,6 +38,8 @@ class CacCore
         Record *record;
         std::unordered_map<threadT, bool> status;
         std::unordered_map<threadT, int> stepCount;
+        std::unordered_map<threadT, int> dutChangeCount;
+        std::unordered_map<threadT, int> simChangeCount;
         std::unordered_map<threadT, RegisterSnapshot> registerSnapshot;
         std::unordered_map<threadT, std::vector<Register>> checkingBuffer;
         stateIdT generateStateId(unsigned int typeEncoding, unsigned int typeOffset);
