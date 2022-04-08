@@ -115,7 +115,7 @@ TEST(TestVectorCAC, SingleHart) {
     cac.updateRegister(tid0, REGISTER_RT_VEC_ENCODING, 1, RegXXValue1);
     //Single Step
     cac.step(tid0);
-    EXPECT_FALSE(cac.getStatus(tid0));
+    EXPECT_TRUE(cac.getStatus(tid0));
     cac.resetStatus(tid0);
     //step 5
     //From Simulator:
