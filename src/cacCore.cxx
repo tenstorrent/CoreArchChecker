@@ -87,7 +87,7 @@ void CacCore::step(threadT threadId){
     if (dutChangeCount.at(threadId) != simChangeCount.at(threadId)) {
       std::cout<<"\nWarning: ChangeCount Mismatch"
                <<" DUT: "<<dutChangeCount.at(threadId)
-               <<" SIM: "<<simChangeCount.at(threadId);
+               <<" SIM: "<<simChangeCount.at(threadId)<<std::endl;
     }
     // use rtl changecount and check against iss snapshot
     std::vector<Register> buffer = checkingBuffer.at(threadId);
