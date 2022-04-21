@@ -81,7 +81,15 @@ bool CacCore::checkRegister(threadT threadId, stateIdT id, unitDataT * data){
 
 // make a lock step
 void CacCore::step(threadT threadId){
-    
+    // print changecount mismatch as warning
+    // Updates with same previous values are allowed, so not flagging as error
+    // Updates with different values will show up as errors downstream
+    if (dutChangeCount.at(threadId) != simChangeCount.at(threadId)) {
+      std::cout<<"\nWarning: ChangeCount Mismatch"
+               <<" DUT: "<<dutChangeCount.at(threadId)
+               <<" SIM: "<<simChangeCount.at(threadId);
+    }
+    // use rtl changecount and check against iss snapshot
     std::vector<Register> buffer = checkingBuffer.at(threadId);
     for (std::vector<Register>::iterator it = buffer.begin(); it != buffer.end(); ++it) {
         std::vector<size8BytesT> reg = it->getValue();
@@ -89,12 +97,6 @@ void CacCore::step(threadT threadId){
         bool ckRst;
         ckRst = checkRegister(threadId, it->getRegisterId(), dat);
         status.at(threadId) = status.at(threadId) && ckRst;
-    }
-    if (dutChangeCount.at(threadId) < simChangeCount.at(threadId)) {
-      std::cout<<"\nError: ChangeCount Mismatch"
-               <<" DUT: "<<dutChangeCount.at(threadId)
-               <<" SIM: "<<simChangeCount.at(threadId);
-      status.at(threadId) = false;
     }
     //print out
     if (status.at(threadId) == false){
