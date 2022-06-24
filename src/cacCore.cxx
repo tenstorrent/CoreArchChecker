@@ -40,17 +40,33 @@ void CacCore::resetStatus(threadT threadId){
     status.at(threadId) = true;
 };
 
+// Configuration API
+void CacCore::configureVlen(unsigned int vlen) {
+    cfg_vlen = vlen;
+    for(threadT tid = 0; tid<threadNum; tid++){
+      registerSnapshot.at(tid).updateSize(cfg_vlen);
+    }
+}
+
+unsigned int CacCore::getRegisterSize(stateIdT id) {
+    if (id >= CAC_STATE_RegV0_ID && id <= CAC_STATE_RegV31_ID) {
+      return cfg_vlen;
+    } else {
+      return supportStatesSize[id];
+    }
+}
+
 // Simulator API to update Register
 void CacCore::updateRefRegister(threadT threadId, unsigned int typeEncoding, unsigned int typeOffset, unitDataT * data){
     stateIdT id = generateStateId(typeEncoding, typeOffset);
     registerSnapshot.at(threadId).updateValue(id, data);
-    Info infoIns(threadId, id, "SIM", data); 
+    Info infoIns(threadId, id, "SIM", data, getRegisterSize(id));
     record->addInfo(threadId, false, infoIns);
     simChangeCount.at(threadId) = simChangeCount.at(threadId) + 1;
 };
 void CacCore::updateRefRegister(threadT threadId, stateIdT id, unitDataT * data){
     registerSnapshot.at(threadId).updateValue(id, data);
-    Info infoIns(threadId, id, "SIM", data); 
+    Info infoIns(threadId, id, "SIM", data, getRegisterSize(id));
     record->addInfo(threadId, false, infoIns);
     simChangeCount.at(threadId) = simChangeCount.at(threadId) + 1;
 };
@@ -59,16 +75,16 @@ void CacCore::updateRefRegister(threadT threadId, stateIdT id, unitDataT * data)
 // Dut API to update Register
 void CacCore::updateRegister(threadT threadId, unsigned int typeEncoding, unsigned int typeOffset, unitDataT * data){
     stateIdT id = generateStateId(typeEncoding, typeOffset);
-    Info infoIns(threadId, id, "DUT", data);
+    Info infoIns(threadId, id, "DUT", data, getRegisterSize(id));
     record->addInfo(threadId, true, infoIns);
-    Register reg(threadId, id, supportStatesSize[id], data);
+    Register reg(threadId, id, getRegisterSize(id), data);
     checkingBuffer.at(threadId).push_back(reg);
     dutChangeCount.at(threadId) = dutChangeCount.at(threadId) + 1;
 };
 void CacCore::updateRegister(threadT threadId, stateIdT id, unitDataT * data){
-    Info infoIns(threadId, id, "DUT", data);
+    Info infoIns(threadId, id, "DUT", data, getRegisterSize(id));
     record->addInfo(threadId, true, infoIns);
-    Register reg(threadId, id, supportStatesSize[id], data);
+    Register reg(threadId, id, getRegisterSize(id), data);
     checkingBuffer.at(threadId).push_back(reg);
     dutChangeCount.at(threadId) = dutChangeCount.at(threadId) + 1;
 };

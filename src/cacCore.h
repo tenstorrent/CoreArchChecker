@@ -16,6 +16,8 @@ class CacCore
         CacCore(threadT tNum);
         // Hello World function to make unit test work
         std::string getHello();
+        // Configuration API
+        void configureVlen(unsigned int vlen);
         // Dut API to update Register
         void updateRegister(threadT threadId, unsigned int typeEncoding, unsigned int typeOffset, unitDataT * data);
         void updateRegister(threadT threadId, stateIdT id, unitDataT * data);
@@ -35,6 +37,7 @@ class CacCore
         //void updateMem(threadT threadId);
     private:
         threadT threadNum;
+        unsigned int cfg_vlen = VEC_128;
         Record *record;
         std::unordered_map<threadT, bool> status;
         std::unordered_map<threadT, int> stepCount;
@@ -44,6 +47,7 @@ class CacCore
         std::unordered_map<threadT, std::vector<Register>> checkingBuffer;
         stateIdT generateStateId(unsigned int typeEncoding, unsigned int typeOffset);
         bool checkRegister(threadT threadId, stateIdT id, unitDataT * data);
+        unsigned int getRegisterSize(stateIdT id);
 };
 
 #endif

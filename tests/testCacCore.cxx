@@ -77,6 +77,8 @@ TEST(TestVectorCAC, SingleHart) {
     size8BytesT RegXXValue2 [] = {0xdeadbeef,0xbeefdead};
     size8BytesT PCValue3 [] = {0xcafe0018};
     size8BytesT RegXXValue3 [] = {0xabcdefffffffff,0x1234567800000000};
+    size8BytesT RegVXValue4 [] = {0xcafe0020cafe0028, 0xcafe0030cafe0038, 0xcafe0040cafe0048, 0xcafe0050cafe0058};
+    size8BytesT RegVXValue5 [] = {0xcafe0020cafe0028, 0xcafe0030cafe0038};
     // step 1
     //From Simulator:
     cac.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue0);
@@ -99,10 +101,11 @@ TEST(TestVectorCAC, SingleHart) {
     EXPECT_TRUE(cac.getStatus(tid0));
     //step 3
     //From Simulator:
-    cac.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue3);
+    cac.updateRegister(tid0, CAC_STATE_PC_ID, PCValue3);
     cac.updateRefRegister(tid0, REGISTER_RT_VEC_ENCODING, 1, RegXXValue1);
     //From DUT
     cac.updateRegister(tid0, CAC_STATE_PC_ID, PCValue3);
+    cac.updateRefRegister(tid0, REGISTER_RT_VEC_ENCODING, 2, RegXXValue1);
     //Single Step
     cac.step(tid0);
     EXPECT_FALSE(cac.getStatus(tid0));
@@ -112,10 +115,10 @@ TEST(TestVectorCAC, SingleHart) {
     cac.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue3);
     //From DUT
     cac.updateRegister(tid0, CAC_STATE_PC_ID, PCValue3);
-    cac.updateRegister(tid0, REGISTER_RT_VEC_ENCODING, 1, RegXXValue1);
+    cac.updateRegister(tid0, REGISTER_RT_VEC_ENCODING, 1, RegXXValue2);
     //Single Step
     cac.step(tid0);
-    EXPECT_TRUE(cac.getStatus(tid0));
+    EXPECT_FALSE(cac.getStatus(tid0));
     cac.resetStatus(tid0);
     //step 5
     //From Simulator:
@@ -124,6 +127,29 @@ TEST(TestVectorCAC, SingleHart) {
     //From DUT
     cac.updateRegister(tid0, CAC_STATE_PC_ID, PCValue2);
     cac.updateRegister(tid0, REGISTER_RT_VEC_ENCODING, 20, RegXXValue0);
+    //Single Step
+    cac.step(tid0);
+    EXPECT_FALSE(cac.getStatus(tid0));
+    cac.resetStatus(tid0);
+    //step 6
+    //From Simulator:
+    cac.configureVlen(256);
+    cac.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue1);
+    cac.updateRegister(tid0, REGISTER_RT_VEC_ENCODING, 21, RegVXValue4);
+    //From DUT
+    cac.updateRegister(tid0, CAC_STATE_PC_ID, PCValue1);
+    cac.updateRefRegister(tid0, REGISTER_RT_VEC_ENCODING, 21, RegVXValue4);
+    //Single Step
+    cac.step(tid0);
+    EXPECT_TRUE(cac.getStatus(tid0));
+    cac.resetStatus(tid0);
+    //step 7
+    //From Simulator:
+    cac.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue1);
+    cac.updateRefRegister(tid0, REGISTER_RT_VEC_ENCODING, 22, RegVXValue5);
+    //From DUT
+    cac.updateRegister(tid0, CAC_STATE_PC_ID, PCValue1);
+    cac.updateRegister(tid0, REGISTER_RT_VEC_ENCODING, 22, RegVXValue4);
     //Single Step
     cac.step(tid0);
     EXPECT_FALSE(cac.getStatus(tid0));

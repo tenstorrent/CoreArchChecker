@@ -27,18 +27,22 @@ sizenBitT Register::getSize(){
     return(size);
 };
 
+void Register::updateSize(sizenBitT sz){
+  size = sz;
+  valueV.resize(size);
+};
+
 std::vector<size8BytesT> Register::getValue(){
     return(valueV);
 };
 
 //RegisterSnapshot
 RegisterSnapshot::RegisterSnapshot(threadT tid):threadId(tid){
-    for(const stateIdT &suportStateId : supportStates){
-        //sizenBitT regSize = supportStatesSize.at(suportStateId);
-        sizenBitT regSize = supportStatesSize[suportStateId];
+    for(const stateIdT &supportStateId : supportStates){
+        sizenBitT regSize = supportStatesSize[supportStateId];
         size8BytesT rstValue[] = {0x0};
-        Register reg(threadId, suportStateId, regSize, rstValue);
-        snapshotCol.insert_or_assign(suportStateId, reg);
+        Register reg(threadId, supportStateId, regSize, rstValue);
+        snapshotCol.insert_or_assign(supportStateId, reg);
     }
 };
 
@@ -46,6 +50,16 @@ std::vector<size8BytesT> RegisterSnapshot::getValue(stateIdT id){
     Register reg = snapshotCol.at(id);
     return(reg.getValue());
 };
+
+void RegisterSnapshot::updateSize(unsigned int vlen){
+    for(const stateIdT &id : supportStates){
+      if (id >= CAC_STATE_RegV0_ID && id <= CAC_STATE_RegV31_ID) {
+        Register reg = snapshotCol.at(id);
+        reg.updateSize(vlen);
+        snapshotCol.at(id) = reg;
+      }
+    }
+}
 
 void RegisterSnapshot::updateValue(stateIdT id, size8BytesT * data){
     Register reg = snapshotCol.at(id);

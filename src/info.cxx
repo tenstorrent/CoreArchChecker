@@ -4,14 +4,28 @@
 #include <iomanip>
 
 //Info
-Info::Info(threadT tid, stateIdT stateId, const std::string &type, unitDataT * item):threadId(tid),stateId(stateId),infoType(type),item(item){
+Info::Info(threadT tid, stateIdT stateId, const std::string &type, unitDataT * item, unsigned int size):threadId(tid),stateId(stateId),infoType(type),item(item),size(size){
     itemName = supportStatesSymbol[stateId];
     std::stringstream tmpStream;
-    if (supportStatesSize[stateId] == VEC_BIT_NUM) {
+    if (size == VEC_128) {
       tmpStream<<type<<":[Data:"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[1]<<
-                             "_"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[0]<<"]";
+                             "_"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[0]<<"]"<<" ("<<std::dec<<size<<")";
+    } else if (size == VEC_256) {
+      tmpStream<<type<<":[Data:"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[3]<<
+                             "_"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[2]<<
+                             "_"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[1]<<
+                             "_"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[0]<<"]"<<" ("<<std::dec<<size<<")";
+    } else if (size == VEC_512) {
+      tmpStream<<type<<":[Data:"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[7]<<
+                             "_"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[6]<<
+                             "_"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[5]<<
+                             "_"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[4]<<
+                             "_"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[3]<<
+                             "_"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[2]<<
+                             "_"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[1]<<
+                             "_"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[0]<<"]"<<" ("<<std::dec<<size<<")";
     } else {
-      tmpStream<<type<<":[Data:"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[0]<<"]";
+      tmpStream<<type<<":[Data:"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[1]<<"]";
     }
     formatString = tmpStream.str();
 };
@@ -32,6 +46,10 @@ std::string Info::getFormatInfo(){
     return(formatString);
 };
 
+unsigned int Info::getSize(){
+    return(size);
+}
+
 //InfoCol
 InfoCol::InfoCol(threadT tid, int stepNum, const std::string &type):threadId(tid),infoColType(type),stepNum(stepNum){};
 
@@ -40,15 +58,16 @@ std::unordered_map<std::string, Info> InfoCol::getInfoDict(){
 };
 
 void InfoCol::outputStates(InfoCol *infoColIns){
-    // std::map<std::string, Info> infoDict;
-    // tmpStream<<type<<":[Data:"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[0]<<"]";
     std::unordered_map<std::string, Info> infoDictIns = infoColIns->getInfoDict();
-    for(auto const & infoIt : infoDict){
-        int width;
-        if (infoIt.first.substr(0,1) == "V")
-          width = 57;
-        else
-          width = 40;
+    for(auto & infoIt : infoDict){
+        int width = 48;
+        if (infoIt.first.substr(0,1) == "V") {
+          if (infoIt.second.getSize() == VEC_128) {
+            width = 71;
+          } else if (infoIt.second.getSize() == VEC_256) {
+            width = 105;
+          }
+        }
         std::cout<<std::setw(20)<<infoIt.first<<std::setw(width)<<infoDict.at(infoIt.first).getFormatInfo()<<std::endl;
         if (infoDictIns.find(infoIt.first) != infoDictIns.end())
           std::cout<<std::setw(20)<<""<<std::setw(width)<<infoDictIns.at(infoIt.first).getFormatInfo()<<std::endl;
