@@ -29,7 +29,7 @@ sizenBitT Register::getSize(){
 
 void Register::updateSize(sizenBitT sz){
   size = sz;
-  valueV.resize(size);
+  valueV.resize(size/64, 0);
 };
 
 std::vector<size8BytesT> Register::getValue(){

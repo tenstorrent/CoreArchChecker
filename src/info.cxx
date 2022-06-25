@@ -25,7 +25,7 @@ Info::Info(threadT tid, stateIdT stateId, const std::string &type, unitDataT * i
                              "_"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[1]<<
                              "_"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[0]<<"]"<<" ("<<std::dec<<size<<")";
     } else {
-      tmpStream<<type<<":[Data:"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[1]<<"]";
+      tmpStream<<type<<":[Data:"<<std::setfill('0')<<std::setw(sizeof(unitDataT)*2)<<std::hex<<item[0]<<"]";
     }
     formatString = tmpStream.str();
 };
