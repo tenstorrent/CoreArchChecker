@@ -66,6 +66,8 @@ void InfoCol::outputStates(InfoCol *infoColIns){
             width = 71;
           } else if (infoIt.second.getSize() == VEC_256) {
             width = 105;
+          } else if (infoIt.second.getSize() == VEC_512) {
+            width = 173;
           }
         }
         std::cout<<std::setw(20)<<infoIt.first<<std::setw(width)<<infoDict.at(infoIt.first).getFormatInfo()<<std::endl;

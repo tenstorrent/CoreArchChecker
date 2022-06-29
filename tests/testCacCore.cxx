@@ -78,7 +78,11 @@ TEST(TestVectorCAC, SingleHart) {
     size8BytesT PCValue3 [] = {0xcafe0018};
     size8BytesT RegXXValue3 [] = {0xabcdefffffffff,0x1234567800000000};
     size8BytesT RegVXValue4 [] = {0xcafe0020cafe0028, 0xcafe0030cafe0038, 0xcafe0040cafe0048, 0xcafe0050cafe0058};
-    size8BytesT RegVXValue5 [] = {0xcafe0020cafe0028, 0xcafe0030cafe0038};
+    size8BytesT RegVXValue5 [] = {0x0, 0x0, 0xcafe0020cafe0028, 0xcafe0030cafe0038};
+    size8BytesT RegVXValue6 [] = {0xcafe0020cafe0028, 0xcafe0030cafe0038, 0xcafe0040cafe0048, 0xcafe0050cafe0058,
+                                  0xcafe0020cafe0068, 0xcafe0030cafe0078, 0xcafe0040cafe0088, 0xcafe0050cafe0098};
+    size8BytesT RegVXValue7 [] = {0xcafe0020cafe0028, 0xcafe0030cafe0038, 0xcafe0040cafe0048, 0xcafe0050cafe0058,
+                                  0x0, 0x0, 0xcafe0040cafe0088, 0xcafe0050cafe0098};
     // step 1
     //From Simulator:
     cac.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue0);
@@ -150,6 +154,29 @@ TEST(TestVectorCAC, SingleHart) {
     //From DUT
     cac.updateRegister(tid0, CAC_STATE_PC_ID, PCValue1);
     cac.updateRegister(tid0, REGISTER_RT_VEC_ENCODING, 22, RegVXValue4);
+    //Single Step
+    cac.step(tid0);
+    EXPECT_FALSE(cac.getStatus(tid0));
+    cac.resetStatus(tid0);
+    //step 8
+    //From Simulator:
+    cac.configureVlen(512);
+    cac.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue1);
+    cac.updateRegister(tid0, REGISTER_RT_VEC_ENCODING, 23, RegVXValue6);
+    //From DUT
+    cac.updateRegister(tid0, CAC_STATE_PC_ID, PCValue1);
+    cac.updateRefRegister(tid0, REGISTER_RT_VEC_ENCODING, 23, RegVXValue6);
+    //Single Step
+    cac.step(tid0);
+    EXPECT_TRUE(cac.getStatus(tid0));
+    cac.resetStatus(tid0);
+    //step 9
+    //From Simulator:
+    cac.updateRefRegister(tid0, CAC_STATE_PC_ID, PCValue1);
+    cac.updateRegister(tid0, REGISTER_RT_VEC_ENCODING, 24, RegVXValue6);
+    //From DUT
+    cac.updateRegister(tid0, CAC_STATE_PC_ID, PCValue1);
+    cac.updateRefRegister(tid0, REGISTER_RT_VEC_ENCODING, 24, RegVXValue7);
     //Single Step
     cac.step(tid0);
     EXPECT_FALSE(cac.getStatus(tid0));
