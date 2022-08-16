@@ -116,7 +116,7 @@ void CacCore::step(threadT threadId){
     }
     //print out
     if (status.at(threadId) == false){
-        std::cout<<"\nError: Register Mismatch"<<std::endl;
+        std::cout<<"\nRegister Mismatch"<<std::endl;
     }
     std::cout<<"Step: "<<std::dec<<stepCount.at(threadId)<<std::endl;
     InfoCol dutInfoColDebug = record->getInfoColByStep(threadId, true, stepCount.at(threadId));
