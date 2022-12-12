@@ -14,7 +14,7 @@ std::string CacCore::getHello(){
 
 void CacCore::init() {
     record = new Record(threadNum);
-    for(threadT tid = 0; tid<tNum; tid++){
+    for(threadT tid = 0; tid<threadNum; tid++){
         RegisterSnapshot regSnpSt(tid);
         registerSnapshot.insert_or_assign(tid, regSnpSt);
         std::vector<Register> ckBuff;
