@@ -16,6 +16,9 @@ class CacCore
         CacCore(threadT tNum);
         // Hello World function to make unit test work
         std::string getHello();
+        // Reset function to clear state
+        void init();
+        void reset();
         // Configuration API
         void configureVlen(unsigned int vlen);
         // Dut API to update Register

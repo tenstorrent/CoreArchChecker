@@ -5,6 +5,14 @@
 
 // CacCore
 CacCore::CacCore(threadT tNum):threadNum(tNum){
+  init();
+};
+
+std::string CacCore::getHello(){
+    return("CacCore has been constructed!");
+}
+
+void CacCore::init() {
     record = new Record(threadNum);
     for(threadT tid = 0; tid<tNum; tid++){
         RegisterSnapshot regSnpSt(tid);
@@ -21,10 +29,10 @@ CacCore::CacCore(threadT tNum):threadNum(tNum){
         InfoCol simInfoColIns(tid, stepCount.at(tid), "SIM");
         record->addInfoCol(tid, false, simInfoColIns);
     }
-};
+}
 
-std::string CacCore::getHello(){
-    return("CacCore has been constructed!");
+void CacCore::reset() {
+  init();
 }
 
 int CacCore::getStep(threadT threadId){
