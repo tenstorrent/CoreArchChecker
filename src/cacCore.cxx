@@ -2,6 +2,9 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#include "cvm/plusargs.hpp"
+
+DEFINE_bool(cac_tracer, false, "Enable CAC trace prints");
 
 // CacCore
 CacCore::CacCore(threadT tNum):threadNum(tNum){
@@ -109,9 +112,10 @@ void CacCore::step(threadT threadId){
     // Updates with same previous values are allowed, so not flagging as error
     // Updates with different values will show up as errors downstream
     if (dutChangeCount.at(threadId) != simChangeCount.at(threadId)) {
-      std::cout<<"\nWarning: ChangeCount Mismatch"
-               <<" DUT: "<<dutChangeCount.at(threadId)
-               <<" SIM: "<<simChangeCount.at(threadId)<<std::endl;
+      if (FLAGS_cac_tracer)
+          std::cout<<"\nWarning: ChangeCount Mismatch"
+                   <<" DUT: "<<dutChangeCount.at(threadId)
+                   <<" SIM: "<<simChangeCount.at(threadId)<<std::endl;
     }
     // use rtl changecount and check against iss snapshot
     std::vector<Register> buffer = checkingBuffer.at(threadId);
@@ -126,10 +130,12 @@ void CacCore::step(threadT threadId){
     if (status.at(threadId) == false){
         std::cout<<"\nRegister Mismatch"<<std::endl;
     }
-    std::cout<<"Step: "<<std::dec<<stepCount.at(threadId)<<std::endl;
-    InfoCol dutInfoColDebug = record->getInfoColByStep(threadId, true, stepCount.at(threadId));
-    InfoCol simInfoColDebug = record->getInfoColByStep(threadId, false, stepCount.at(threadId));
-    dutInfoColDebug.outputStates(&simInfoColDebug);
+    if (FLAGS_cac_tracer || (status.at(threadId) == false)) {
+        std::cout<<"Step: "<<std::dec<<stepCount.at(threadId)<<std::endl;
+        InfoCol dutInfoColDebug = record->getInfoColByStep(threadId, true, stepCount.at(threadId));
+        InfoCol simInfoColDebug = record->getInfoColByStep(threadId, false, stepCount.at(threadId));
+        dutInfoColDebug.outputStates(&simInfoColDebug);
+    }
 
     stepCount.at(threadId) = stepCount.at(threadId) + 1;
     checkingBuffer.at(threadId).clear();
