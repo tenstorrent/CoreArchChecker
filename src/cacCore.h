@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include <sstream>
 #include <vector>
 #include <unordered_map>
 #include "caclib.h"
@@ -33,6 +34,7 @@ class CacCore
         int getStep(threadT threadId);
         // Api to get the check result
         bool getStatus(threadT threadId);
+        std::string getStatusStr(threadT threadId);
         void resetStatus(threadT threadId);
 
         // TODO: fuzz mask
@@ -51,6 +53,7 @@ class CacCore
         stateIdT generateStateId(unsigned int typeEncoding, unsigned int typeOffset);
         bool checkRegister(threadT threadId, stateIdT id, unitDataT * data);
         unsigned int getRegisterSize(stateIdT id);
+        std::stringstream ss;
 };
 
 #endif

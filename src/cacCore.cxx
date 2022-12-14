@@ -1,9 +1,9 @@
 #include "cacCore.h"
 #include <iostream>
-#include <sstream>
 #include <iomanip>
 #include "cvm/plusargs.hpp"
 
+DECLARE_string(cosim_tracer);
 DEFINE_bool(cac_tracer, false, "Enable CAC trace prints");
 
 // CacCore
@@ -46,6 +46,10 @@ int CacCore::getStep(threadT threadId){
 bool CacCore::getStatus(threadT threadId){
     return(status.at(threadId));
 };
+
+std::string CacCore::getStatusStr(threadT threadId) {
+    return ss.str();
+}
 
 void CacCore::resetStatus(threadT threadId){
     status.at(threadId) = true;
@@ -108,11 +112,12 @@ bool CacCore::checkRegister(threadT threadId, stateIdT id, unitDataT * data){
 
 // make a lock step
 void CacCore::step(threadT threadId){
+    ss.str("");
     // print changecount mismatch as warning
     // Updates with same previous values are allowed, so not flagging as error
     // Updates with different values will show up as errors downstream
     if (dutChangeCount.at(threadId) != simChangeCount.at(threadId)) {
-      if (FLAGS_cac_tracer)
+      if (FLAGS_cosim_tracer == "HIGH")
           std::cout<<"\nWarning: ChangeCount Mismatch"
                    <<" DUT: "<<dutChangeCount.at(threadId)
                    <<" SIM: "<<simChangeCount.at(threadId)<<std::endl;
@@ -128,13 +133,14 @@ void CacCore::step(threadT threadId){
     }
     //print out
     if (status.at(threadId) == false){
-        std::cout<<"\nRegister Mismatch"<<std::endl;
+        ss<<"\nRegister Mismatch"<<std::endl;
     }
-    if (FLAGS_cac_tracer || (status.at(threadId) == false)) {
-        std::cout<<"Step: "<<std::dec<<stepCount.at(threadId)<<std::endl;
+    if (FLAGS_cosim_tracer == "HIGH" || (status.at(threadId) == false)) {
+        ss<<"Step: "<<std::dec<<stepCount.at(threadId)<<std::endl;
         InfoCol dutInfoColDebug = record->getInfoColByStep(threadId, true, stepCount.at(threadId));
         InfoCol simInfoColDebug = record->getInfoColByStep(threadId, false, stepCount.at(threadId));
-        dutInfoColDebug.outputStates(&simInfoColDebug);
+        std::string s = dutInfoColDebug.outputStates(&simInfoColDebug);
+        ss<<s;
     }
 
     stepCount.at(threadId) = stepCount.at(threadId) + 1;

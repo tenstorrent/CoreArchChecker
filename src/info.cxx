@@ -57,8 +57,9 @@ std::unordered_map<std::string, Info> InfoCol::getInfoDict(){
     return(infoDict);
 };
 
-void InfoCol::outputStates(InfoCol *infoColIns){
+std::string InfoCol::outputStates(InfoCol *infoColIns){
     std::unordered_map<std::string, Info> infoDictIns = infoColIns->getInfoDict();
+    std::stringstream ss;
     for(auto & infoIt : infoDict){
         int width = 48;
         if (infoIt.first.substr(0,1) == "V") {
@@ -70,10 +71,11 @@ void InfoCol::outputStates(InfoCol *infoColIns){
             width = 173;
           }
         }
-        std::cout<<std::setw(20)<<infoIt.first<<std::setw(width)<<infoDict.at(infoIt.first).getFormatInfo()<<std::endl;
+        ss<<std::setw(20)<<infoIt.first<<std::setw(width)<<infoDict.at(infoIt.first).getFormatInfo()<<std::endl;
         if (infoDictIns.find(infoIt.first) != infoDictIns.end())
-          std::cout<<std::setw(20)<<""<<std::setw(width)<<infoDictIns.at(infoIt.first).getFormatInfo()<<std::endl;
+          ss<<std::setw(20)<<""<<std::setw(width)<<infoDictIns.at(infoIt.first).getFormatInfo()<<std::endl;
     }
+    return ss.str();
 };
 
 void InfoCol::gatherInfo(Info & infoItem){
