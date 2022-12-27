@@ -3,7 +3,7 @@
 #include <iomanip>
 #include "cvm/plusargs.hpp"
 
-DECLARE_string(cosim_tracer);
+DECLARE_bool(cosim_tracer);
 DEFINE_bool(cac_tracer, false, "Enable CAC trace prints");
 
 // CacCore
@@ -113,15 +113,6 @@ bool CacCore::checkRegister(threadT threadId, stateIdT id, unitDataT * data){
 // make a lock step
 void CacCore::step(threadT threadId){
     ss.str("");
-    // print changecount mismatch as warning
-    // Updates with same previous values are allowed, so not flagging as error
-    // Updates with different values will show up as errors downstream
-    if (dutChangeCount.at(threadId) != simChangeCount.at(threadId)) {
-      if (FLAGS_cosim_tracer == "HIGH")
-          std::cout<<"\nWarning: ChangeCount Mismatch"
-                   <<" DUT: "<<dutChangeCount.at(threadId)
-                   <<" SIM: "<<simChangeCount.at(threadId)<<std::endl;
-    }
     // use rtl changecount and check against iss snapshot
     std::vector<Register> buffer = checkingBuffer.at(threadId);
     for (std::vector<Register>::iterator it = buffer.begin(); it != buffer.end(); ++it) {
@@ -135,7 +126,7 @@ void CacCore::step(threadT threadId){
     if (status.at(threadId) == false){
         ss<<"\nRegister Mismatch"<<std::endl;
     }
-    if (FLAGS_cosim_tracer == "HIGH" || (status.at(threadId) == false)) {
+    if (FLAGS_cosim_tracer || (status.at(threadId) == false)) {
         ss<<"Step: "<<std::dec<<stepCount.at(threadId)<<std::endl;
         InfoCol dutInfoColDebug = record->getInfoColByStep(threadId, true, stepCount.at(threadId));
         InfoCol simInfoColDebug = record->getInfoColByStep(threadId, false, stepCount.at(threadId));
