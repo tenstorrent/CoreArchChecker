@@ -7,7 +7,7 @@ DECLARE_bool(cosim_tracer);
 DEFINE_bool(cac_tracer, false, "Enable CAC trace prints");
 
 // CacCore
-CacCore::CacCore(threadT tNum):threadNum(tNum){
+CacCore::CacCore(threadT tNum):threadNum(tNum), record(threadNum) {
   init();
 };
 
@@ -16,7 +16,6 @@ std::string CacCore::getHello(){
 }
 
 void CacCore::init() {
-    record = new Record(threadNum);
     for(threadT tid = 0; tid<threadNum; tid++){
         RegisterSnapshot regSnpSt(tid);
         registerSnapshot.insert_or_assign(tid, regSnpSt);
@@ -28,9 +27,9 @@ void CacCore::init() {
         status.insert_or_assign(tid, true);
 
         InfoCol dutInfoColIns(tid, stepCount.at(tid), "DUT");
-        record->addInfoCol(tid, true, dutInfoColIns);
+        record.addInfoCol(tid, true, dutInfoColIns);
         InfoCol simInfoColIns(tid, stepCount.at(tid), "SIM");
-        record->addInfoCol(tid, false, simInfoColIns);
+        record.addInfoCol(tid, false, simInfoColIns);
     }
 }
 
@@ -76,13 +75,13 @@ void CacCore::updateRefRegister(threadT threadId, unsigned int typeEncoding, uns
     stateIdT id = generateStateId(typeEncoding, typeOffset);
     registerSnapshot.at(threadId).updateValue(id, data);
     Info infoIns(threadId, id, "SIM", data, getRegisterSize(id));
-    record->addInfo(threadId, false, infoIns);
+    record.addInfo(threadId, false, infoIns);
     simChangeCount.at(threadId) = simChangeCount.at(threadId) + 1;
 };
 void CacCore::updateRefRegister(threadT threadId, stateIdT id, unitDataT * data){
     registerSnapshot.at(threadId).updateValue(id, data);
     Info infoIns(threadId, id, "SIM", data, getRegisterSize(id));
-    record->addInfo(threadId, false, infoIns);
+    record.addInfo(threadId, false, infoIns);
     simChangeCount.at(threadId) = simChangeCount.at(threadId) + 1;
 };
 
@@ -91,14 +90,14 @@ void CacCore::updateRefRegister(threadT threadId, stateIdT id, unitDataT * data)
 void CacCore::updateRegister(threadT threadId, unsigned int typeEncoding, unsigned int typeOffset, unitDataT * data){
     stateIdT id = generateStateId(typeEncoding, typeOffset);
     Info infoIns(threadId, id, "DUT", data, getRegisterSize(id));
-    record->addInfo(threadId, true, infoIns);
+    record.addInfo(threadId, true, infoIns);
     Register reg(threadId, id, getRegisterSize(id), data);
     checkingBuffer.at(threadId).push_back(reg);
     dutChangeCount.at(threadId) = dutChangeCount.at(threadId) + 1;
 };
 void CacCore::updateRegister(threadT threadId, stateIdT id, unitDataT * data){
     Info infoIns(threadId, id, "DUT", data, getRegisterSize(id));
-    record->addInfo(threadId, true, infoIns);
+    record.addInfo(threadId, true, infoIns);
     Register reg(threadId, id, getRegisterSize(id), data);
     checkingBuffer.at(threadId).push_back(reg);
     dutChangeCount.at(threadId) = dutChangeCount.at(threadId) + 1;
@@ -128,8 +127,8 @@ void CacCore::step(threadT threadId){
     }
     if (FLAGS_cosim_tracer || (status.at(threadId) == false)) {
         ss<<"Step: "<<std::dec<<stepCount.at(threadId)<<std::endl;
-        InfoCol dutInfoColDebug = record->getInfoColByStep(threadId, true, stepCount.at(threadId));
-        InfoCol simInfoColDebug = record->getInfoColByStep(threadId, false, stepCount.at(threadId));
+        InfoCol dutInfoColDebug = record.getInfoColByStep(threadId, true, stepCount.at(threadId));
+        InfoCol simInfoColDebug = record.getInfoColByStep(threadId, false, stepCount.at(threadId));
         std::string s = dutInfoColDebug.outputStates(&simInfoColDebug);
         ss<<s;
     }
@@ -140,9 +139,9 @@ void CacCore::step(threadT threadId){
     simChangeCount.insert_or_assign(threadId, 0);
 
     InfoCol dutInfoColIns(threadId, stepCount.at(threadId), "DUT");
-    record->addInfoCol(threadId, true, dutInfoColIns);
+    record.addInfoCol(threadId, true, dutInfoColIns);
     InfoCol simInfoColIns(threadId, stepCount.at(threadId), "SIM");
-    record->addInfoCol(threadId, false, simInfoColIns);
+    record.addInfoCol(threadId, false, simInfoColIns);
 };
 
 // Generate State Id by type encoding and offset
