@@ -43,7 +43,7 @@ class CacCore
     private:
         threadT threadNum;
         unsigned int cfg_vlen = VEC_128;
-        Record *record;
+        Record record;
         std::unordered_map<threadT, bool> status;
         std::unordered_map<threadT, int> stepCount;
         std::unordered_map<threadT, int> dutChangeCount;
