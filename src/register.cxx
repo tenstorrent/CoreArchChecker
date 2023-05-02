@@ -1,7 +1,7 @@
 #include "register.h"
 #include <iostream>
 // Register
-Register::Register(threadT tid, stateIdT rid, sizenBitT bitSize, unitDataT * data):threadId(tid), registerId(rid), size(bitSize),valueV(data, data+size/64){};
+Register::Register(threadT tid, stateIdT rid, sizenBitT bitSize, unitDataT * data):threadId(tid), registerId(rid), size(bitSize),valueV(std::make_move_iterator(&data[0]), std::make_move_iterator(&data[size / 64])){};
 
 stateIdT Register::getRegisterId(){
     return(registerId);
@@ -40,9 +40,9 @@ std::vector<size8BytesT> Register::getValue(){
 RegisterSnapshot::RegisterSnapshot(threadT tid):threadId(tid){
     for(const stateIdT &supportStateId : supportStates){
         sizenBitT regSize = supportStatesSize[supportStateId];
-        size8BytesT rstValue[] = {0x0};
-        Register reg(threadId, supportStateId, regSize, rstValue);
-        snapshotCol.insert_or_assign(supportStateId, reg);
+        std::vector<size8BytesT> rstValue(regSize / 64, 0x0);
+        Register reg(threadId, supportStateId, regSize, rstValue.data());
+        snapshotCol.insert_or_assign(supportStateId , reg);
     }
 };
 
