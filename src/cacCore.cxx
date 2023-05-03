@@ -71,41 +71,41 @@ unsigned int CacCore::getRegisterSize(stateIdT id) {
 }
 
 // Simulator API to update Register
-void CacCore::updateRefRegister(threadT threadId, unsigned int typeEncoding, unsigned int typeOffset, unitDataT * data){
+void CacCore::updateRefRegister(threadT threadId, unsigned int typeEncoding, unsigned int typeOffset, const std::vector<unitDataT>&& data){
     stateIdT id = generateStateId(typeEncoding, typeOffset);
-    registerSnapshot.at(threadId).updateValue(id, data);
     Info infoIns(threadId, id, "SIM", data, getRegisterSize(id));
+    registerSnapshot.at(threadId).updateValue(id, std::move(data));
     record.addInfo(threadId, false, infoIns);
     simChangeCount.at(threadId) = simChangeCount.at(threadId) + 1;
 };
-void CacCore::updateRefRegister(threadT threadId, stateIdT id, unitDataT * data){
-    registerSnapshot.at(threadId).updateValue(id, data);
+void CacCore::updateRefRegister(threadT threadId, stateIdT id, const std::vector<unitDataT>&& data){
     Info infoIns(threadId, id, "SIM", data, getRegisterSize(id));
+    registerSnapshot.at(threadId).updateValue(id, std::move(data));
     record.addInfo(threadId, false, infoIns);
     simChangeCount.at(threadId) = simChangeCount.at(threadId) + 1;
 };
 
 
 // Dut API to update Register
-void CacCore::updateRegister(threadT threadId, unsigned int typeEncoding, unsigned int typeOffset, unitDataT * data){
+void CacCore::updateRegister(threadT threadId, unsigned int typeEncoding, unsigned int typeOffset, const std::vector<unitDataT>&& data){
     stateIdT id = generateStateId(typeEncoding, typeOffset);
     Info infoIns(threadId, id, "DUT", data, getRegisterSize(id));
     record.addInfo(threadId, true, infoIns);
-    Register reg(threadId, id, getRegisterSize(id), data);
+    Register reg(threadId, id, getRegisterSize(id), std::move(data));
     checkingBuffer.at(threadId).push_back(reg);
     dutChangeCount.at(threadId) = dutChangeCount.at(threadId) + 1;
 };
-void CacCore::updateRegister(threadT threadId, stateIdT id, unitDataT * data){
+void CacCore::updateRegister(threadT threadId, stateIdT id, const std::vector<unitDataT>&& data){
     Info infoIns(threadId, id, "DUT", data, getRegisterSize(id));
     record.addInfo(threadId, true, infoIns);
-    Register reg(threadId, id, getRegisterSize(id), data);
+    Register reg(threadId, id, getRegisterSize(id), std::move(data));
     checkingBuffer.at(threadId).push_back(reg);
     dutChangeCount.at(threadId) = dutChangeCount.at(threadId) + 1;
 };
 
 
 
-bool CacCore::checkRegister(threadT threadId, stateIdT id, unitDataT * data){
+bool CacCore::checkRegister(threadT threadId, stateIdT id, const std::vector<unitDataT>& data){
     return(registerSnapshot.at(threadId).checkValue(id, data));
 };
 
@@ -115,10 +115,7 @@ void CacCore::step(threadT threadId){
     // use rtl changecount and check against iss snapshot
     std::vector<Register> buffer = checkingBuffer.at(threadId);
     for (std::vector<Register>::iterator it = buffer.begin(); it != buffer.end(); ++it) {
-        std::vector<size8BytesT> reg = it->getValue();
-        unitDataT *dat = reg.data();
-        bool ckRst;
-        ckRst = checkRegister(threadId, it->getRegisterId(), dat);
+        bool ckRst = checkRegister(threadId, it->getRegisterId(), it->getValue());
         status.at(threadId) = status.at(threadId) && ckRst;
     }
     //print out

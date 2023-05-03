@@ -4,7 +4,7 @@
 #include <iomanip>
 
 //Info
-Info::Info(threadT tid, stateIdT stateId, const std::string &type, unitDataT * item, unsigned int size):threadId(tid),stateId(stateId),infoType(type),item(item),size(size){
+Info::Info(threadT tid, stateIdT stateId, const std::string &type, const std::vector<unitDataT>& item, unsigned int size):threadId(tid),stateId(stateId),infoType(type),size(size){
     itemName = supportStatesSymbol[stateId];
     std::stringstream tmpStream;
     if (size == VEC_128) {
@@ -37,10 +37,6 @@ std::string Info::getItemName(){
 std::string Info::getType(){
     return(infoType);
 }
-
-unitDataT * Info::getData(){
-    return(item);
-};
 
 std::string Info::getFormatInfo(){
     return(formatString);

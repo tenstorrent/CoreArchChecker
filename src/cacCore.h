@@ -23,11 +23,11 @@ class CacCore
         // Configuration API
         void configureVlen(unsigned int vlen);
         // Dut API to update Register
-        void updateRegister(threadT threadId, unsigned int typeEncoding, unsigned int typeOffset, unitDataT * data);
-        void updateRegister(threadT threadId, stateIdT id, unitDataT * data);
+        void updateRegister(threadT threadId, unsigned int typeEncoding, unsigned int typeOffset, const std::vector<unitDataT>&& data);
+        void updateRegister(threadT threadId, stateIdT id, const std::vector<unitDataT>&& data);
         // Simulator API to update Register
-        void updateRefRegister(threadT threadId, unsigned int typeEncoding, unsigned int typeOffset, unitDataT * data);
-        void updateRefRegister(threadT threadId, stateIdT id, unitDataT * data);
+        void updateRefRegister(threadT threadId, unsigned int typeEncoding, unsigned int typeOffset, const std::vector<unitDataT>&& data);
+        void updateRefRegister(threadT threadId, stateIdT id, const std::vector<unitDataT>&& data);
         // Make a lock step
         void step(threadT threadId);
         // Api to get which step it is
@@ -51,7 +51,7 @@ class CacCore
         std::unordered_map<threadT, RegisterSnapshot> registerSnapshot;
         std::unordered_map<threadT, std::vector<Register>> checkingBuffer;
         stateIdT generateStateId(unsigned int typeEncoding, unsigned int typeOffset);
-        bool checkRegister(threadT threadId, stateIdT id, unitDataT * data);
+        bool checkRegister(threadT threadId, stateIdT id, const std::vector<unitDataT>& data);
         unsigned int getRegisterSize(stateIdT id);
         std::stringstream ss;
 };

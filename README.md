@@ -18,9 +18,9 @@ bazel build //src:caccore
 // Constructor
 CacCore(threadT tNum);
 // Dut API to update Register
-void updateRegister(threadT threadId, stateIdT id, unitDataT * data);
+void updateRegister(threadT threadId, stateIdT id, const std::vector<unitDataT>&& data);
 // Simulator API to update Register
-void updateRefRegister(threadT threadId, stateIdT id, unitDataT * data);
+void updateRefRegister(threadT threadId, stateIdT id, const std::vector<unitDataT>&& data);
 // make a lock step
 void step(threadT threadId);
 // get if mismatch
