@@ -10,9 +10,8 @@
 class Info
 {
     public:
-        Info(threadT tid, stateIdT stateId, const std::string &type, unitDataT * item, unsigned int size);
+        Info(threadT tid, stateIdT stateId, const std::string &type, const std::vector<unitDataT>& item, unsigned int size);
         std::string getItemName();
-        unitDataT * getData();
         std::string getFormatInfo();
         std::string getType();
         unsigned int getSize();
@@ -21,7 +20,6 @@ class Info
         stateIdT stateId;
         std::string infoType;
         std::string itemName;
-        unitDataT * item;
         unsigned int size;
         std::string formatString;
 };

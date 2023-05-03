@@ -10,14 +10,14 @@
 class Register
 {
     public:
-        Register(threadT tid, stateIdT rid, sizenBitT bitSize, unitDataT * data);
-        void setValue(unitDataT * data);
+        Register(threadT tid, stateIdT rid, sizenBitT bitSize, const std::vector<unitDataT>&& data);
+        void setValue(const std::vector<unitDataT>&& data);
         threadT getThreadId();
         sizenBitT getSize();
         void updateSize(sizenBitT sz);
         stateIdT getRegisterId();
-        std::vector<unitDataT> getValue();
-        bool checkValue(unitDataT * data);
+        std::vector<unitDataT>& getValue();
+        bool checkValue(const std::vector<unitDataT>& data);
     private:
         threadT threadId;
         stateIdT registerId;
@@ -29,10 +29,10 @@ class RegisterSnapshot
 {
     public:
         RegisterSnapshot(threadT tid);
-        std::vector<unitDataT> getValue(stateIdT id);
+        std::vector<unitDataT>& getValue(stateIdT id);
         void updateSize(unsigned int vlen);
-        void updateValue(stateIdT id, unitDataT * data);
-        bool checkValue(stateIdT id, unitDataT * data);
+        void updateValue(stateIdT id, const std::vector<unitDataT>&& data);
+        bool checkValue(stateIdT id, const std::vector<unitDataT>& data);
     private:
         threadT threadId;
         std::unordered_map<stateIdT, Register> snapshotCol;
