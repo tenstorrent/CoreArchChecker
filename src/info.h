@@ -30,7 +30,7 @@ class InfoCol
         InfoCol(threadT tid, int stepNum, const std::string &type);
         std::unordered_map<std::string, Info> getInfoDict();
         void gatherInfo(Info &infoItem);
-        std::string outputStates(InfoCol *infoColIns);
+        void outputStates(std::ostringstream &ss, InfoCol *infoColIns);
     private:
         threadT threadId;
         std::string infoColType;

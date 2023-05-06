@@ -36,7 +36,8 @@ cc_library(
         "caclib.h",
     ],
     deps = [
-        ":caclibBuild"
+        ":caclibBuild",
+        "@fmt//:fmt",
     ]
 )
 

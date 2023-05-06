@@ -53,7 +53,7 @@ class CacCore
         stateIdT generateStateId(unsigned int typeEncoding, unsigned int typeOffset);
         bool checkRegister(threadT threadId, stateIdT id, const std::vector<unitDataT>& data);
         unsigned int getRegisterSize(stateIdT id);
-        std::stringstream ss;
+        std::ostringstream ss;
 };
 
 #endif
