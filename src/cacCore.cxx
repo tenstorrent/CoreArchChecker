@@ -126,8 +126,7 @@ void CacCore::step(threadT threadId){
         ss<<"Step: "<<std::dec<<stepCount.at(threadId)<<std::endl;
         InfoCol dutInfoColDebug = record.getInfoColByStep(threadId, true, stepCount.at(threadId));
         InfoCol simInfoColDebug = record.getInfoColByStep(threadId, false, stepCount.at(threadId));
-        std::string s = dutInfoColDebug.outputStates(&simInfoColDebug);
-        ss<<s;
+        dutInfoColDebug.outputStates(ss, &simInfoColDebug);
     }
 
     stepCount.at(threadId) = stepCount.at(threadId) + 1;
