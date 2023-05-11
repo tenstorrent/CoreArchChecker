@@ -118,6 +118,12 @@ void CacCore::step(threadT threadId){
         bool ckRst = checkRegister(threadId, it->getRegisterId(), it->getValue());
         status.at(threadId) = status.at(threadId) && ckRst;
     }
+
+    stepCount.at(threadId) = stepCount.at(threadId) + 1;
+    checkingBuffer.at(threadId).clear();
+    dutChangeCount.insert_or_assign(threadId, 0);
+    simChangeCount.insert_or_assign(threadId, 0);
+
     //print out
     if (status.at(threadId) == false){
         ss<<"\nRegister Mismatch"<<std::endl;
@@ -128,11 +134,6 @@ void CacCore::step(threadT threadId){
         InfoCol simInfoColDebug = record.getInfoColByStep(threadId, false, stepCount.at(threadId));
         dutInfoColDebug.outputStates(ss, &simInfoColDebug);
     }
-
-    stepCount.at(threadId) = stepCount.at(threadId) + 1;
-    checkingBuffer.at(threadId).clear();
-    dutChangeCount.insert_or_assign(threadId, 0);
-    simChangeCount.insert_or_assign(threadId, 0);
 
     InfoCol dutInfoColIns(threadId, stepCount.at(threadId), "DUT");
     record.addInfoCol(threadId, true, dutInfoColIns);
