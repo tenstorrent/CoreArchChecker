@@ -130,8 +130,8 @@ void CacCore::step(threadT threadId){
     }
     if (FLAGS_cosim_tracer || (status.at(threadId) == false)) {
         ss<<"Step: "<<std::dec<<stepCount.at(threadId)<<std::endl;
-        InfoCol dutInfoColDebug = record.getInfoColByStep(threadId, true, stepCount.at(threadId));
-        InfoCol simInfoColDebug = record.getInfoColByStep(threadId, false, stepCount.at(threadId));
+        InfoCol dutInfoColDebug = record.getInfoCol(threadId, true);
+        InfoCol simInfoColDebug = record.getInfoCol(threadId, false);
         dutInfoColDebug.outputStates(ss, &simInfoColDebug);
     }
 

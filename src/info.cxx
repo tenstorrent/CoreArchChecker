@@ -64,43 +64,32 @@ void InfoCol::outputStates(std::ostringstream &ss, InfoCol *infoColIns){
 
 void InfoCol::gatherInfo(Info & infoItem){
     std::string infoName = infoItem.getItemName();
-    if (infoDict.find(infoName) != infoDict.end()){
-        infoDict.at(infoName) = infoItem;
-    }else{
-        infoDict.insert_or_assign(infoName, infoItem);
-    }
+    infoDict.insert_or_assign(infoName, infoItem);
 };
 
 //Recorder
-Record::Record(threadT tNum):threadNum(tNum){
-    for(threadT tid = 0; tid<tNum; tid++){
-        std::vector<InfoCol> infoDutList;
-        recorderDutCol.insert_or_assign(tid, infoDutList);
-        std::vector<InfoCol> infoSimList;
-        recorderSimCol.insert_or_assign(tid, infoSimList);
-    }
-};
+Record::Record(threadT tNum):threadNum(tNum) {}
 
 void Record::addInfo(threadT tid, bool ifdut, Info &info){
     if (ifdut == true){
-        recorderDutCol.at(tid).back().gatherInfo(info);
+        recorderDutCol.at(tid).gatherInfo(info);
     }else{
-        recorderSimCol.at(tid).back().gatherInfo(info);
+        recorderSimCol.at(tid).gatherInfo(info);
     }
 };
 
 void Record::addInfoCol(threadT tid, bool ifdut, InfoCol &col){
     if (ifdut == true){
-        recorderDutCol.at(tid).push_back(col);
+        recorderDutCol.insert_or_assign(tid, col);
     }else{
-        recorderSimCol.at(tid).push_back(col);
+        recorderSimCol.insert_or_assign(tid, col);
     }
 };
 
-InfoCol Record::getInfoColByStep(threadT tid, bool ifdut, int stepN){
+InfoCol Record::getInfoCol(threadT tid, bool ifdut){
     if (ifdut == true){
-        return(recorderDutCol.at(tid).at(stepN));
+        return(recorderDutCol.at(tid));
     }else{
-        return(recorderSimCol.at(tid).at(stepN));
+        return(recorderSimCol.at(tid));
     }
 };

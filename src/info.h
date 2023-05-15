@@ -44,11 +44,12 @@ class Record
         Record(threadT tNum);
         void addInfoCol(threadT tid, bool ifdut, InfoCol &col);
         void addInfo(threadT tid, bool ifdut, Info & info);
-        InfoCol getInfoColByStep(threadT tid, bool ifdut, int stepN);
+        InfoCol getInfoCol(threadT tid, bool ifdut);
     private:
         threadT threadNum;
-        std::unordered_map<threadT, std::vector<InfoCol>> recorderDutCol;
-        std::unordered_map<threadT, std::vector<InfoCol>> recorderSimCol;
+        // Map of thread -> InfoCol associated with the thread's last step.
+        std::unordered_map<threadT, InfoCol> recorderDutCol;
+        std::unordered_map<threadT, InfoCol> recorderSimCol;
 };
 
 
