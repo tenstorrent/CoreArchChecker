@@ -1,17 +1,19 @@
 #include "info.h"
+#include "cvm/plusargs.hpp"
 #include <cassert>
 #include <fmt/format.h>
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 
+DECLARE_bool(cosim_tracer);
 
 //Info
 Info::Info(threadT tid, stateIdT stateId, const std::string &type, const std::vector<unitDataT>& item, unsigned int size):threadId(tid),stateId(stateId),infoType(type),size(size){
     itemName = supportStatesSymbol[stateId];
     const size_t sizeBytes = size / 8;
     assert((sizeBytes / sizeof(unitDataT)) == item.size());
-    formatString = fmt::format("{}:[Data:{:0{}x}]({})", type, fmt::join(item, "_"), sizeof(unitDataT)*2, size);
+    formatString = FLAGS_cosim_tracer ? fmt::format("{}:[Data:{:0{}x}]({})", type, fmt::join(item, "_"), sizeof(unitDataT)*2, size) : "";
 };
 
 std::string Info::getItemName(){
@@ -38,6 +40,9 @@ std::unordered_map<std::string, Info> InfoCol::getInfoDict(){
 };
 
 void InfoCol::outputStates(std::ostringstream &ss, InfoCol *infoColIns){
+    if (!FLAGS_cosim_tracer) {
+        return;
+    }
     std::unordered_map<std::string, Info> infoDictIns = infoColIns->getInfoDict();
     // TODO(mboisvert): Can we make this better (i.e. no hardcoded widths)
     for(auto & infoIt : infoDict){

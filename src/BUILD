@@ -37,6 +37,7 @@ cc_library(
     ],
     deps = [
         ":caclibBuild",
+        "@cvm//:plusargs",
         "@fmt//:fmt",
     ]
 )
