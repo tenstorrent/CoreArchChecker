@@ -11,14 +11,13 @@ class Register
 {
     public:
         Register(threadT tid, stateIdT rid, sizenBitT bitSize, const std::vector<unitDataT>&& data);
-        stateIdT getRegisterId() const;
-        std::string getName() const;
-        const std::vector<unitDataT>& getValue() const;
         void setValue(const std::vector<unitDataT>&& data);
-        bool checkValue(const std::vector<unitDataT>& data) const;
-        sizenBitT getSize() const;
+        threadT getThreadId();
+        sizenBitT getSize();
         void updateSize(sizenBitT sz);
-        std::string toString(const std::string& type) const;
+        stateIdT getRegisterId();
+        std::vector<unitDataT>& getValue();
+        bool checkValue(const std::vector<unitDataT>& data);
     private:
         threadT threadId;
         stateIdT registerId;
@@ -30,13 +29,10 @@ class RegisterSnapshot
 {
     public:
         RegisterSnapshot(threadT tid);
-        bool exists(stateIdT id) const;
-        std::string getName(stateIdT id) const;
-        const std::vector<unitDataT>& getValue(stateIdT id) const;
-        void setValue(stateIdT id, const std::vector<unitDataT>&& data);
-        bool checkValue(stateIdT id, const std::vector<unitDataT>& data) const;
+        std::vector<unitDataT>& getValue(stateIdT id);
         void updateSize(unsigned int vlen);
-        std::string toString(stateIdT id, const std::string& type) const;
+        void updateValue(stateIdT id, const std::vector<unitDataT>&& data);
+        bool checkValue(stateIdT id, const std::vector<unitDataT>& data);
     private:
         threadT threadId;
         std::unordered_map<stateIdT, Register> snapshotCol;
