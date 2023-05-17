@@ -2,13 +2,23 @@
 #define CAC_CORE_H
 
 #include <map>
+#include <queue>
 #include <string>
 #include <sstream>
 #include <vector>
 #include <unordered_map>
 #include "caclib.h"
 #include "register.h"
-#include "info.h"
+
+struct ThreadData {
+    bool status;
+    int stepCount;
+    int dutChangeCount;
+    int simChangeCount;
+    std::unordered_map<stateIdT, Register> dutRegisters;
+    RegisterSnapshot simRegisters;
+    std::queue<stateIdT> registersToCheck;
+};
 
 class CacCore
 {
@@ -36,20 +46,10 @@ class CacCore
         bool getStatus(threadT threadId);
         std::string getStatusStr(threadT threadId);
         void resetStatus(threadT threadId);
-
-        // TODO: fuzz mask
-        // void updateRegister(threadT threadId, stateIdT id, unitDataT * data, fuzzMaskT fuzzMask);
-        //void updateMem(threadT threadId);
     private:
         threadT threadNum;
         unsigned int cfg_vlen = VEC_128;
-        Record record;
-        std::unordered_map<threadT, bool> status;
-        std::unordered_map<threadT, int> stepCount;
-        std::unordered_map<threadT, int> dutChangeCount;
-        std::unordered_map<threadT, int> simChangeCount;
-        std::unordered_map<threadT, RegisterSnapshot> registerSnapshot;
-        std::unordered_map<threadT, std::vector<Register>> checkingBuffer;
+        std::unordered_map<threadT, ThreadData> threadData;
         stateIdT generateStateId(unsigned int typeEncoding, unsigned int typeOffset);
         bool checkRegister(threadT threadId, stateIdT id, const std::vector<unitDataT>& data);
         unsigned int getRegisterSize(stateIdT id);

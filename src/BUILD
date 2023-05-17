@@ -5,13 +5,12 @@ cc_library(
     hdrs = [
         "cacCore.h", 
         "register.h",
-        "info.h",
     ],
     visibility = ["//visibility:public"],
     deps = [
         "@cvm//:plusargs",
+        "@fmt//:fmt",
         ":registerBuild",
-        ":infoBuild",
         ":caclibBuild"
     ],
 )
@@ -24,20 +23,7 @@ cc_library(
         "caclib.h",
     ],
     deps = [
-        ":caclibBuild"
-    ]
-)
-
-cc_library(
-    name = "infoBuild",
-    srcs = ["info.cxx"],
-    hdrs = [
-        "info.h", 
-        "caclib.h",
-    ],
-    deps = [
         ":caclibBuild",
-        "@cvm//:plusargs",
         "@fmt//:fmt",
     ]
 )
