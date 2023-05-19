@@ -1,19 +1,20 @@
 load("@rules_cc//cc:defs.bzl", "cc_test")
 
-cc_test(
-    name = 'basicClassTest',
-    srcs = ["basicClassTest.cxx"],
+cc_library(
+    name = "argMockLib",
+    srcs = ["argMock.cxx"],
     deps = [
-        "//src:caccore",
-        "@googletest//:gtest_main",
+        "@cvm//third_party/vpi:vpi",
+        "@cvm//:plusargs",
     ]
 )
 
 cc_test(
-    name = 'testCacCore',
-    srcs = ["testCacCore.cxx"],
+    name = 'cacTest',
+    srcs = ["cacTest.cxx"],
     deps = [
         "//src:caccore",
+        ":argMockLib",
         "@googletest//:gtest_main",
     ]
 )
