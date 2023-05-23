@@ -15,6 +15,7 @@ cc_test(
     deps = [
         "//src:caccore",
         ":argMockLib",
+        "@cvm//:plusargs",
         "@googletest//:gtest_main",
     ]
 )

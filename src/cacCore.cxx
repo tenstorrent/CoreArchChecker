@@ -109,6 +109,10 @@ void CacCore::step(threadT threadId) {
     auto& registersToCheck = threadLocal.registersToCheck;
     const auto& dutRegisters = threadLocal.dutRegisters;
     const auto& simRegisters = threadLocal.simRegisters;
+    ++threadLocal.stepCount;
+    threadLocal.dutChangeCount = 0;
+    threadLocal.simChangeCount = 0;
+    bool firstPrint = true;
     while (!registersToCheck.empty()) {
         stateIdT id = registersToCheck.front();
         const auto& dutReg = dutRegisters.at(id);
@@ -119,6 +123,10 @@ void CacCore::step(threadT threadId) {
             threadLocal.status = false;
         }
         if (FLAGS_cosim_tracer || !threadLocal.status) {
+            if (firstPrint) {
+                ss << fmt::format("Step: {}\n", threadLocal.stepCount);
+                firstPrint = false;
+            }
             // TODO(mboisvert): Can we make this better (i.e. no hardcoded widths)
             const std::string dutRegName = dutReg.getName();
             int width = 48;
@@ -135,16 +143,13 @@ void CacCore::step(threadT threadId) {
                         break;
                 }
             }
-            ss << fmt::format("Step: {}\n{:>20}{:>{}}\n", threadLocal.stepCount, dutRegName, dutReg.toString("DUT"), width);
+            ss << fmt::format("{:>20}{:>{}}\n", dutRegName, dutReg.toString("DUT"), width);
             if (simRegisters.exists(id)) {
                 ss << fmt::format("{:>20}{:>{}}\n", "", simRegisters.toString(id, "SIM"), width);
             }
         }
         registersToCheck.pop();
     }
-    ++threadLocal.stepCount;
-    threadLocal.dutChangeCount = 0;
-    threadLocal.simChangeCount = 0;
 };
 
 // Generate State Id by type encoding and offset
