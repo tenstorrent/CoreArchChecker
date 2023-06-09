@@ -43,7 +43,7 @@ bool CacCore::getStatus(threadT threadId){
     return(threadData.at(threadId).status);
 };
 
-std::string CacCore::getStatusStr(threadT threadId) {
+std::string CacCore::getStatusStr(threadT) {
     return ss.str();
 }
 
