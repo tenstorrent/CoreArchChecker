@@ -47,6 +47,10 @@ std::string CacCore::getStatusStr(threadT) {
     return ss.str();
 }
 
+std::string CacCore::getResourceStr(threadT) {
+    return resourceStr;
+}
+
 void CacCore::resetStatus(threadT threadId){
     threadData.at(threadId).status = true;
 };
@@ -121,6 +125,9 @@ void CacCore::step(threadT threadId) {
         if (threadLocal.status && !ckRst) {
             ss << "\nRegister Mismatch\n";
             threadLocal.status = false;
+            const std::string dutRegName = dutReg.getName();
+            if (!dutRegName.empty() && dutRegName == "PC")
+              resourceStr = " :PC";
         }
         if (FLAGS_cosim_tracer || !threadLocal.status) {
             if (firstPrint) {

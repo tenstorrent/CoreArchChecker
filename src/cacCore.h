@@ -45,6 +45,7 @@ class CacCore
         // Api to get the check result
         bool getStatus(threadT threadId);
         std::string getStatusStr(threadT threadId);
+        std::string getResourceStr(threadT threadId);
         void resetStatus(threadT threadId);
     private:
         threadT threadNum;
@@ -54,6 +55,7 @@ class CacCore
         bool checkRegister(threadT threadId, stateIdT id, const std::vector<unitDataT>& data);
         unsigned int getRegisterSize(stateIdT id);
         std::ostringstream ss;
+        std::string resourceStr = "";
 };
 
 #endif
