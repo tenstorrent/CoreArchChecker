@@ -1,39 +1,39 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
+
 cc_library(
-    name = "caccore",
-    srcs = ["cacCore.cxx"],
+    name = "cac_core",
+    srcs = ["cac_core.cxx"],
     hdrs = [
-        "cacCore.h", 
-        "register.h",
+        "cac_core.h", 
+        "resource.h",
     ],
     visibility = ["//visibility:public"],
     deps = [
+        ":cac_lib",
+        ":resource",
+        "@cvm//:bitmanip",
         "@cvm//:plusargs",
         "@fmt//:fmt",
-        ":registerBuild",
-        ":caclibBuild"
     ],
 )
 
 cc_library(
-    name = "registerBuild",
-    srcs = ["register.cxx"],
+    name = "resource",
+    srcs = ["resource.cxx"],
     hdrs = [
-        "register.h", 
-        "caclib.h",
+        "resource.h", 
     ],
     deps = [
-        ":caclibBuild",
+        ":cac_lib",
         "@fmt//:fmt",
     ]
 )
 
 cc_library(
-    name = "caclibBuild",
-    hdrs = [
-        "caclib.h",
-    ],
+    name = "cac_lib",
+    hdrs = ["cac_lib.h"],
+    visibility = ["//visibility:public"],
     deps = [
-        "//src/lib:cacLibInclude",
-    ],    
+        "@CoreArchChecker//src/lib:cac_lib_include"
+    ]
 )
