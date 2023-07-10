@@ -8,7 +8,7 @@
 
 #include "cvm/plusargs.hpp"
 
-DECLARE_bool(cosim_tracer);
+DECLARE_bool(bridge_log);
 
 namespace cac {
 
@@ -374,7 +374,7 @@ TEST_F(CacTest, StringFormatTest) {
     EXPECT_TRUE(cac.UpdateResource(tid0, src_t::dut, vec_reg_0_id, GetResource(vec_reg_0_id, 1), std::nullopt));
     cac.Step(tid0);
     EXPECT_TRUE(cac.GetStatus(tid0));
-    std::string first_expected_format_str = FLAGS_cosim_tracer ? "Step: 1\n \
+    std::string first_expected_format_str = FLAGS_bridge_log ? "Step: 1\n \
                  PC                 DUT:[Data:00000000cafe0000](64)\n \
                                     ISS:[Data:00000000cafe0000](64)\n \
                  V0                      DUT:[Data:00000000beefbeef_00000000deaddead](128)\n \

@@ -6,8 +6,8 @@
 
 #include "cvm/plusargs.hpp"
 
-DECLARE_bool(cosim_tracer);
-DEFINE_bool(cac_tracer, false, "Enable CAC trace prints");
+DECLARE_bool(bridge_log);
+DEFINE_bool(cac_log, false, "Enable CAC trace prints");
 DEFINE_bool(dut_wrote_iss_didnt, false, "If there are still pending ISS resources after exhausting DUT resources, add them to the status string");
 
 namespace cac {
@@ -123,7 +123,7 @@ void CacCore::Step(hart_t tid) {
             hart_data.status = false;
             resource_str_ = id.ToString();
         }
-        if (FLAGS_cosim_tracer || !hart_data.status) {
+        if (FLAGS_bridge_log || !hart_data.status) {
             if (first_print) {
                 ss_ << fmt::format("Step: {}\n", hart_data.step_count);
                 first_print = false;
@@ -136,7 +136,7 @@ void CacCore::Step(hart_t tid) {
         }
         resources_to_check.pop();
     }
-    if (FLAGS_dut_wrote_iss_didnt && (FLAGS_cosim_tracer || !hart_data.status)) {
+    if (FLAGS_dut_wrote_iss_didnt && (FLAGS_bridge_log || !hart_data.status)) {
         for (const auto& id : iss_resources.GetChangedResources()) {
             int format_width = GetFormatWidth(id, iss_resources.GetSize(id));
             if (dut_resources.GetChangedResources().find(id) == dut_resources.GetChangedResources().end()) {

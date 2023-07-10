@@ -1,7 +1,7 @@
 #include "cvm/plusargs.hpp"
 #include "vpi_user.h"
 
-DEFINE_bool(cosim_tracer, true, "Enable bridge trace prints");
+DEFINE_bool(bridge_log, true, "Enable bridge trace prints");
 
 // Needed for plusargs
 extern "C" {
