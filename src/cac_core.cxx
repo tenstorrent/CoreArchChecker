@@ -119,7 +119,6 @@ void CacCore::Step(hart_t tid) {
         bool matches = CheckResource(tid, id, dut_reg_val);
         // First mismatch
         if (hart_data.status && !matches) {
-            ss_ << "\nRegister Mismatch\n";
             hart_data.status = false;
             resource_str_ = id.ToString();
         }

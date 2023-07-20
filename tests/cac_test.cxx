@@ -387,7 +387,7 @@ TEST_F(CacTest, StringFormatTest) {
     // From Dut:
     EXPECT_TRUE(cac.UpdateResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 1), std::nullopt));
     EXPECT_TRUE(cac.UpdateResource(tid0, src_t::dut, vec_reg_1_id, GetResource(vec_reg_1_id, 2), std::nullopt));
-    std::string second_expected_format_str = "\nRegister Mismatch\nStep: 2\n \
+    std::string second_expected_format_str = "Step: 2\n \
                  PC                 DUT:[Data:00000000cafe0000](64)\n \
                                     ISS:[Data:00000000cafe0001](64)\n \
                  V1                      DUT:[Data:00000000cafecafe_00000000cafeabcd](128)\n \
@@ -417,7 +417,7 @@ TEST_F(CacTest, MaskTest) {
     EXPECT_TRUE(cac.UpdateResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 2), mask));
     cac.Step(tid0);
     EXPECT_FALSE(cac.GetStatus(tid0));
-    std::string expected_format_str = "\nRegister Mismatch\nStep: 2\n \
+    std::string expected_format_str = "Step: 2\n \
                  PC                 DUT:[Data:ab001200be005600](64)\n \
                                     ISS:[Data:abcd1234beef5678](64)\n";
     EXPECT_EQ(expected_format_str, cac.GetStatusStr(tid0));
