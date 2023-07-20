@@ -98,6 +98,7 @@ enum class resource_t {
     vec_reg,
     csr_reg,
     pc_reg,
+    insn_bytes,
     end
 };
 
@@ -118,6 +119,8 @@ typedef struct resource_id_t {
                 return fmt::format("C_0x{:x}", offset);
             case resource_t::pc_reg:
                 return "PC";
+            case resource_t::insn_bytes:
+                return "INSN";
             default:
                 throw std::runtime_error(fmt::format("resource_t %d is not defined", static_cast<int>(resource)));
         }
