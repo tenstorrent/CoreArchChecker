@@ -1,6 +1,1 @@
-#! /usr/bin/env bash
-
-set -e
-set -o pipefail
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-exec ${SCRIPT_DIR}/rvcom checkin "$@" --target master
+/tools_risc/tt/checkin-script/checkin
