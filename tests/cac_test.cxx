@@ -86,7 +86,7 @@ TEST_F(CacTest, VectorResourceTest){
     data_t expected_val = foo;
     int expected_size = 128;
     std::string expected_name = "V5";
-    std::string expected_str = "ISS:[Data:0000000000000010_0000000000000020](128)";
+    std::string expected_str = "ISS:[Data:0000000000000020_0000000000000010](128)";
     resource_id_t expected_id = resource_id_t{
         .resource = resource_t::vec_reg,
         .offset = 5
@@ -107,7 +107,7 @@ TEST_F(CacTest, VectorResourceTest){
     data_t foo3 = CreateBitVec<unit_data_t>({0x1234, 0x5678});
     mask_t mask = CreateBitVec<std::bitset<128>>(std::bitset<128>(0xF0F0F0F0F0F0F0F0) | std::bitset<128>(0xF0F0F0F0F0F0F0F0) << 64);
     EXPECT_TRUE(resource->SetValue(std::move(foo3), mask));
-    data_t expected_val_3 = CreateBitVec<std::bitset<128>>(std::bitset<128>(0x0000000000001030) | (std::bitset<128>(0x0000000000005070) << 64));
+    data_t expected_val_3 = CreateBitVec<std::bitset<128>>(std::bitset<128>(0x0000000000001030) << 64 | (std::bitset<128>(0x0000000000005070)));
     EXPECT_EQ(expected_val_3, resource->GetValue())<<"ERROR: (ResourceTest) Data not masked correctly";
 
     EXPECT_TRUE(resource->SetSize(expected_size * 2));
@@ -212,7 +212,7 @@ TEST_F(CacTest, ResourceSnapshotTest){
     EXPECT_EQ(rs.GetSize(vec_reg_id), VEC_256);
     EXPECT_TRUE(rs.SetVlen(VEC_128));
     EXPECT_EQ(rs.GetSize(vec_reg_id), VEC_128);
-    EXPECT_TRUE(rs.CheckValue(vec_reg_id, CreateBitVec<unit_data_t>({0x1, 0x2})))<< "ERROR: (ResourceSnapshot Test) Unexpected checking value!";
+    EXPECT_TRUE(rs.CheckValue(vec_reg_id, CreateBitVec<unit_data_t>({0x3, 0x4})))<< "ERROR: (ResourceSnapshot Test) Unexpected checking value!";
 
     EXPECT_EQ(rs.GetChangeCount(), 4);
     rs.ResetChangedResources();
@@ -377,8 +377,8 @@ TEST_F(CacTest, StringFormatTest) {
     std::string first_expected_format_str = FLAGS_bridge_log ? "Step: 1\n \
                  PC                 DUT:[Data:00000000cafe0000](64)\n \
                                     ISS:[Data:00000000cafe0000](64)\n \
-                 V0                      DUT:[Data:00000000beefbeef_00000000deaddead](128)\n \
-                                         ISS:[Data:00000000beefbeef_00000000deaddead](128)\n" : "";
+                 V0                      DUT:[Data:00000000deaddead_00000000beefbeef](128)\n \
+                                         ISS:[Data:00000000deaddead_00000000beefbeef](128)\n" : "";
     EXPECT_EQ(first_expected_format_str, cac.GetStatusStr(tid0));
     cac.ResetStatus(tid0);
     // Hart 0 Step 2
@@ -390,8 +390,8 @@ TEST_F(CacTest, StringFormatTest) {
     std::string second_expected_format_str = "Step: 2\n \
                  PC                 DUT:[Data:00000000cafe0000](64)\n \
                                     ISS:[Data:00000000cafe0001](64)\n \
-                 V1                      DUT:[Data:00000000cafecafe_00000000cafeabcd](128)\n \
-                                         ISS:[Data:00000000cafecafe_00000000cafeabcd](128)\n";
+                 V1                      DUT:[Data:00000000cafeabcd_00000000cafecafe](128)\n \
+                                         ISS:[Data:00000000cafeabcd_00000000cafecafe](128)\n";
     cac.Step(tid0);
     EXPECT_FALSE(cac.GetStatus(tid0));
     EXPECT_EQ(second_expected_format_str, cac.GetStatusStr(tid0));

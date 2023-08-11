@@ -40,7 +40,7 @@ inline data_t CreateBitVec(const std::vector<T>& vec) {
     ret.reserve(vec.size() * sizeof(T) * 8);
     for (size_t i = 0; i < vec.size(); ++i) {
         data_t current = cvm::bitmanip::slice<T, data_t>(vec[i]);
-        ret.insert(ret.end(), current.begin(), current.end());
+        ret.insert(ret.begin(), current.begin(), current.end());
     }
     return ret;
 }

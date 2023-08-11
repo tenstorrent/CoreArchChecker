@@ -92,7 +92,7 @@ int CacCore::GetFormatWidth(resource_id_t id, size_n_bit_t size) {
                 width = 71;
                 break;
             case VEC_256:
-                width = 105;
+                width = 100;
                 break;
             case VEC_512:
                 width = 173;
