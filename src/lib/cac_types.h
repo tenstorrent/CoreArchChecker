@@ -57,6 +57,24 @@ inline data_t MaskData(const data_t& data, const mask_t& mask) {
     return ret;
 }
 
+inline data_t InvMask(const mask_t& mask) {
+    data_t ret;
+    for (size_t i = 0; i < mask.size(); ++i) {
+        ret.push_back(!mask[i]);
+    }
+    return ret;
+}
+
+inline data_t OrData(const data_t& data1, const data_t& data2) {
+    data_t ret;
+    size_t sz = std::min(data1.size(), data2.size());
+    ret.reserve(sz);
+    for (size_t i = 0; i < sz; ++i) {
+        ret.push_back(data1[i] || data2[i]);
+    }
+    return ret;
+}
+
 // Converts a std::vector<bool> to a std::bitset.
 template<size_t BITS>
 inline std::bitset<BITS> ToBitset(const data_t& data, size_t start, size_t num_bits) {

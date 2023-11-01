@@ -77,7 +77,7 @@ TEST_F(CacTest, PcResourceTest){
     data_t foo4 = CreateBitVec<unit_data_t>(0x1234);
     mask_t mask = CreateBitVec<unit_data_t>(0xF0F0F0F0F0F0F0F0);
     EXPECT_TRUE(resource->SetValue(std::move(foo4), mask));
-    data_t expected_val_4 = CreateBitVec<unit_data_t>(0x0000000000001030);
+    data_t expected_val_4 = CreateBitVec<unit_data_t>(0x0000000000001E3F);
     EXPECT_EQ(expected_val_4, resource->GetValue())<<"ERROR: (ResourceTest) Data not masked correctly";
 }
 
@@ -107,7 +107,7 @@ TEST_F(CacTest, VectorResourceTest){
     data_t foo3 = CreateBitVec<unit_data_t>({0x1234, 0x5678});
     mask_t mask = CreateBitVec<std::bitset<128>>(std::bitset<128>(0xF0F0F0F0F0F0F0F0) | std::bitset<128>(0xF0F0F0F0F0F0F0F0) << 64);
     EXPECT_TRUE(resource->SetValue(std::move(foo3), mask));
-    data_t expected_val_3 = CreateBitVec<std::bitset<128>>(std::bitset<128>(0x0000000000001030) << 64 | (std::bitset<128>(0x0000000000005070)));
+    data_t expected_val_3 = CreateBitVec<std::bitset<128>>(std::bitset<128>(0x0000000000001E3D) << 64 | (std::bitset<128>(0x0000000000005E7F)));
     EXPECT_EQ(expected_val_3, resource->GetValue())<<"ERROR: (ResourceTest) Data not masked correctly";
 
     EXPECT_TRUE(resource->SetSize(expected_size * 2));
@@ -141,7 +141,7 @@ TEST_F(CacTest, CsrResourceTest){
     data_t foo3 = CreateBitVec<unit_data_t>(0x1234);
     mask_t mask = CreateBitVec<unit_data_t>(0xF0F0F0F0F0F0F0F0);
     EXPECT_TRUE(resource->SetValue(std::move(foo3), mask));
-    data_t expected_val_3 = CreateBitVec<unit_data_t>(0x0000000000001030);
+    data_t expected_val_3 = CreateBitVec<unit_data_t>(0x0000000000001E3F);
     EXPECT_EQ(expected_val_3, resource->GetValue())<<"ERROR: (ResourceTest) Data not masked correctly";
 
     EXPECT_FALSE(resource->SetSize(128))<<"ERROR: (Resource Test) SetSize should fail for PC";
@@ -418,7 +418,7 @@ TEST_F(CacTest, MaskTest) {
     cac.Step(tid0);
     EXPECT_FALSE(cac.GetStatus(tid0));
     std::string expected_format_str = "Step: 2\n \
-                 PC                 DUT:[Data:ab001200be005600](64)\n \
+                 PC                 DUT:[Data:ab001200befe5600](64)\n \
                                     ISS:[Data:abcd1234beef5678](64)\n";
     EXPECT_EQ(expected_format_str, cac.GetStatusStr(tid0));
 }
