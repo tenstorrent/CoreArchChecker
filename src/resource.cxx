@@ -86,7 +86,7 @@ bool VariableSizeResource::SetValue(const data_t&& data, optional_mask_t mask) {
     if (mask == std::nullopt) {
         data_ = data;
     } else {
-        data_ = MaskData(data, mask.value());
+        data_ = OrData(MaskData(data_, InvMask(mask.value())), MaskData(data, mask.value()));
     }
     return true;
 }
