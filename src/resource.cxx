@@ -137,6 +137,10 @@ std::string ResourceSnapshot::GetName(resource_id_t id) const {
 }
 
 const data_t& ResourceSnapshot::GetValue(resource_id_t id) const {
+    if (!Exists(id)) {
+        static const data_t zeros(64, false);
+        return zeros;
+    }
     return snapshot_col_.at(id)->GetValue();
 };
 

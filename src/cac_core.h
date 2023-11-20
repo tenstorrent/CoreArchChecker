@@ -47,6 +47,9 @@ class CacCore {
         //   - The size of the mask doesn't match the size of the data
         bool UpdateResource(hart_t tid, src_t src, resource_id_t id, const data_t&& data, optional_mask_t mask = std::nullopt);
 
+        // Gets the value for a given `tid`, `src` (ISS/DUT), and resource `id` (type and offset)
+        bool GetResource(hart_t tid, src_t src, resource_id_t id, data_t& data);
+
         // Compare all of the SIM and DUT resources for the hart `tid`. If there are any mismatches, set the status
         // to false and modify the status string to reflect the mismatch.
         void Step(hart_t tid);

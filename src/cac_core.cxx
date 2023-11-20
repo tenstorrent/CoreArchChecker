@@ -78,6 +78,17 @@ bool CacCore::UpdateResource(hart_t tid, src_t src, resource_id_t id, const data
     return successful;
 }
 
+bool CacCore::GetResource(hart_t tid, src_t src, resource_id_t id, data_t& data) {
+    bool successful = true;
+    auto& hart_data = hart_data_map_.at(tid);
+    if (src == src_t::dut) {
+        data = hart_data.dut_resources.GetValue(id);
+    } else if (src == src_t::iss) {
+        data = hart_data.iss_resources.GetValue(id);
+    }
+    return successful;
+}
+
 bool CacCore::CheckResource(hart_t tid, resource_id_t id, const data_t& data){
     return(hart_data_map_.at(tid).iss_resources.CheckValue(id, data));
 }
