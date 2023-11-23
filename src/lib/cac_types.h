@@ -45,6 +45,25 @@ inline data_t CreateBitVec(const std::vector<T>& vec) {
     return ret;
 }
 
+// Converts a std::vector<bool> into a std::vector<primitive>
+template<typename T>
+std::vector<T> CreateSizedVec(const data_t boolvec) {
+    static_assert(std::is_integral_v<T>, "T must be an integral type");
+
+    std::vector<T> ret;
+    ret.reserve(boolvec.size() / (sizeof(T) * 8) + (boolvec.size() % (sizeof(T) * 8) != 0 ? 1 : 0));
+
+    for (size_t i = 0; i < boolvec.size(); i += sizeof(T) * 8) {
+        T value = 0;
+        for (size_t j = 0; j < sizeof(T) * 8 && i + j < boolvec.size(); ++j) {
+            value |= static_cast<T>(boolvec[i + j]) << j;
+        }
+        ret.push_back(value);
+    }
+
+    return ret;
+}
+
 // Returns a copy of `data` bitmasked by `mask`.
 // Precondition: data.size() == mask.size()
 inline data_t MaskData(const data_t& data, const mask_t& mask) {
