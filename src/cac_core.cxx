@@ -90,7 +90,10 @@ bool CacCore::GetResource(hart_t tid, src_t src, resource_id_t id, data_t& data)
 }
 
 bool CacCore::CheckResource(hart_t tid, resource_id_t id, const data_t& data){
-    return(hart_data_map_.at(tid).iss_resources.CheckValue(id, data));
+    if (hart_data_map_.at(tid).iss_resources.Exists(id)) {
+        return(hart_data_map_.at(tid).iss_resources.CheckValue(id, data));
+    }
+    return false;
 }
 
 // Returns the format width for a given resource.
