@@ -136,6 +136,7 @@ enum class resource_t {
     csr_reg,
     pc_reg,
     insn_bytes,
+    priv_mode,
     end
 };
 
@@ -158,6 +159,8 @@ typedef struct resource_id_t {
                 return "PC";
             case resource_t::insn_bytes:
                 return "INSN";
+            case resource_t::priv_mode:
+                return "PRIV";
             default:
                 throw std::runtime_error(fmt::format("resource_t %d is not defined", static_cast<int>(resource)));
         }
