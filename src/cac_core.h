@@ -25,9 +25,10 @@ struct HartData {
     ResourceSnapshot dut_resources;
     // An aggregate of all ISS resources at the current step.
     ResourceSnapshot iss_resources;
-    // Resources updated by the DUT. These need to be compared
-    // to the corresponding ISS resources.
+    // Resources updated by the DUT/ISS. These need to be compared
+    // to the corresponding ISS/DUT resources.
     std::queue<resource_id_t> resources_to_check;
+    std::unordered_set<resource_id_t> changed_resources;
 };
 
 class CacCore {
@@ -76,7 +77,8 @@ class CacCore {
     private:
         // Compares the value stored for hart ID `tid` and resource ID `id` to `data`.
         // Returns true iff they match.
-        bool CheckResource(hart_t tid, resource_id_t id, const data_t& data);
+        bool CheckIssResource(hart_t tid, resource_id_t id, const data_t& data);
+        bool CheckDutResource(hart_t tid, resource_id_t id, const data_t& data);
 
         // Returns the format width for a given resource.
         int GetFormatWidth(resource_id_t id, size_n_bit_t size);

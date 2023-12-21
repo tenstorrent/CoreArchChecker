@@ -31,7 +31,8 @@ void CacCore::Reset() {
             // Don't reserve space for DUT resources because they will be updated as they are received.
             .dut_resources = ResourceSnapshot(false, ToString(src_t::dut)),
             .iss_resources = ResourceSnapshot(true, ToString(src_t::iss)),
-            .resources_to_check = {}
+            .resources_to_check = {},
+            .changed_resources = {}
         });
     }
 }
@@ -71,9 +72,12 @@ bool CacCore::UpdateResource(hart_t tid, src_t src, resource_id_t id, const data
     auto& hart_data = hart_data_map_.at(tid);
     if (src == src_t::dut) {
         successful = hart_data.dut_resources.SetValue(id, std::move(data), mask);
-        hart_data.resources_to_check.push(id);
     } else if (src == src_t::iss) {
         successful = hart_data.iss_resources.SetValue(id, std::move(data), mask);
+    }
+    if (hart_data.changed_resources.find(id) == hart_data.changed_resources.end()) {
+        hart_data.resources_to_check.push(id);
+        hart_data.changed_resources.insert(id);
     }
     return successful;
 }
@@ -89,9 +93,16 @@ bool CacCore::GetResource(hart_t tid, src_t src, resource_id_t id, data_t& data)
     return successful;
 }
 
-bool CacCore::CheckResource(hart_t tid, resource_id_t id, const data_t& data){
+bool CacCore::CheckIssResource(hart_t tid, resource_id_t id, const data_t& data){
     if (hart_data_map_.at(tid).iss_resources.Exists(id)) {
         return(hart_data_map_.at(tid).iss_resources.CheckValue(id, data));
+    }
+    return false;
+}
+
+bool CacCore::CheckDutResource(hart_t tid, resource_id_t id, const data_t& data){
+    if (hart_data_map_.at(tid).dut_resources.Exists(id)) {
+        return(hart_data_map_.at(tid).dut_resources.CheckValue(id, data));
     }
     return false;
 }
@@ -123,14 +134,27 @@ void CacCore::Step(hart_t tid) {
     auto& dut_resources = hart_data.dut_resources;
     auto& iss_resources = hart_data.iss_resources;
     ++hart_data.step_count;
-    dut_resources.ResetChangedResources();
-    iss_resources.ResetChangedResources();
     bool first_print = true;
     while (!resources_to_check.empty()) {
         resource_id_t id = resources_to_check.front();
-        const data_t& dut_reg_val = dut_resources.GetValue(id);
-        const std::string dut_reg_name = dut_resources.GetName(id);
-        bool matches = CheckResource(tid, id, dut_reg_val);
+
+        bool matches;
+        data_t reg_val;
+        std::string reg_name;
+        int format_width;
+
+        if (dut_resources.GetChangedResources().find(id) != dut_resources.GetChangedResources().end()) {
+            reg_name = dut_resources.GetName(id);
+            format_width = GetFormatWidth(id, dut_resources.GetSize(id));
+            reg_val = dut_resources.GetValue(id);
+            matches = CheckIssResource(tid, id, reg_val);
+        } else {
+            reg_name = iss_resources.GetName(id);
+            format_width = GetFormatWidth(id, iss_resources.GetSize(id));
+            reg_val = iss_resources.GetValue(id);
+            matches = CheckDutResource(tid, id, reg_val);
+        }
+
         // First mismatch
         if (hart_data.status && !matches) {
             hart_data.status = false;
@@ -141,23 +165,19 @@ void CacCore::Step(hart_t tid) {
                 ss_ << fmt::format("Step: {}\n", hart_data.step_count);
                 first_print = false;
             }
-            int format_width = GetFormatWidth(id, dut_resources.GetSize(id));
-            ss_ << fmt::format("{:>20}{:>{}}\n", dut_reg_name, dut_resources.ToString(id), format_width);
-            if (iss_resources.Exists(id)) {
-                ss_ << fmt::format("{:>20}{:>{}}\n", "", iss_resources.ToString(id), format_width);
+            if (dut_resources.GetChangedResources().find(id) != dut_resources.GetChangedResources().end()) {
+                ss_ << fmt::format("{:>20}{:>{}}\n", reg_name, dut_resources.ToString(id), format_width);
+            }
+            if (iss_resources.GetChangedResources().find(id) != iss_resources.GetChangedResources().end()) {
+                ss_ << fmt::format("{:>20}{:>{}}\n", reg_name, iss_resources.ToString(id), format_width);
             }
         }
         resources_to_check.pop();
     }
-    if (FLAGS_dut_wrote_iss_didnt && (FLAGS_bridge_log || !hart_data.status)) {
-        for (const auto& id : iss_resources.GetChangedResources()) {
-            int format_width = GetFormatWidth(id, iss_resources.GetSize(id));
-            if (dut_resources.GetChangedResources().find(id) == dut_resources.GetChangedResources().end()) {
-                ss_ << fmt::format("{:>20}{:>{}}\n", iss_resources.GetName(id), iss_resources.ToString(id), format_width);
-            }
-        }
-    }
-
+    // Clear
+    hart_data.changed_resources.clear();
+    dut_resources.ResetChangedResources();
+    iss_resources.ResetChangedResources();
 };
 
 }
