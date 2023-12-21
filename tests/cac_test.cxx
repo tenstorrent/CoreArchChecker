@@ -376,9 +376,9 @@ TEST_F(CacTest, StringFormatTest) {
     EXPECT_TRUE(cac.GetStatus(tid0));
     std::string first_expected_format_str = FLAGS_bridge_log ? "Step: 1\n \
                  PC                 DUT:[Data:00000000cafe0000](64)\n \
-                                    ISS:[Data:00000000cafe0000](64)\n \
+                 PC                 ISS:[Data:00000000cafe0000](64)\n \
                  V0                      DUT:[Data:00000000deaddead_00000000beefbeef](128)\n \
-                                         ISS:[Data:00000000deaddead_00000000beefbeef](128)\n" : "";
+                 V0                      ISS:[Data:00000000deaddead_00000000beefbeef](128)\n" : "";
     EXPECT_EQ(first_expected_format_str, cac.GetStatusStr(tid0));
     cac.ResetStatus(tid0);
     // Hart 0 Step 2
@@ -389,9 +389,9 @@ TEST_F(CacTest, StringFormatTest) {
     EXPECT_TRUE(cac.UpdateResource(tid0, src_t::dut, vec_reg_1_id, GetResource(vec_reg_1_id, 2), std::nullopt));
     std::string second_expected_format_str = "Step: 2\n \
                  PC                 DUT:[Data:00000000cafe0000](64)\n \
-                                    ISS:[Data:00000000cafe0001](64)\n \
+                 PC                 ISS:[Data:00000000cafe0001](64)\n \
                  V1                      DUT:[Data:00000000cafeabcd_00000000cafecafe](128)\n \
-                                         ISS:[Data:00000000cafeabcd_00000000cafecafe](128)\n";
+                 V1                      ISS:[Data:00000000cafeabcd_00000000cafecafe](128)\n";
     cac.Step(tid0);
     EXPECT_FALSE(cac.GetStatus(tid0));
     EXPECT_EQ(second_expected_format_str, cac.GetStatusStr(tid0));
@@ -419,7 +419,7 @@ TEST_F(CacTest, MaskTest) {
     EXPECT_FALSE(cac.GetStatus(tid0));
     std::string expected_format_str = "Step: 2\n \
                  PC                 DUT:[Data:ab001200befe5600](64)\n \
-                                    ISS:[Data:abcd1234beef5678](64)\n";
+                 PC                 ISS:[Data:abcd1234beef5678](64)\n";
     EXPECT_EQ(expected_format_str, cac.GetStatusStr(tid0));
 }
 
