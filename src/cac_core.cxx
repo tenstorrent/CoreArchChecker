@@ -6,7 +6,6 @@
 
 #include "cvm/plusargs.hpp"
 
-DECLARE_bool(bridge_log);
 DEFINE_bool(cac_log, false, "Enable CAC trace prints");
 DEFINE_bool(dut_wrote_iss_didnt, false, "If there are still pending ISS resources after exhausting DUT resources, add them to the status string");
 
@@ -127,7 +126,7 @@ int CacCore::GetFormatWidth(resource_id_t id, size_n_bit_t size) {
     return width;
 }
 
-void CacCore::Step(hart_t tid) {
+void CacCore::Step(hart_t tid, bool verbose) {
     ss_.str("");
     auto& hart_data = hart_data_map_.at(tid);
     auto& resources_to_check = hart_data.resources_to_check;
@@ -160,7 +159,7 @@ void CacCore::Step(hart_t tid) {
             hart_data.status = false;
             resource_str_ = id.ToString();
         }
-        if (FLAGS_bridge_log || !hart_data.status) {
+        if (verbose || !hart_data.status) {
             if (first_print) {
                 ss_ << fmt::format("Step: {}\n", hart_data.step_count);
                 first_print = false;

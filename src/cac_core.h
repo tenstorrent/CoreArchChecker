@@ -52,8 +52,9 @@ class CacCore {
         bool GetResource(hart_t tid, src_t src, resource_id_t id, data_t& data);
 
         // Compare all of the SIM and DUT resources for the hart `tid`. If there are any mismatches, set the status
-        // to false and modify the status string to reflect the mismatch.
-        void Step(hart_t tid);
+        // to false and modify the status string to reflect the mismatch. status string is only set if there is a
+        // mismatch or verbose is set
+        void Step(hart_t tid, bool verbose = true);
 
         // Returns the current step number.
         int GetStep(hart_t tid);
