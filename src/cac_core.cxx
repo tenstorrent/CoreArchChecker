@@ -96,14 +96,16 @@ bool CacCore::CheckIssResource(hart_t tid, resource_id_t id, const data_t& data)
     if (hart_data_map_.at(tid).iss_resources.Exists(id)) {
         return(hart_data_map_.at(tid).iss_resources.CheckValue(id, data));
     }
-    return false;
+    data_t resetData(data.size(), false);
+    return(data == resetData);
 }
 
 bool CacCore::CheckDutResource(hart_t tid, resource_id_t id, const data_t& data){
     if (hart_data_map_.at(tid).dut_resources.Exists(id)) {
         return(hart_data_map_.at(tid).dut_resources.CheckValue(id, data));
     }
-    return false;
+    data_t resetData(data.size(), false);
+    return(data == resetData);
 }
 
 // Returns the format width for a given resource.
