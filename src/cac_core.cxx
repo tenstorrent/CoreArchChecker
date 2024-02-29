@@ -66,7 +66,7 @@ bool CacCore::SetVlen(unsigned int vlen) {
     return true;
 }
 
-bool CacCore::UpdateResource(hart_t tid, src_t src, resource_id_t id, const data_t&& data, optional_mask_t mask, bool check_cac) {
+bool CacCore::UpdateResource(hart_t tid, src_t src, resource_id_t id, const data_t&& data, optional_mask_t mask, bool check_en) {
     bool successful = true;
     auto& hart_data = hart_data_map_.at(tid);
     if (src == src_t::dut) {
@@ -74,7 +74,7 @@ bool CacCore::UpdateResource(hart_t tid, src_t src, resource_id_t id, const data
     } else if (src == src_t::iss) {
         successful = hart_data.iss_resources.SetValue(id, std::move(data), mask);
     }
-    if (check_cac && (hart_data.changed_resources.find(id) == hart_data.changed_resources.end())) {
+    if (check_en && (hart_data.changed_resources.find(id) == hart_data.changed_resources.end())) {
         hart_data.resources_to_check.push(id);
         hart_data.changed_resources.insert(id);
     }
