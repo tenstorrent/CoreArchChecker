@@ -92,7 +92,7 @@ bool CacCore::GetResource(hart_t tid, src_t src, resource_id_t id, data_t& data)
     return successful;
 }
 
-bool CacCore::CheckIssResource(hart_t tid, resource_id_t id, const data_t& data){
+bool CacCore::CompareIssResource(hart_t tid, resource_id_t id, const data_t& data){
     if (hart_data_map_.at(tid).iss_resources.Exists(id)) {
         return(hart_data_map_.at(tid).iss_resources.CompareValue(id, data));
     }
@@ -100,7 +100,7 @@ bool CacCore::CheckIssResource(hart_t tid, resource_id_t id, const data_t& data)
     return(data == resetData);
 }
 
-bool CacCore::CheckDutResource(hart_t tid, resource_id_t id, const data_t& data){
+bool CacCore::CompareDutResource(hart_t tid, resource_id_t id, const data_t& data){
     if (hart_data_map_.at(tid).dut_resources.Exists(id)) {
         return(hart_data_map_.at(tid).dut_resources.CompareValue(id, data));
     }
@@ -148,12 +148,12 @@ void CacCore::Step(hart_t tid, bool verbose) {
             reg_name = dut_resources.GetName(id);
             format_width = GetFormatWidth(id, dut_resources.GetSize(id));
             reg_val = dut_resources.GetValue(id);
-            matches = CheckIssResource(tid, id, reg_val);
+            matches = CompareIssResource(tid, id, reg_val);
         } else {
             reg_name = iss_resources.GetName(id);
             format_width = GetFormatWidth(id, iss_resources.GetSize(id));
             reg_val = iss_resources.GetValue(id);
-            matches = CheckDutResource(tid, id, reg_val);
+            matches = CompareDutResource(tid, id, reg_val);
         }
 
         // First mismatch
