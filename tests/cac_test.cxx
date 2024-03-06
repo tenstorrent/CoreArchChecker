@@ -192,27 +192,27 @@ TEST_F(CacTest, ResourceSnapshotTest){
     // Space not pre-reserved.
     EXPECT_FALSE(ResourceSnapshot(false, ToString(src_t::dut)).Exists(fp_id));
 
-    EXPECT_TRUE(rs.CheckValue(pc_id, pc_val_cpy))<< "ERROR: (ResourceSnapshot Test) Unexpected checking value!";
-    EXPECT_TRUE(rs.CheckValue(reg_xx_id, reg_xx_val_cpy))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
-    EXPECT_TRUE(rs.CheckValue(csr_id, csr_val_cpy))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
-    EXPECT_TRUE(rs.CheckValue(vec_reg_id, vec_reg_val_cpy))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
+    EXPECT_TRUE(rs.CompareValue(pc_id, pc_val_cpy))<< "ERROR: (ResourceSnapshot Test) Unexpected checking value!";
+    EXPECT_TRUE(rs.CompareValue(reg_xx_id, reg_xx_val_cpy))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
+    EXPECT_TRUE(rs.CompareValue(csr_id, csr_val_cpy))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
+    EXPECT_TRUE(rs.CompareValue(vec_reg_id, vec_reg_val_cpy))<< "ERROR: (RegisterSnapshot Test) Unexpected checking value!";
     // Default reg val
-    EXPECT_TRUE(rs.CheckValue(fp_id, data_t(DEFAULT_SIZE_BITS.at(fp_id.resource), 0)));
+    EXPECT_TRUE(rs.CompareValue(fp_id, data_t(DEFAULT_SIZE_BITS.at(fp_id.resource), 0)));
 
     EXPECT_EQ(rs.GetSize(pc_id), UNIT_BIT_NUM);
     EXPECT_EQ(rs.GetSize(vec_reg_id), VEC_128);
 
     EXPECT_FALSE(rs.SetValue(pc_id, CreateBitVec<unit_data_t>({0x1, 0x2})));
-    EXPECT_TRUE(rs.CheckValue(pc_id, pc_val_cpy))<< "ERROR: (ResourceSnapshot Test) Unexpected checking value!";
+    EXPECT_TRUE(rs.CompareValue(pc_id, pc_val_cpy))<< "ERROR: (ResourceSnapshot Test) Unexpected checking value!";
 
     EXPECT_TRUE(rs.SetValue(pc_id, CreateBitVec<unit_data_t>({0x2})));
-    EXPECT_TRUE(rs.CheckValue(pc_id, CreateBitVec<unit_data_t>({0x2})))<< "ERROR: (ResourceSnapshot Test) Unexpected checking value!";
+    EXPECT_TRUE(rs.CompareValue(pc_id, CreateBitVec<unit_data_t>({0x2})))<< "ERROR: (ResourceSnapshot Test) Unexpected checking value!";
 
     EXPECT_TRUE(rs.SetValue(vec_reg_id, CreateBitVec<unit_data_t>({0x1, 0x2, 0x3, 0x4})));
     EXPECT_EQ(rs.GetSize(vec_reg_id), VEC_256);
     EXPECT_TRUE(rs.SetVlen(VEC_128));
     EXPECT_EQ(rs.GetSize(vec_reg_id), VEC_128);
-    EXPECT_TRUE(rs.CheckValue(vec_reg_id, CreateBitVec<unit_data_t>({0x3, 0x4})))<< "ERROR: (ResourceSnapshot Test) Unexpected checking value!";
+    EXPECT_TRUE(rs.CompareValue(vec_reg_id, CreateBitVec<unit_data_t>({0x3, 0x4})))<< "ERROR: (ResourceSnapshot Test) Unexpected checking value!";
 
     EXPECT_EQ(rs.GetChangeCount(), 4);
     rs.ResetChangedResources();

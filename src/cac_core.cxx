@@ -94,7 +94,7 @@ bool CacCore::GetResource(hart_t tid, src_t src, resource_id_t id, data_t& data)
 
 bool CacCore::CheckIssResource(hart_t tid, resource_id_t id, const data_t& data){
     if (hart_data_map_.at(tid).iss_resources.Exists(id)) {
-        return(hart_data_map_.at(tid).iss_resources.CheckValue(id, data));
+        return(hart_data_map_.at(tid).iss_resources.CompareValue(id, data));
     }
     data_t resetData(data.size(), false);
     return(data == resetData);
@@ -102,7 +102,7 @@ bool CacCore::CheckIssResource(hart_t tid, resource_id_t id, const data_t& data)
 
 bool CacCore::CheckDutResource(hart_t tid, resource_id_t id, const data_t& data){
     if (hart_data_map_.at(tid).dut_resources.Exists(id)) {
-        return(hart_data_map_.at(tid).dut_resources.CheckValue(id, data));
+        return(hart_data_map_.at(tid).dut_resources.CompareValue(id, data));
     }
     data_t resetData(data.size(), false);
     return(data == resetData);
