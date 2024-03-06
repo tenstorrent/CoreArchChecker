@@ -66,7 +66,7 @@ bool CacCore::SetVlen(unsigned int vlen) {
     return true;
 }
 
-bool CacCore::UpdateResource(hart_t tid, src_t src, resource_id_t id, const data_t&& data, optional_mask_t mask, bool check_en) {
+bool CacCore::SetResource(hart_t tid, src_t src, resource_id_t id, const data_t&& data, optional_mask_t mask, bool check_en) {
     bool successful = true;
     auto& hart_data = hart_data_map_.at(tid);
     if (src == src_t::dut) {
@@ -181,4 +181,4 @@ void CacCore::Step(hart_t tid, bool verbose) {
     iss_resources.ResetChangedResources();
 };
 
-}
+} // namespace cac

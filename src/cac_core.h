@@ -46,9 +46,10 @@ class CacCore {
         // Returns true iff the resource has been successfully updated. Reasons why this may not occur include:
         //   - Updating `data` to a new size that isn't supported by the given resource type
         //   - The size of the mask doesn't match the size of the data
-        bool UpdateResource(hart_t tid, src_t src, resource_id_t id, const data_t&& data, optional_mask_t mask = std::nullopt, bool check_en = true);
+        bool SetResource(hart_t tid, src_t src, resource_id_t id, const data_t&& data, optional_mask_t mask = std::nullopt, bool check_en = true);
 
         // Gets the value for a given `tid`, `src` (ISS/DUT), and resource `id` (type and offset)
+        // Returns true (always)
         bool GetResource(hart_t tid, src_t src, resource_id_t id, data_t& data);
 
         // Compare all of the SIM and DUT resources for the hart `tid`. If there are any mismatches, set the status
