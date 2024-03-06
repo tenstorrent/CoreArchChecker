@@ -10,22 +10,16 @@
 
 namespace cac {
 
-using size_1_byte_t = unsigned char;
-using size_2_bytes_t = unsigned short int;
-using size_4_bytes_t = unsigned int;
-using size_8_bytes_t = unsigned long long int;
-
-using hart_t = size_2_bytes_t;
-using size_n_bit_t = size_2_bytes_t;
-using unit_data_t = size_8_bytes_t;
+ using hart_t       = uint16_t;
+ using size_n_bit_t = uint16_t;
+ using unit_data_t  = uint64_t;
 
 using data_t = std::vector<bool>;
 using mask_t = std::vector<bool>;
 
 template <typename T>
 using optional_const_ref = std::optional<std::reference_wrapper<const T>>;
-
-using optional_mask_t = optional_const_ref<mask_t>;
+using optional_mask_t    = optional_const_ref<mask_t>;
 
 // Converts a primitive into a std::vector<bool>.
 template<typename T>
