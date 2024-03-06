@@ -160,11 +160,8 @@ typedef struct resource_id_t {
         return "";
     }
 
-    bool Resizable() const {
-        if (resource == resource_t::vec_reg) {
-            return true;
-        }
-        return false;
+    bool IsResizable() const {
+        return resource == resource_t::vec_reg;
     }
 
     bool operator==(const resource_id_t &other) const {
