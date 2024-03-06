@@ -117,10 +117,8 @@ enum class src_t {
 
 inline std::string ToString(src_t src) {
     switch(src) {
-        case src_t::dut:
-            return "DUT";
-        case src_t::iss:
-            return "ISS";
+        case src_t::dut: return "DUT";
+        case src_t::iss: return "ISS";
         default:
             throw std::runtime_error("src doesn't have a defined string in ToString");
     }
@@ -148,22 +146,14 @@ typedef struct resource_id_t {
 
     std::string ToString() const {
         switch(resource) {
-            case resource_t::int_reg:
-                return fmt::format("X{}", offset);
-            case resource_t::fp_reg:
-                return fmt::format("F{}", offset);
-            case resource_t::vec_reg:
-                return fmt::format("V{}", offset);
-            case resource_t::csr_reg:
-                return fmt::format("C_0x{:x}", offset);
-            case resource_t::pc_reg:
-                return "PC";
-            case resource_t::insn_bytes:
-                return "INSN";
-            case resource_t::priv_mode:
-                return "PRIV";
-            case resource_t::mem_attr:
-                return "MEMATTR";
+            case resource_t::int_reg:    return fmt::format("X{}",      offset);
+            case resource_t::fp_reg:     return fmt::format("F{}",      offset);
+            case resource_t::vec_reg:    return fmt::format("V{}",      offset);
+            case resource_t::csr_reg:    return fmt::format("C_0x{:x}", offset);
+            case resource_t::pc_reg:     return "PC";
+            case resource_t::insn_bytes: return "INSN";
+            case resource_t::priv_mode:  return "PRIV";
+            case resource_t::mem_attr:   return "MEMATTR";
             default:
                 throw std::runtime_error(fmt::format("resource_t %d is not defined", static_cast<int>(resource)));
         }

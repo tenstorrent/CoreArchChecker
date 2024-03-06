@@ -109,22 +109,15 @@ bool CacCore::CompareDutResource(hart_t tid, resource_id_t id, const data_t& dat
 
 // Returns the format width for a given resource.
 int CacCore::GetFormatWidth(resource_id_t id, size_n_bit_t size) {
-    // Can we make this better (i.e. no hardcoded widths)
-    int width = 48;
+    // REVISIT: Remove hardcoded widths
     if (id.resource == resource_t::vec_reg) {
         switch (size) {
-            case VEC_128:
-                width = 71;
-                break;
-            case VEC_256:
-                width = 100;
-                break;
-            case VEC_512:
-                width = 173;
-                break;
+            case VEC_128: return 71;
+            case VEC_256: return 100;
+            case VEC_512: return 173;
         }
     }
-    return width;
+    return 48;
 }
 
 void CacCore::Step(hart_t tid, bool verbose) {
