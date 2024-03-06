@@ -170,7 +170,7 @@ typedef struct resource_id_t {
 
 } resource_id_t;
 
-}
+} // namespace cac
 
 template <>
 struct std::hash<cac::resource_id_t> {

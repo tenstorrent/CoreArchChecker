@@ -11,15 +11,15 @@
 namespace cac {
 
 Resource::Resource(resource_id_t rid, size_n_bit_t size_bits)
-  : resource_id_(rid),
+  : id_(rid),
     size_(size_bits) {}
 
 resource_id_t Resource::GetResourceId() const {
-    return resource_id_;
-};
+    return id_;
+}
 
 std::string Resource::GetName() const {
-    return resource_id_.ToString();
+    return id_.ToString();
 }
 
 size_n_bit_t Resource::GetSize() const {

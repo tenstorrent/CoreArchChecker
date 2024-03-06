@@ -59,7 +59,7 @@ class Resource {
         static bool ValidateResource(resource_id_t rid, const data_t& data, optional_mask_t mask);
 
         // The resource type and address.
-        resource_id_t resource_id_;
+        resource_id_t id_;
         // Size of data_ in bits
         size_n_bit_t size_;
 };
