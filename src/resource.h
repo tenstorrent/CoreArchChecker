@@ -30,7 +30,7 @@ class Resource {
         virtual bool SetSize(size_n_bit_t sz) = 0;
 
         // Returns true if `data` matches this resource's data.
-        bool CheckValue(const data_t& data) const;
+        bool CompareValue(const data_t& data) const;
 
         // Returns the resource ID.
         resource_id_t GetResourceId() const;
@@ -106,7 +106,7 @@ class ResourceSnapshot {
         bool SetValue(resource_id_t id, const data_t&& data, optional_mask_t mask = std::nullopt);
 
         // Returns true iff the value stored with the given `id` matches `data`.
-        bool CheckValue(resource_id_t id, const data_t& data) const;
+        bool CompareValue(resource_id_t id, const data_t& data) const;
 
         size_n_bit_t GetSize(resource_id_t id) const;
 

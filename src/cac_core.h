@@ -78,8 +78,8 @@ class CacCore {
     private:
         // Compares the value stored for hart ID `tid` and resource ID `id` to `data`.
         // Returns true iff they match.
-        bool CheckIssResource(hart_t tid, resource_id_t id, const data_t& data);
-        bool CheckDutResource(hart_t tid, resource_id_t id, const data_t& data);
+        bool CompareIssResource(hart_t tid, resource_id_t id, const data_t& data);
+        bool CompareDutResource(hart_t tid, resource_id_t id, const data_t& data);
 
         // Returns the format width for a given resource.
         int GetFormatWidth(resource_id_t id, size_n_bit_t size);

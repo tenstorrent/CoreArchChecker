@@ -26,7 +26,7 @@ size_n_bit_t Resource::GetSize() const {
     return size_;
 };
 
-bool Resource::CheckValue(const data_t& data) const {
+bool Resource::CompareValue(const data_t& data) const {
     return GetValue() == data;
 }
 
@@ -164,8 +164,8 @@ bool ResourceSnapshot::SetValue(resource_id_t id, const data_t&& data, optional_
     return true;
 }
 
-bool ResourceSnapshot::CheckValue(resource_id_t id, const data_t& data) const {
-    return snapshot_col_.at(id)->CheckValue(data);
+bool ResourceSnapshot::CompareValue(resource_id_t id, const data_t& data) const {
+    return snapshot_col_.at(id)->CompareValue(data);
 }
 
 size_n_bit_t ResourceSnapshot::GetSize(resource_id_t id) const {
