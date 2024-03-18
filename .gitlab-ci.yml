@@ -5,6 +5,7 @@ include:
     file: 'common-definitions.yml'
 
 stages:
+    - submodule_update
     - build
 
 smoke:
@@ -16,3 +17,13 @@ smoke:
         - python3 infra/git_getter.py
         - infra/bazel-wrap --output_base=. test //tests/...
     timeout: 1h
+
+submodule_update:
+    stage: submodule_update
+    extends:
+        - .submodule-update-template
+
+infra_update:
+    stage: submodule_update
+    extends:
+        - .infra-update-template
