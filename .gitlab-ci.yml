@@ -27,3 +27,8 @@ infra_update:
     stage: submodule_update
     extends:
         - .infra-update-template
+
+container_update:
+    stage: submodule_update
+    extends:
+        - .container-update-template
