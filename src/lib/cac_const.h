@@ -19,7 +19,8 @@ const std::unordered_map<resource_t, size_n_bit_t> OFFSET_BITS = {
     { resource_t::csr_reg, 12 },
     { resource_t::pc_reg,  0 },
     { resource_t::insn_bytes, 0 },
-    { resource_t::priv_mode, 0 }
+    { resource_t::priv_mode, 0 },
+    { resource_t::mem_attr, 0 }
 };
 
 const std::unordered_map<resource_t, size_n_bit_t> DEFAULT_SIZE_BITS = {
@@ -30,6 +31,7 @@ const std::unordered_map<resource_t, size_n_bit_t> DEFAULT_SIZE_BITS = {
     { resource_t::pc_reg,  UNIT_BIT_NUM },
     { resource_t::insn_bytes,  UNIT_BIT_NUM },
     { resource_t::priv_mode,  UNIT_BIT_NUM },
+    { resource_t::mem_attr,  UNIT_BIT_NUM },
 };
 
 inline size_n_bit_t DefaultSize(resource_t r) {
@@ -43,7 +45,8 @@ const std::unordered_map<resource_t, std::set<size_n_bit_t>> ALLOWED_SIZE_BITS =
     { resource_t::csr_reg, {UNIT_BIT_NUM} },
     { resource_t::pc_reg,  {UNIT_BIT_NUM} },
     { resource_t::insn_bytes,  {UNIT_BIT_NUM} },
-    { resource_t::priv_mode,  {UNIT_BIT_NUM} }
+    { resource_t::priv_mode,  {UNIT_BIT_NUM} },
+    { resource_t::mem_attr,  {UNIT_BIT_NUM} }
 };
 
 inline bool AllowedSize(resource_t r, size_n_bit_t size) {
