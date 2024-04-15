@@ -76,12 +76,12 @@ class CacCore {
         // Attempt to modify the vlen of the vector registers. Returns true iff this succeeds.
         bool SetVlen(unsigned int vlen);
 
-    private:
         // Compares the value stored for hart ID `tid` and resource ID `id` to `data`.
         // Returns true iff they match.
         bool CompareIssResource(hart_t tid, resource_id_t id, const data_t& data);
         bool CompareDutResource(hart_t tid, resource_id_t id, const data_t& data);
 
+    private:
         // Returns the format width for a given resource.
         int GetFormatWidth(resource_id_t id, size_n_bit_t size);
 
