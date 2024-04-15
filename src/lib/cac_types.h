@@ -136,7 +136,7 @@ enum class resource_t {
 // Resource identifier -- uses a resource type and an offset/address.
 typedef struct resource_id_t {
     resource_t resource;
-    size_8_bytes_t offset;
+    uint64_t offset;
 
     std::string ToString() const {
         switch(resource) {
