@@ -21,7 +21,7 @@ CacCore::CacCore(hart_t num_harts)
     Reset();
 };
 
-void CacCore::Reset() {   
+void CacCore::Reset() {
     for(hart_t tid = 0; tid < num_harts_; ++tid){
         hart_data_map_.insert_or_assign(tid, HartData{
             .status = true,
@@ -109,25 +109,28 @@ bool CacCore::CompareDutResource(hart_t tid, resource_id_t id, const data_t& dat
 
 // Returns the format width for a given resource.
 int CacCore::GetFormatWidth(resource_id_t id, size_n_bit_t size) {
-    // REVISIT: Remove hardcoded widths
-    if (id.resource == resource_t::vec_reg) {
-        switch (size) {
-            case VEC_128: return 71;
-            case VEC_256: return 100;
-            case VEC_512: return 173;
-        }
+    if (id.resource != resource_t::vec_reg)
+        return 48;
+
+    // Handle Vector resource widths
+    switch (size) {
+        // REVISIT: Remove hardcoded widths
+        case VEC_128: return 71;
+        case VEC_256: return 100;
+        case VEC_512: return 173;
+        default:      return 48;
     }
-    return 48;
 }
 
 void CacCore::Step(hart_t tid, bool verbose) {
     ss_.str("");
-    auto& hart_data = hart_data_map_.at(tid);
+    auto& hart_data          = hart_data_map_.at(tid);
     auto& resources_to_check = hart_data.resources_to_check;
-    auto& dut_resources = hart_data.dut_resources;
-    auto& iss_resources = hart_data.iss_resources;
+    auto& dut_resources      = hart_data.dut_resources;
+    auto& iss_resources      = hart_data.iss_resources;
+    bool first_print         = true;
     ++hart_data.step_count;
-    bool first_print = true;
+
     while (!resources_to_check.empty()) {
         resource_id_t id = resources_to_check.front();
 

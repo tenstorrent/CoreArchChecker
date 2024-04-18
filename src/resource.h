@@ -135,6 +135,5 @@ class ResourceSnapshot {
         std::unordered_map<resource_id_t, std::unique_ptr<Resource>> snapshot_col_;
 };
 
-}
-
+} // namespace cac
 #endif
