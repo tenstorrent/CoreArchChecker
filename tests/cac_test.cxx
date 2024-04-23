@@ -240,39 +240,39 @@ TEST_F(CacTest, BasicCoreTest){
     // Single hart
     // Hart 0 Step 1
     // From ISS:
-    EXPECT_TRUE(cbd.UpdateResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 1), std::nullopt));
-    EXPECT_TRUE(cbd.UpdateResource(tid0, src_t::iss, reg_xx_id, GetResource(reg_xx_id, 1), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 1), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid0, src_t::iss, reg_xx_id, GetResource(reg_xx_id, 1), std::nullopt));
     // From Dut:
-    EXPECT_TRUE(cbd.UpdateResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 1), std::nullopt));
-    EXPECT_TRUE(cbd.UpdateResource(tid0, src_t::dut, reg_xx_id, GetResource(reg_xx_id, 1), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 1), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid0, src_t::dut, reg_xx_id, GetResource(reg_xx_id, 1), std::nullopt));
     cbd.Step(tid0);
     EXPECT_EQ(cbd.GetStep(tid0), 1)<<"ERROR: (CAC Test) Wrong Step Counts!";
     EXPECT_TRUE(cbd.GetStatus(tid0));
     // Hart 0 Step 2
     // From ISS:
-    EXPECT_TRUE(cbd.UpdateResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 2), std::nullopt));
-    EXPECT_TRUE(cbd.UpdateResource(tid0, src_t::iss, reg_xx_id, GetResource(reg_xx_id, 2), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 2), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid0, src_t::iss, reg_xx_id, GetResource(reg_xx_id, 2), std::nullopt));
     // From Dut:
-    EXPECT_TRUE(cbd.UpdateResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 2), std::nullopt));
-    EXPECT_TRUE(cbd.UpdateResource(tid0, src_t::dut, reg_xx_id, GetResource(reg_xx_id, 2), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 2), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid0, src_t::dut, reg_xx_id, GetResource(reg_xx_id, 2), std::nullopt));
     cbd.Step(tid0);
     EXPECT_EQ(cbd.GetStep(tid0), 2)<<"ERROR: (CAC Test) Wrong Step Counts!";
     EXPECT_TRUE(cbd.GetStatus(tid0));
     // Multi hart
     // From ISS:
     // Hart0 Step 3
-    EXPECT_TRUE(cbd.UpdateResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 1), std::nullopt));
-    EXPECT_TRUE(cbd.UpdateResource(tid0, src_t::iss, reg_xx_id, GetResource(reg_xx_id, 1), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 1), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid0, src_t::iss, reg_xx_id, GetResource(reg_xx_id, 1), std::nullopt));
     // Hart1 Step 1
-    EXPECT_TRUE(cbd.UpdateResource(tid1, src_t::iss, pc_id, GetResource(pc_id, 1), std::nullopt));
-    EXPECT_TRUE(cbd.UpdateResource(tid1, src_t::iss, reg_xx_id, GetResource(reg_xx_id, 1), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid1, src_t::iss, pc_id, GetResource(pc_id, 1), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid1, src_t::iss, reg_xx_id, GetResource(reg_xx_id, 1), std::nullopt));
     // From Dut:
     // Hart0 Step 3
-    EXPECT_TRUE(cbd.UpdateResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 1), std::nullopt));
-    EXPECT_TRUE(cbd.UpdateResource(tid0, src_t::dut, reg_xx_id, GetResource(reg_xx_id, 1), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 1), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid0, src_t::dut, reg_xx_id, GetResource(reg_xx_id, 1), std::nullopt));
     // Hart1 Step 1
-    EXPECT_TRUE(cbd.UpdateResource(tid1, src_t::dut, pc_id, GetResource(pc_id, 1), std::nullopt));
-    EXPECT_TRUE(cbd.UpdateResource(tid1, src_t::dut, reg_xx_id, GetResource(reg_xx_id, 1), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid1, src_t::dut, pc_id, GetResource(pc_id, 1), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid1, src_t::dut, reg_xx_id, GetResource(reg_xx_id, 1), std::nullopt));
     cbd.Step(tid0);
     EXPECT_EQ(cbd.GetStep(tid0), 3)<<"ERROR: (Multi-Hart Test) Wrong Step Counts!";
     EXPECT_TRUE(cbd.GetStatus(tid0));
@@ -282,12 +282,12 @@ TEST_F(CacTest, BasicCoreTest){
     // Intentional mismatch
     // Hart 0 Step 4
     // From ISS:
-    EXPECT_TRUE(cbd.UpdateResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 2), std::nullopt));
-    EXPECT_TRUE(cbd.UpdateResource(tid0, src_t::iss, pc_id, GetResource(reg_xx_id, 2), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 2), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid0, src_t::iss, pc_id, GetResource(reg_xx_id, 2), std::nullopt));
     // From Dut:
     // Hart0 Step 4
-    EXPECT_TRUE(cbd.UpdateResource(tid0, src_t::dut, pc_id, CreateBitVec<unit_data_t>({0xabc}), std::nullopt));
-    EXPECT_TRUE(cbd.UpdateResource(tid0, src_t::dut, pc_id, CreateBitVec<unit_data_t>({0xdef}), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid0, src_t::dut, pc_id, CreateBitVec<unit_data_t>({0xabc}), std::nullopt));
+    EXPECT_TRUE(cbd.SetResource(tid0, src_t::dut, pc_id, CreateBitVec<unit_data_t>({0xdef}), std::nullopt));
     cbd.Step(tid0);
     EXPECT_EQ(cbd.GetStep(tid0), 4)<<"ERROR: (Intentional Reg Mismatch Test) Wrong Step Counts!";
     EXPECT_FALSE(cbd.GetStatus(tid0));
@@ -312,31 +312,31 @@ TEST_F(CacTest, VectorRegistersTest) {
     SetResource(vec_reg_id, 3, CreateBitVec<unit_data_t>({0xdeadbeef,0xbeefdead}));
     // step 1
     //From ISS:
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 1), std::nullopt));
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::iss, vec_reg_id, GetResource(vec_reg_id, 1), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 1), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::iss, vec_reg_id, GetResource(vec_reg_id, 1), std::nullopt));
     //From DUT
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 1), std::nullopt));
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::dut, vec_reg_id, GetResource(vec_reg_id, 1), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 1), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::dut, vec_reg_id, GetResource(vec_reg_id, 1), std::nullopt));
     //Single Step
     cac.Step(tid0);
     EXPECT_TRUE(cac.GetStatus(tid0));
     //step 2
     //From ISS:
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 2), std::nullopt));
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::iss, vec_reg_id, GetResource(vec_reg_id, 2), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 2), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::iss, vec_reg_id, GetResource(vec_reg_id, 2), std::nullopt));
     //From DUT
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 2), std::nullopt));
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::dut, vec_reg_id, GetResource(vec_reg_id, 2), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 2), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::dut, vec_reg_id, GetResource(vec_reg_id, 2), std::nullopt));
     //Single Step
     cac.Step(tid0);
     EXPECT_TRUE(cac.GetStatus(tid0));
     //step 3
     //From ISS:
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 3), std::nullopt));
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::iss, vec_reg_id, GetResource(vec_reg_id, 3), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 3), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::iss, vec_reg_id, GetResource(vec_reg_id, 3), std::nullopt));
     //From DUT
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 3), std::nullopt));
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::dut, vec_reg_id, GetResource(vec_reg_id, 2), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 3), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::dut, vec_reg_id, GetResource(vec_reg_id, 2), std::nullopt));
     //Single Step
     cac.Step(tid0);
     EXPECT_FALSE(cac.GetStatus(tid0));
@@ -367,11 +367,11 @@ TEST_F(CacTest, StringFormatTest) {
     // Hart 0 Step 1
     EXPECT_EQ("", cac.GetStatusStr(tid0));
     // From ISS:
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 1), std::nullopt));
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::iss, vec_reg_0_id, GetResource(vec_reg_0_id, 1), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 1), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::iss, vec_reg_0_id, GetResource(vec_reg_0_id, 1), std::nullopt));
     // From Dut:
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 1), std::nullopt));
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::dut, vec_reg_0_id, GetResource(vec_reg_0_id, 1), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 1), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::dut, vec_reg_0_id, GetResource(vec_reg_0_id, 1), std::nullopt));
     cac.Step(tid0);
     EXPECT_TRUE(cac.GetStatus(tid0));
     std::string first_expected_format_str = FLAGS_bridge_log ? "Step: 1\n \
@@ -382,11 +382,11 @@ TEST_F(CacTest, StringFormatTest) {
     EXPECT_EQ(first_expected_format_str, cac.GetStatusStr(tid0));
     cac.ResetStatus(tid0);
     // Hart 0 Step 2
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 2), std::nullopt));
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::iss, vec_reg_1_id, GetResource(vec_reg_1_id, 2), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 2), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::iss, vec_reg_1_id, GetResource(vec_reg_1_id, 2), std::nullopt));
     // From Dut:
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 1), std::nullopt));
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::dut, vec_reg_1_id, GetResource(vec_reg_1_id, 2), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 1), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::dut, vec_reg_1_id, GetResource(vec_reg_1_id, 2), std::nullopt));
     std::string second_expected_format_str = "Step: 2\n \
                  PC                 DUT:[Data:00000000cafe0000](64)\n \
                  PC                 ISS:[Data:00000000cafe0001](64)\n \
@@ -407,14 +407,14 @@ TEST_F(CacTest, MaskTest) {
     };
     SetResource(pc_id, 1, CreateBitVec<unit_data_t>(pc_val));
     SetResource(pc_id, 2, CreateBitVec<unit_data_t>(0xabcd1234beef5678));
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 1), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 1), std::nullopt));
     mask_t mask = CreateBitVec<unit_data_t>(std::numeric_limits<unit_data_t>::max());
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 1), mask));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 1), mask));
     cac.Step(tid0);
     EXPECT_TRUE(cac.GetStatus(tid0));
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 2), std::nullopt));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::iss, pc_id, GetResource(pc_id, 2), std::nullopt));
     mask = CreateBitVec<unit_data_t>(0xFF00FF00FF00FF00);
-    EXPECT_TRUE(cac.UpdateResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 2), mask));
+    EXPECT_TRUE(cac.SetResource(tid0, src_t::dut, pc_id, GetResource(pc_id, 2), mask));
     cac.Step(tid0);
     EXPECT_FALSE(cac.GetStatus(tid0));
     std::string expected_format_str = "Step: 2\n \

@@ -10,22 +10,16 @@
 
 namespace cac {
 
-using size_1_byte_t = unsigned char;
-using size_2_bytes_t = unsigned short int;
-using size_4_bytes_t = unsigned int;
-using size_8_bytes_t = unsigned long long int;
-
-using hart_t = size_2_bytes_t;
-using size_n_bit_t = size_2_bytes_t;
-using unit_data_t = size_8_bytes_t;
+ using hart_t       = uint16_t;
+ using size_n_bit_t = uint16_t;
+ using unit_data_t  = uint64_t;
 
 using data_t = std::vector<bool>;
 using mask_t = std::vector<bool>;
 
 template <typename T>
 using optional_const_ref = std::optional<std::reference_wrapper<const T>>;
-
-using optional_mask_t = optional_const_ref<mask_t>;
+using optional_mask_t    = optional_const_ref<mask_t>;
 
 // Converts a primitive into a std::vector<bool>.
 template<typename T>
@@ -117,10 +111,8 @@ enum class src_t {
 
 inline std::string ToString(src_t src) {
     switch(src) {
-        case src_t::dut:
-            return "DUT";
-        case src_t::iss:
-            return "ISS";
+        case src_t::dut: return "DUT";
+        case src_t::iss: return "ISS";
         default:
             throw std::runtime_error("src doesn't have a defined string in ToString");
     }
@@ -144,37 +136,26 @@ enum class resource_t {
 // Resource identifier -- uses a resource type and an offset/address.
 typedef struct resource_id_t {
     resource_t resource;
-    size_8_bytes_t offset;
+    uint64_t offset;
 
     std::string ToString() const {
         switch(resource) {
-            case resource_t::int_reg:
-                return fmt::format("X{}", offset);
-            case resource_t::fp_reg:
-                return fmt::format("F{}", offset);
-            case resource_t::vec_reg:
-                return fmt::format("V{}", offset);
-            case resource_t::csr_reg:
-                return fmt::format("C_0x{:x}", offset);
-            case resource_t::pc_reg:
-                return "PC";
-            case resource_t::insn_bytes:
-                return "INSN";
-            case resource_t::priv_mode:
-                return "PRIV";
-            case resource_t::mem_attr:
-                return "MEMATTR";
+            case resource_t::int_reg:    return fmt::format("X{}",      offset);
+            case resource_t::fp_reg:     return fmt::format("F{}",      offset);
+            case resource_t::vec_reg:    return fmt::format("V{}",      offset);
+            case resource_t::csr_reg:    return fmt::format("C_0x{:x}", offset);
+            case resource_t::pc_reg:     return "PC";
+            case resource_t::insn_bytes: return "INSN";
+            case resource_t::priv_mode:  return "PRIV";
+            case resource_t::mem_attr:   return "MEMATTR";
             default:
                 throw std::runtime_error(fmt::format("resource_t %d is not defined", static_cast<int>(resource)));
         }
         return "";
     }
 
-    bool Resizable() const {
-        if (resource == resource_t::vec_reg) {
-            return true;
-        }
-        return false;
+    bool IsResizable() const {
+        return resource == resource_t::vec_reg;
     }
 
     bool operator==(const resource_id_t &other) const {
@@ -183,7 +164,7 @@ typedef struct resource_id_t {
 
 } resource_id_t;
 
-}
+} // namespace cac
 
 template <>
 struct std::hash<cac::resource_id_t> {

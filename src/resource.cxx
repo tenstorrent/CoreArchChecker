@@ -11,15 +11,15 @@
 namespace cac {
 
 Resource::Resource(resource_id_t rid, size_n_bit_t size_bits)
-  : resource_id_(rid),
+  : id_(rid),
     size_(size_bits) {}
 
 resource_id_t Resource::GetResourceId() const {
-    return resource_id_;
-};
+    return id_;
+}
 
 std::string Resource::GetName() const {
-    return resource_id_.ToString();
+    return id_.ToString();
 }
 
 size_n_bit_t Resource::GetSize() const {
@@ -44,7 +44,7 @@ std::string Resource::ToString(const std::string& type) const {
 
 bool Resource::ValidateResource(resource_id_t rid, const data_t& data, optional_mask_t mask) {
     bool valid;
-    valid = (data.size() == DefaultSize(rid.resource) || (rid.Resizable() && AllowedSize(rid.resource, data.size())));
+    valid = (data.size() == DefaultSize(rid.resource) || (rid.IsResizable() && AllowedSize(rid.resource, data.size())));
     valid &= (!(rid.resource == resource_t::start || rid.resource == resource_t::end));
     valid &= (rid.offset >= 0 && rid.offset < (1 << OFFSET_BITS.at(rid.resource)));
     valid &= (mask == std::nullopt || mask.value().get().size() == data.size());
@@ -92,7 +92,7 @@ bool VariableSizeResource::SetValue(const data_t&& data, optional_mask_t mask) {
 }
 
 bool VariableSizeResource::SetSize(size_n_bit_t sz) {
-    if (!GetResourceId().Resizable() || !AllowedSize(resource_id_.resource, sz)) {
+    if (!GetResourceId().IsResizable() || !AllowedSize(id_.resource, sz)) {
         return false;
     }
     data_.resize(sz);
@@ -182,7 +182,7 @@ bool ResourceSnapshot::SetVlen(unsigned int vlen) {
                 .resource = resource,
                 .offset = addr
             };
-            assert(rid.Resizable());
+            assert(rid.IsResizable());
             if (!snapshot_col_.at(rid)->SetSize(vlen)) {
                 ret = false;
             }
