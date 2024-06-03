@@ -74,7 +74,7 @@ bool CacCore::SetResource(hart_t tid, src_t src, resource_id_t id, const data_t&
     } else if (src == src_t::iss) {
         successful = hart_data.iss_resources.SetValue(id, std::move(data), mask);
     }
-    if (check_en && (hart_data.changed_resources.find(id) == hart_data.changed_resources.end())) {
+    if (successful && check_en && (hart_data.changed_resources.find(id) == hart_data.changed_resources.end())) {
         hart_data.resources_to_check.push(id);
         hart_data.changed_resources.insert(id);
     }
