@@ -1,7 +1,7 @@
 export SNPSLMD_LICENSE_FILE=${SNPSLMD_LICENSE_FILE:-27020@aus-license-1:27020@yyz-license-02:27020@yyz-license-01:27020@yyz-colo-lsf-test}
 export LM_LICENSE_FILE=${LM_LICENSE_FILE:-5280@aus-license-1}
-export VCS_HOME=${VCS_HOME:-/tools_vendor/synopsys/vcs/U-2023.03}
-export VERDI_HOME=${VERDI_HOME:-/tools_vendor/synopsys/verdi/U-2023.03}
+export VCS_HOME=${VCS_HOME:-/tools_vendor/synopsys/vcs/U-2023.03-SP2-5}
+export VERDI_HOME=${VERDI_HOME:-/tools_vendor/synopsys/verdi/U-2023.03-SP2-5}
 export SPYGLASS_HOME=${SPYGLASS_HOME:-/tools_vendor/synopsys/spyglass/S-2021.09-1/SPYGLASS_HOME}
 export VC_STATIC_HOME=${VC_STATIC_HOME:-/tools_vendor/synopsys/vc_static/T-2022.06-SP2}
 export CDN_JG_HOME=${CD_JG_HOME:-/tools_vendor/cadence/jasper/2022.12}
