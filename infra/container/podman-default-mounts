@@ -1,0 +1,17 @@
+/tools_vendor
+/vendor_ip
+/tech/tsmc/N06
+/tech/samsung/LN04LPP
+/proj_risc
+/proj_risc_regr
+/site
+/tools_risc
+/weka_scratch/rv_bazel_cache
+/weka_scratch/zebu
+/weka_scratch/fpgen
+/scratch/zebu
+/proj_perf
+/proj_perf_scratch
+/proj_pd
+/proj_dft
+/proj_soc
