@@ -138,11 +138,10 @@ std::string ResourceSnapshot::GetName(resource_id_t id) const {
 
 const data_t& ResourceSnapshot::GetValue(resource_id_t id) const {
     if (!Exists(id)) {
-        static const data_t zeros(64, false);
         return zeros;
     }
     return snapshot_col_.at(id)->GetValue();
-};
+}
 
 bool ResourceSnapshot::SetValue(resource_id_t id, const data_t&& data, optional_mask_t mask) {
     // We expect the value to already exist in the map if:
@@ -206,5 +205,7 @@ const std::unordered_set<resource_id_t>& ResourceSnapshot::GetChangedResources()
 void ResourceSnapshot::ResetChangedResources() {
     changed_resources_.clear();
 }
+
+const data_t ResourceSnapshot::zeros(64, false);
 
 }
