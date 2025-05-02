@@ -133,6 +133,8 @@ class ResourceSnapshot {
         std::unordered_set<resource_id_t> changed_resources_;
         // Contains all of the resource values that have been added with set_value().
         std::unordered_map<resource_id_t, std::unique_ptr<Resource>> snapshot_col_;
+        // Represents the case where a resource doesn't exist yet but should be 0
+        static const data_t zeros;
 };
 
 } // namespace cac
