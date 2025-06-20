@@ -16,7 +16,10 @@ CacCore::CacCore(hart_t num_harts)
   : num_harts_(num_harts),
     cfg_vlen_(VEC_128),
     ss_({}),
-    resource_str_("") {
+    resource_str_(""),
+    dut_val_str_(""),
+    iss_val_str_("")
+    {
 
     Reset();
 };
@@ -48,8 +51,15 @@ std::string CacCore::GetStatusStr(hart_t) {
     return ss_.str();
 }
 
-std::string CacCore::GetResourceStr(hart_t) {
-    return resource_str_;
+void CacCore::GetResourceStr(hart_t, std::string& resource_str, std::string& dut_val, std::string& iss_val) {
+    auto hex = [](const std::string& str) {
+        if (str.empty()) return std::string("");
+        size_t pos = str.find_first_not_of('0');
+        return (pos == std::string::npos) ? "0x0" : "0x" + str.substr(pos);
+    };
+    resource_str = resource_str_;
+    dut_val      = hex(dut_val_str_);
+    iss_val      = hex(iss_val_str_);
 }
 
 void CacCore::ResetStatus(hart_t tid){
@@ -155,6 +165,12 @@ void CacCore::Step(hart_t tid, bool verbose) {
         if (hart_data.status && !matches) {
             hart_data.status = false;
             resource_str_ = id.ToString();
+            dut_val_str_ = "";
+            iss_val_str_ = "";
+            if (dut_resources.GetChangedResources().find(id) != dut_resources.GetChangedResources().end())
+                dut_val_str_ = dut_resources.ToStringRaw(id);
+            if (iss_resources.GetChangedResources().find(id) != iss_resources.GetChangedResources().end())
+                iss_val_str_ = iss_resources.ToStringRaw(id);
         }
         if (verbose || !hart_data.status) {
             if (first_print) {
@@ -164,6 +180,7 @@ void CacCore::Step(hart_t tid, bool verbose) {
             if (dut_resources.GetChangedResources().find(id) != dut_resources.GetChangedResources().end()) {
                 ss_ << fmt::format("{:>20}{:>{}}\n", reg_name, dut_resources.ToString(id), format_width);
             }
+
             if (iss_resources.GetChangedResources().find(id) != iss_resources.GetChangedResources().end()) {
                 ss_ << fmt::format("{:>20}{:>{}}\n", reg_name, iss_resources.ToString(id), format_width);
             }

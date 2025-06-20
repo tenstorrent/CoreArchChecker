@@ -30,16 +30,25 @@ bool Resource::CompareValue(const data_t& data) const {
     return GetValue() == data;
 }
 
-std::string Resource::ToString(const std::string& type) const {
+void Resource::ToHexStrings(std::vector<std::string>& hex_strings) const {
     auto value = GetValue();
     constexpr size_n_bit_t bits_per_group = UNIT_BIT_NUM;
-    std::vector<std::string> data_strings;
     for (size_t i = 0; i < value.size(); i += bits_per_group) {
         size_n_bit_t bits_to_use = std::min(bits_per_group, static_cast<size_n_bit_t>(value.size() - i));
         auto bits_subset = ToBitset<bits_per_group>(value, i, bits_to_use);
-        data_strings.push_back(fmt::format("{:0{}x}", bits_subset.to_ullong(), sizeof(unit_data_t)*2));
+        hex_strings.push_back(fmt::format("{:0{}x}", bits_subset.to_ullong(), sizeof(unit_data_t)*2));
     }
-    return fmt::format("{}:[Data:{}]({})", type, fmt::join(data_strings, "_"), size_);
+}
+
+std::string Resource::ToStringRaw() const {
+    std::vector<std::string> hex_strings;
+    ToHexStrings(hex_strings);
+    return fmt::format("{}", fmt::join(hex_strings, ""));
+}
+std::string Resource::ToString(const std::string& type) const {
+    std::vector<std::string> hex_strings;
+    ToHexStrings(hex_strings);
+    return fmt::format("{}:[Data:{}]({})", type, fmt::join(hex_strings, "_"), GetSize());
 }
 
 bool Resource::ValidateResource(resource_id_t rid, const data_t& data, optional_mask_t mask) {
@@ -194,6 +203,9 @@ std::string ResourceSnapshot::ToString(resource_id_t id) const {
     return snapshot_col_.at(id)->ToString(type_);
 }
 
+std::string ResourceSnapshot::ToStringRaw(resource_id_t id) const {
+    return snapshot_col_.at(id)->ToStringRaw();
+}
 int ResourceSnapshot::GetChangeCount() const {
     return changed_resources_.size();
 }

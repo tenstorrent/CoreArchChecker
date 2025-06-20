@@ -70,8 +70,8 @@ class CacCore {
         // updated during the last step.
         std::string GetStatusStr(hart_t tid);
 
-        // Returns a string containing a mismatching resource ID (if there was a mismatch during the last step).
-        std::string GetResourceStr(hart_t tid);
+        // Returns a string containing mismatching resource ID and the values of the DUT and ISS resources.
+        void GetResourceStr(hart_t tid, std::string& resource_str, std::string& dut_val, std::string& iss_val);
 
         // Attempt to modify the vlen of the vector registers. Returns true iff this succeeds.
         bool SetVlen(unsigned int vlen);
@@ -90,6 +90,7 @@ class CacCore {
         std::unordered_map<hart_t, HartData> hart_data_map_;
         std::ostringstream ss_;
         std::string resource_str_;
+        std::string dut_val_str_, iss_val_str_;
 };
 
 }
