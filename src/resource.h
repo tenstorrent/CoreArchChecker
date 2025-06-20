@@ -45,6 +45,12 @@ class Resource {
         // e.g. "ISS:[Data:0000000000000010_0000000000000020](128)"
         std::string ToString(const std::string& type) const;
 
+        // Returns only the raw data in the format: "{first 64 bits}{second 64 bits}..."
+        std::string ToStringRaw() const;
+        
+        // Returns the resource's data as a vector of strings, each representing a 64-bit chunk.
+        void ToHexStrings(std::vector<std::string>& hex_strings) const;
+
         virtual ~Resource() = default;
 
     protected:
@@ -114,6 +120,7 @@ class ResourceSnapshot {
         bool SetVlen(unsigned int vlen);
 
         std::string ToString(resource_id_t id) const;
+        std::string ToStringRaw(resource_id_t id) const;
 
         // Returns the number of resources that have been modified since the most recent
         // call to ResetChangedResources().
