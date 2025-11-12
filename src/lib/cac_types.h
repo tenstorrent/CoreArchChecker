@@ -148,7 +148,7 @@ typedef struct resource_id_t {
             case resource_t::pc_reg:     return "PC";
             case resource_t::insn_bytes: return "INSN";
             case resource_t::priv_mode:  return "PRIV";
-            case resource_t::mem_attr:   return "MEMATTR";
+            case resource_t::mem_attr:   return offset == 0 ? "MEMATTR" : "MEMATTR_PAGE4KX";
             case resource_t::flags:      return "FLAGS";
             default:
                 throw std::runtime_error(fmt::format("resource_t %d is not defined", static_cast<int>(resource)));

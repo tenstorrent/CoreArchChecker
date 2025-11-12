@@ -20,7 +20,7 @@ const std::unordered_map<resource_t, size_n_bit_t> OFFSET_BITS = {
     { resource_t::pc_reg,      0 },
     { resource_t::insn_bytes,  0 },
     { resource_t::priv_mode,   0 },
-    { resource_t::mem_attr,    0 },
+    { resource_t::mem_attr,    1 },  // Allow offset 0 and 1 for page-crossing support
     { resource_t::flags,       0 }
 };
 
