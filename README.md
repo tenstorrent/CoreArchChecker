@@ -129,3 +129,12 @@ cd CoreArchChecker
 bazel test //tests:testCacCore
 bazel test //tests:basicClassTest
 ```
+
+## License
+
+This project is licensed under the Apache License, Version 2.0 — see [LICENSE](LICENSE)
+and [NOTICE](NOTICE) for details. Documentation is licensed under
+[CC BY 4.0](LICENSE-DOCS). See [LICENSE_understanding](LICENSE_understanding) for a
+note on hardware/IP rights.
+
+To report a security vulnerability, see [SECURITY.md](.github/SECURITY.md).
