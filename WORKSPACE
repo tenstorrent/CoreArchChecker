@@ -5,14 +5,14 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 
 
-#areddy- FIXME
 cvm_hash="8f0aaae6ea50ac26061caa8160fa18721c216f62"
+#   curl -sSL https://github.com/tenstorrent/cvm/archive/<commit>.tar.gz | sha256sum
 maybe(
     http_archive,
     name = "cvm",
-    sha256 = "8fe5e6437412a16e86a32c60901f059897d3fe2e491274a789b2fc301ceee1fa",
+    sha256 = "0000000000000000000000000000000000000000000000000000000000000000",
     strip_prefix = "cvm-{commit}".format(commit=cvm_hash),
-    url = "https://aus-gitlab.local.tenstorrent.com/riscv/dv/cvm/-/archive/{commit}/cvm-{commit}.tar.bz2".format(commit=cvm_hash),
+    url = "https://github.com/tenstorrent/cvm/archive/{commit}.tar.gz".format(commit=cvm_hash),
 )
 
 git_repository(
