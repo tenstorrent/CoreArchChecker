@@ -1,0 +1,40 @@
+# REUSE (https://reuse.software) annotations for files that do not carry an
+# inline SPDX header. Hand-written C++ sources under src/ and tests/ carry
+# their own SPDX-FileCopyrightText / SPDX-License-Identifier headers; the
+# entries below cover everything else so the tree is 100 % REUSE-compliant.
+# Verified with `reuse lint`.
+version = 1
+
+# --- Build system and repo metadata ------------------------------------------
+# Bazel BUILD/WORKSPACE files and project meta files. All authored by
+# Tenstorrent and licensed the same as the rest of the project (Apache-2.0);
+# they simply have no natural place for a comment header or are data files.
+[[annotations]]
+path = [
+    "WORKSPACE",
+    "**/BUILD",
+    "LICENSE_understanding.txt",
+    "NOTICE",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Tenstorrent USA, Inc."
+SPDX-License-Identifier = "Apache-2.0"
+
+# --- Documentation (CC BY 4.0) -----------------------------------------------
+# Prose documentation is licensed under CC BY 4.0 (see LICENSE-DOCS), matching
+# the project's split between code (Apache-2.0) and docs.
+[[annotations]]
+path = [
+    "README.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "SECURITY.md",
+    ".github/SECURITY.md",
+    ".github/CONTRIBUTING.md",
+    ".github/CODE_OF_CONDUCT.md",
+    ".github/ISSUE_TEMPLATE/**",
+    ".github/PULL_REQUEST_TEMPLATE/**",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Tenstorrent USA, Inc."
+SPDX-License-Identifier = "CC-BY-4.0"

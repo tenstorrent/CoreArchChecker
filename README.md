@@ -1,7 +1,6 @@
 # CoreArchChecker
 ## The Core Architectural Checker 
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://yyz-gitlab.local.tenstorrent.com/chuang/CoreArchChecker)
 
 CoreArchChecker is a framework to check CPU DUT's registers and memory against an architectural simulator (Whisper) in lock step. After each instruction retires or event gets triggered, the DUT and simulator's state is collected. CoreArchChecker maintains a snapshot of the current register states for both DUT and simulator separately, updating the register snapshot values after each step. If there is a mismatch in the state after the step, an error will return to bridge and the test will end. CoreArchChecker is also designed to provide memory sycchronization features to enable mutli-threaded run with memory sharing.
 ## Build CoreArchChecker
@@ -130,11 +129,23 @@ bazel test //tests:testCacCore
 bazel test //tests:basicClassTest
 ```
 
+## Contributing
+
+Contributions are welcome! Bug reports and feature requests are handled via
+[GitHub Issues](https://github.com/tenstorrent/CoreArchChecker/issues), and
+changes are submitted via pull requests (reviewed weekly). See
+[CONTRIBUTING.md](CONTRIBUTING.md) for build/test instructions and contribution
+standards, and note that this project follows the
+[Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). To report a security
+vulnerability, follow the process in [SECURITY.md](SECURITY.md).
+
 ## License
 
-This project is licensed under the Apache License, Version 2.0 — see [LICENSE](LICENSE)
-and [NOTICE](NOTICE) for details. Documentation is licensed under
-[CC BY 4.0](LICENSE-DOCS). See [LICENSE_understanding](LICENSE_understanding) for a
-note on hardware/IP rights.
+- [LICENSE](LICENSE) (Apache-2.0) — Overall license for this project, except where specified.
+- [LICENSE-DOCS](LICENSE-DOCS) (CC-BY-4.0) — License for all documentation and images only.
+- [LICENSE_understanding.txt](LICENSE_understanding.txt) — Tenstorrent's clarification of how the Apache-2.0 license applies to this repository.
 
-To report a security vulnerability, see [SECURITY.md](.github/SECURITY.md).
+This repository is [REUSE](https://reuse.software) compliant; per-file license
+and copyright information is provided via inline SPDX headers and
+[REUSE.toml](REUSE.toml). Third-party components retain their own licenses as
+recorded in [NOTICE](NOTICE).
