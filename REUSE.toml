@@ -5,12 +5,15 @@
 # Verified with `reuse lint`.
 version = 1
 
-# --- Build system and repo metadata ------------------------------------------
-# Bazel BUILD/WORKSPACE files and project meta files. All authored by
+# --- Build system, CI, and repo metadata -------------------------------------
+# Bazel BUILD/WORKSPACE files, CI, and project meta files. All authored by
 # Tenstorrent and licensed the same as the rest of the project (Apache-2.0);
 # they simply have no natural place for a comment header or are data files.
 [[annotations]]
 path = [
+    ".bazelrc",
+    ".gitignore",
+    ".gitlab-ci.yml",
     "WORKSPACE",
     "**/BUILD",
     "LICENSE_understanding.txt",
