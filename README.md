@@ -2,7 +2,7 @@
 ## The Core Architectural Checker 
 
 
-CoreArchChecker is a framework to check CPU DUT's registers and memory against an architectural simulator (Whisper) in lock step. After each instruction retires or event gets triggered, the DUT and simulator's state is collected. CoreArchChecker maintains a snapshot of the current register states for both DUT and simulator separately, updating the register snapshot values after each step. If there is a mismatch in the state after the step, an error will return to bridge and the test will end. CoreArchChecker is also designed to provide memory synchronization features to enable multi-threaded run with memory sharing.
+CoreArchChecker is a framework to check a CPU DUT's (Device Under Test) registers and memory against an architectural simulator (Whisper) in lock step. After each instruction retires or event gets triggered, the DUT and simulator's state is collected. CoreArchChecker maintains a snapshot of the current register states for both DUT and simulator separately, updating the register snapshot values after each step. If there is a mismatch in the state after the step, an error will return to bridge and the test will end. CoreArchChecker is also designed to provide memory synchronization features to enable multi-threaded run with memory sharing.
 
 ## Requirements
 - **Build tool:** [Bazel](https://bazel.build) (tested with Bazel 5.x)
