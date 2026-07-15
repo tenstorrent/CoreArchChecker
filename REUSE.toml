@@ -15,7 +15,11 @@ path = [
     ".gitignore",
     ".gitlab-ci.yml",
     "WORKSPACE",
+    "**/WORKSPACE",
+    "**/MODULE.bazel",
     "**/BUILD",
+    "**/BUILD.bazel",
+    "**/*.bzl",
     "LICENSE_understanding.txt",
     "NOTICE",
 ]
