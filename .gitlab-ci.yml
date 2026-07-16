@@ -1,0 +1,33 @@
+image:
+    name: "ghcr.io/tenstorrent/cvm:0.1.3"
+
+default:
+    id_tokens:
+        CI_JOB_JWT:
+            aud: https://aus-gitlab.local.tenstorrent.com
+
+stages:
+    - test
+
+# Enforce REUSE (https://reuse.software) licensing compliance: every file must
+# carry an SPDX license/copyright header or be covered by REUSE.toml.
+# Runs in the default cvm image (Debian bookworm, Python 3.11); reuse is
+# installed into a venv because bookworm's system pip is PEP-668 managed. The
+# [charset-normalizer] extra provides reuse's encoding detector in pure Python,
+# so no libmagic/`file` system package is needed in the image.
+# (The official fsfe/reuse image can't be used here: this runner ignores the
+# image entrypoint override and passes its build script to reuse as a command.)
+license-check:
+    stage: test
+    script:
+        - python3 -m venv /tmp/reuse-venv
+        - /tmp/reuse-venv/bin/pip install --quiet --no-cache-dir "reuse[charset-normalizer]==6.2.0"
+        - /tmp/reuse-venv/bin/reuse lint
+
+smoke:
+    stage: test
+    script:
+        - bazel --output_user_root=./bazel_output_user_root test //tests/... --test_output=all
+    after_script:
+        - chmod +w -R ./bazel_output_user_root
+    timeout: 1h
